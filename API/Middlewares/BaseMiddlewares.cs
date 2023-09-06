@@ -13,6 +13,8 @@ namespace API.Middlewares
             app.UseCors();
             app.UseHttpsRedirection();
             app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.MapControllers();
             return app;
         }

@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+
 
 public class WeatherForecastController : BaseApiController
 {
@@ -17,6 +19,7 @@ public class WeatherForecastController : BaseApiController
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
+    
     public IEnumerable<WeatherForecast> Get()
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
