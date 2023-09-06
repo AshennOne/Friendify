@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using API.Dtos;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class AuthController : BaseApiController
     {
         private readonly UserManager<User> _userManager;
@@ -19,7 +21,7 @@ namespace API.Controllers
             _tokenService = tokenService;
             _userManager = userManager;
         }
-        [AllowAnonymous]
+
         [HttpPost("login")]
         public async Task<ActionResult<AuthorizedUserDto>> Login([FromBody] LoginDto loginDto)
         {
@@ -53,7 +55,7 @@ namespace API.Controllers
             }
 
         }
-        [AllowAnonymous]
+
         [HttpPost("register")]
         public async Task<ActionResult<AuthorizedUserDto>> Register([FromBody] RegisterDto registerDto)
         {
@@ -77,11 +79,7 @@ namespace API.Controllers
             else
             {
 
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                var email_body = $"Please confirm your email address <a href=\"URL\">Click here </a>";
-                var callback = Request.Scheme + "://" + Request.Host + Url.Action("ConfirmEmail", "Auth", new { userId = newUser.Id, code = code });
-                var body = email_body.Replace("URL", System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callback));
-                _emailSender.SendEmail(body, newUser.Email);
+                HandleEmail(newUser,false);
 
                 return Ok("Succesfully registered, please verify your email");
 
@@ -94,17 +92,58 @@ namespace API.Controllers
                 // });
             }
         }
-        [AllowAnonymous]
+        [HttpPost("forgetpassword")]
+        public async Task<ActionResult> ResetPassword([FromQuery] string userId, [FromQuery] string code, [FromQuery] string newPassword)
+        {
+            if (userId == null || code == null) return BadRequest("Invalid email confirmation url");
+             var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return BadRequest("Invalid email parameter");
+            var result = await _userManager.ResetPasswordAsync(user,code,newPassword);
+            var status = result.Succeeded ? "Password set successful" : "Try again later, password change went wrong";
+            return Ok(status);
+        }
+
         [HttpGet("confirmemail")]
-        public async Task<ActionResult> ConfirmEmail([FromQuery]string userId, [FromQuery]string code)
+        public async Task<ActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string code)
         {
             if (userId == null || code == null) return BadRequest("Invalid email confirmation url");
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return BadRequest("Invalid email parameter");
-            
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
             var status = result.Succeeded ? "Thank you for confirming your mail" : "Your email is not confirmed, please try again later";
             return Ok(status);
+        }
+
+
+        [HttpPost("sendEmail")]
+        public async Task<ActionResult> GetNewVerifyEmail([FromQuery] string email, [FromQuery] bool isPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return NotFound("Email not found");
+            if (user.EmailConfirmed && !isPassword) return Ok("Email is Already verified");
+            HandleEmail(user, isPassword);
+            return Ok("Email has been sent, check your inbox. If you don't see verification Email, check your spam");
+        }
+
+        private async void HandleEmail(User newUser, bool isPassword)
+        {
+            var code = "";
+            var email_body = GetHtmlBody.GetBody();
+            var callback = "";
+            if (isPassword)
+            {
+                code = await _userManager.GeneratePasswordResetTokenAsync(newUser);
+                callback = Request.Scheme + "://" + Request.Host + Url.Action("forgetpassword", "Auth", new { userId = newUser.Id, code = code });
+            }
+            else
+            {
+                code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                callback = Request.Scheme + "://" + Request.Host + Url.Action("confirmEmail", "Auth", new { userId = newUser.Id, code = code });
+            }
+           
+            var body = email_body.Replace("#URL#", System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callback));
+            _emailSender.SendEmail(body, newUser.Email);
         }
         private bool IsEmailValid(string email)
         {
@@ -114,7 +153,5 @@ namespace API.Controllers
 
             return Regex.IsMatch(email, pattern);
         }
-
-
     }
 }
