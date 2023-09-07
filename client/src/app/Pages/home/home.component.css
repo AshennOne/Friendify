@@ -13,12 +13,3 @@ h2{
 .form{
   width: 20rem;
 }
-a{
-  text-decoration: none;
-}
-a:hover{
-  text-decoration: underline;
-}
-.fs-6{
-  font-size: 0.8rem!important;
-}

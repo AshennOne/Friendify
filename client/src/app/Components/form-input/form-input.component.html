@@ -1,1 +1,33 @@
-<p>form-input works!</p>
+<div class="mb-2 form-group">
+  <label class="form-label text-muted row">
+    <strong class="col-12 col-md-5 text-muted fs-6"><i [ngClass]="iconName"></i>{{ label }}</strong>
+    <span *ngIf="label==='Password'" class="col-12 col-md-5 col-lg-5 offset-md-2 offset-lg-2 text-md-end text-muted fs-6">
+      <a routerLink="forgetpassword" class="">forgot your password?</a>
+    </span>
+  </label>
+  <div class="col-12">
+    <div class="input-field d-flex align-items-center position-relative">
+      <input
+        [type]="type"
+        [placeholder]="placeholder"
+        class="form-control"
+        [formControl]="control"
+      />
+      <span *ngIf="label==='Password'" (click)="hideShowPass()" class="position-absolute end-0 me-3 fa {{ eye }}" style="cursor: pointer;"></span>
+    </div>
+    <div class="mt-1 text-danger" *ngIf="control.invalid && control.touched">
+      <div *ngIf="control.hasError('required')">
+        Field is required
+      </div>
+      <div *ngIf="control.hasError('invalidUsernameCharacters')">
+        Username cannot contain any special characters except '- _ .'
+      </div>
+      <div *ngIf="control.hasError('minlength')">
+        Field cannot be shorter than {{ control.errors?.['minlength']?.requiredLength }} characters
+      </div>
+      <div *ngIf="control.hasError('passwordWithoutDigit')">
+        Password must contain at least one digit.
+      </div>
+    </div>
+  </div>
+</div>

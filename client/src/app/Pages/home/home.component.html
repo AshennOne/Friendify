@@ -1,57 +1,4 @@
-<!-- <div class="container mt-6 row ">
-  <div class="text-center col-12 col-lg-5 offset-lg-1 mt-0 mt-lg-5">
-    <h2 class="  mx-0">
-      <strong>Life is better with friends</strong>
-    </h2>
-    <h2 class="d-flex justify-content-center">
-      <strong><span class="text-primary">Friendlify</span> knows it</strong>
-    </h2>
-  </div>
-  <div class="col-12 col-lg-4 offset-lg-2 d-flex justify-content-center card p-4 ms-2 ms-lg-auto mt-3">
-    <div class="d-flex justify-content-center">
-      <form class="form-control mt-1 mt-lg-0">
-        <div class="mb-2 form-group">
-          <labeL class="form-label text-muted"
-            ><strong><i class="fa fa-user me-2"></i>Username or Email</strong></labeL
-          >
-          <div class="d-flex align-items-center">
-            <input
-              type="text"
-              placeholder="enter your username or email"
-              class="form-control me-4"
-            />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label text-muted"><strong><i class="fa fa-lock me-2"></i>Password</strong></label>
-          <div class="d-flex align-items-center">
-            <input
-              [type]="type"
-              placeholder="enter your password"
-              class="form-control me-2"
-            />
-            
-              <span (click)="hideShowPass()"  class="fa {{eye}}"></span>
-           
-          </div>
-        </div>
-        <div class="d-grid me-4 mt-3">
-          <button type="submit" class="btn btn-block btn-primary">
-            Sign up
-          </button>
-          <span class="text-center text-muted mt-1"><a href="#" >forgot your password?</a></span>
-        </div>
-      </form>
-      
-    </div>
-    <div class="d-grid ms-3 me-3 mt-4">
-      <button type="submit" class="btn btn-block btn-outline-dark me-4">
-        Sign in
-      </button>
-      </div>
-  </div>
-</div> -->
-<div class="container-lg row mt-6 pt-0 pt-lg-5">
+<div class="container-lg row mt-6 pt-0 pt-lg-5" *ngIf="loginForm.controls.emailOrUsername && loginForm.controls.password"  >
   <div class="col-12 col-lg-6 mt-lg-5">
     <h2 class="d-flex justify-content-center">
       <strong>Life is better with friends</strong>
@@ -61,47 +8,35 @@
     </h2>
   </div>
   <div class="col-8 offset-2 offset-lg-0 col-lg-6">
-    <form class="form-control mt-3 mt-lg-0">
-      <div class="mb-2 form-group">
-        <labeL class="form-label text-muted"
-          ><strong
-            ><i class="fa fa-user me-2"></i>Username or Email</strong
-          ></labeL
+    <form
+      class="form-control mt-3 mt-lg-0"
+      [formGroup]="loginForm"
+      (submit)="onSubmit()"
+    >
+    <div class="me-1">
+      <app-form-input [control]="loginForm.controls.emailOrUsername" [iconName]="'fa fa-user me-2'" [label]="'Email or Username'" [placeholder]="'enter email or username'"></app-form-input>
+      <app-form-input [iconName]="'fa fa-lock me-2'" [control]="loginForm.controls.password" [label]="'Password'" [type]="'password'" [placeholder]="'enter your password'"  ></app-form-input>
+      <div class="d-grid  mt-3 mb-4">
+        <button
+          type="submit"
+          [disabled]="!loginForm.valid"
+          class="btn btn-block btn-primary "
         >
-        <div class="d-flex align-items-center">
-          <input
-            type="text"
-            placeholder="enter your username or email"
-            class="form-control me-4"
-          />
-        </div>
+          Sign up
+        </button>
       </div>
-      <div class="form-group">
-        <label class="form-label text-muted row"
-          ><strong class="col-12 col-lg-3"><i class="fa fa-lock me-2"></i>Password</strong
-          ><span class="col-12 col-lg-4 offset-lg-5 text-muted fs-6"
-            ><a href="#">forgot your password?</a></span
-          ></label
+      <p class="text-center m-0">Don't have an account?</p>
+      <div class="d-grid  mt-2">
+        <button
+          routerLink="register"
+          type="submit"
+          class="btn btn-block btn-outline-dark"
         >
-        <div class="d-flex align-items-center">
-          <input
-            [type]="type"
-            placeholder="enter your password"
-            class="form-control me-2"
-          />
-
-          <span (click)="hideShowPass()" class="fa {{ eye }}"></span>
-        </div>
-      </div>
-      <div class="d-grid me-4 mt-3 mb-4">
-        <button type="submit" class="btn btn-block btn-primary">Sign up</button>
-      </div>
-      <p class="text-center m-0">Don't have account?</p>
-      <div class="d-grid ms-0 me-2 mt-2">
-        <button type="submit" class="btn btn-block btn-outline-dark me-3">
           Sign in
         </button>
       </div>
+    </div>
+      
     </form>
   </div>
 </div>
