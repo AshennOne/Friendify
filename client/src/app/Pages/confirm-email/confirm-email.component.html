@@ -1,0 +1,10 @@
+<div class="mt-5 text-center row container-fluid">
+  <div class="col-8 offset-2">
+    <h1>Success!</h1>
+    <h3 class="mb-2">To verify you account, you have to <strong>confirm your email</strong>  first. We already sent mail on {{mail}}. Check your inbox</h3>
+    <button class="btn btn-info mt-2 me-2" (click)="startCooldown()" [disabled]="isCooldown"><i class="fa fa-rotate-right me-1"></i> Send again ({{countdown}})</button>
+    <button (click)="verify()" class="btn mt-2 btn-success ms-2"><i class="fa fa-check me-1"></i> Already verified</button>
+  </div>
+ 
+
+</div>

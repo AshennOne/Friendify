@@ -5,4 +5,6 @@ export interface User{
   email:string,
   id:string,
   emailConfirmed:boolean,
+  gender:string,
+  dateOfBirth:Date
 }

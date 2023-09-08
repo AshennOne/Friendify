@@ -15,7 +15,7 @@
     >
     <div class="me-1">
       <app-form-input [control]="loginForm.controls.emailOrUsername" [iconName]="'fa fa-user me-2'" [label]="'Email or Username'" [placeholder]="'enter email or username'"></app-form-input>
-      <app-form-input [iconName]="'fa fa-lock me-2'" [control]="loginForm.controls.password" [label]="'Password'" [type]="'password'" [placeholder]="'enter your password'"  ></app-form-input>
+      <app-form-input [iconName]="'fa fa-lock me-2'" [control]="loginForm.controls.password" [label]="'Password'" [type]="'password'" [isLoginForm]="true" [placeholder]="'enter your password'"  ></app-form-input>
       <div class="d-grid  mt-3 mb-4">
         <button
           type="submit"

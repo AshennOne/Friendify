@@ -109,10 +109,11 @@ namespace API.Controllers
             if (userId == null || code == null) return BadRequest("Invalid email confirmation url");
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return BadRequest("Invalid email parameter");
-
+            var token = _tokenService.GetToken(user.UserName);
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            var status = result.Succeeded ? "Thank you for confirming your mail" : "Your email is not confirmed, please try again later";
-            return Ok(status);
+            if(result.Succeeded) return Ok(token);
+            return BadRequest("Please try again later");
+           
         }
 
 
@@ -125,7 +126,6 @@ namespace API.Controllers
             HandleEmail(user, isPassword);
             return Ok("Email has been sent, check your inbox. If you don't see verification Email, check your spam");
         }
-
         private async void HandleEmail(User newUser, bool isPassword)
         {
             var code = "";
