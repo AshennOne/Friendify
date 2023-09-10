@@ -7,4 +7,5 @@ export interface UserAuth {
   password?: string;
   confirmPassword?: string;
   dateOfBirth?: Date;
+  userNameOrEmail?:string
 }

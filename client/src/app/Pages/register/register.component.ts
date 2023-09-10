@@ -61,9 +61,8 @@ export class RegisterComponent implements OnInit {
     );
   }
   onSubmit() {
-    this.router.navigateByUrl('confirmemail')
+    
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
       var user = this.getUserFromForm();
       this.authService.register(user).subscribe({
         next:()=>{
@@ -157,7 +156,7 @@ export class RegisterComponent implements OnInit {
       return null;
     };
   }
-  getUserFromForm() {
+ private getUserFromForm() {
     if (this.registerForm.valid) {
       return {
         firstname: this.registerForm.get('firstname')?.value,
@@ -165,10 +164,11 @@ export class RegisterComponent implements OnInit {
         username: this.registerForm.get('username')?.value,
         email: this.registerForm.get('email')?.value,
         password: this.registerForm.get('password')?.value,
+        confirmPassword: this.registerForm.get('passwordConfirmation')?.value,
         gender: this.registerForm.get('gender')?.value,
         dateOfBirth: this.registerForm.get('dateOfBirth')?.value,
       } as UserAuth;
     }
     return {} as UserAuth;
-  }
+  } 
 }

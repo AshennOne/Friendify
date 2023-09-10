@@ -35,29 +35,29 @@ namespace API.Controllers
                 user = await _userManager.FindByNameAsync(loginDto.UserNameOrEmail);
             }
             if (user == null) return NotFound("User not found");
-            if (!user.EmailConfirmed)
-            {
-                return BadRequest("Email needs to be confirmed");
-            }
             if (await _userManager.CheckPasswordAsync(user, loginDto.Password))
             {
+                if (!user.EmailConfirmed)
+                {
+                    return BadRequest("Email needs to be confirmed");
+                }
                 var token = _tokenService.GetToken(user.UserName);
                 return Ok(new AuthorizedUserDto
                 {
-                    Username = user.UserName,
+                    UserName = user.UserName,
                     Email = user.Email,
                     Token = token
                 });
             }
             else
             {
-                return Unauthorized();
+                return Unauthorized("Invalid login data");
             }
 
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AuthorizedUserDto>> Register([FromBody] RegisterDto registerDto)
+        public async Task<ActionResult> Register([FromBody] RegisterDto registerDto)
         {
             var user = await _userManager.FindByEmailAsync(registerDto.Email);
             if (user != null) return BadRequest("Email already exist");
@@ -79,26 +79,18 @@ namespace API.Controllers
             else
             {
 
-                HandleEmail(newUser,false);
+                HandleEmail(newUser, false);
 
-                return Ok("Succesfully registered, please verify your email");
-
-                // var token = _tokenService.GetToken(registerDto.UserName);
-                // return Ok(new AuthorizedUserDto
-                // {
-                //     Username = registerDto.UserName,
-                //     Email = registerDto.Email,
-                //     Token = token
-                // });
+                return Ok("Succesfully registered, check your mailbox");
             }
         }
         [HttpPost("forgetpassword")]
         public async Task<ActionResult> ResetPassword([FromQuery] string userId, [FromQuery] string code, [FromQuery] string newPassword)
         {
             if (userId == null || code == null) return BadRequest("Invalid email confirmation url");
-             var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return BadRequest("Invalid email parameter");
-            var result = await _userManager.ResetPasswordAsync(user,code,newPassword);
+            var result = await _userManager.ResetPasswordAsync(user, code, newPassword);
             var status = result.Succeeded ? "Password set successful" : "Try again later, password change went wrong";
             return Ok(status);
         }
@@ -109,11 +101,11 @@ namespace API.Controllers
             if (userId == null || code == null) return BadRequest("Invalid email confirmation url");
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return BadRequest("Invalid email parameter");
-            var token = _tokenService.GetToken(user.UserName);
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            if(result.Succeeded) return Ok(token);
+            if (result.Succeeded) return Ok("Success! You can go back to page");
             return BadRequest("Please try again later");
-           
+
         }
 
 
@@ -140,8 +132,10 @@ namespace API.Controllers
             {
                 code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 callback = Request.Scheme + "://" + Request.Host + Url.Action("confirmEmail", "Auth", new { userId = newUser.Id, code = code });
+
+                //            callback= $"https://localhost:4200/confirmemail/token?userId={newUser.Id}&code={code}";
             }
-           
+
             var body = email_body.Replace("#URL#", System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callback));
             _emailSender.SendEmail(body, newUser.Email);
         }

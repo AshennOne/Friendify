@@ -25,9 +25,8 @@ export class ConfirmEmailComponent implements OnInit {
   }
   startCooldown(): void {
     if (!this.isCooldown) {
-      this.authService.confirmEmail(this.mail).subscribe({
-        next:()=>{
-
+      this.authService.sendConfirmEmail(this.mail).subscribe({
+        next:(res)=>{
         }
       })
       this.isCooldown = true;
@@ -52,7 +51,12 @@ export class ConfirmEmailComponent implements OnInit {
         next:(user)=>{
           if(user.emailConfirmed){
             this.toastr.success("Succesfully confirmed")
+            localStorage.setItem("token",user.token+'')
+            localStorage.setItem('username',user.userName+'')
+            this.router.navigateByUrl("main");
             
+          }else{
+            this.toastr.error("Email not confirmed")
           }
         }
       })

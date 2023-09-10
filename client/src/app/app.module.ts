@@ -12,6 +12,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ConfirmEmailComponent } from './Pages/confirm-email/confirm-email.component';
 import { MainComponent } from './Pages/main/main.component';
+import { ToastrModule } from 'ngx-toastr';
+import { NavbarComponent } from './Components/navbar/navbar.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +25,8 @@ import { MainComponent } from './Pages/main/main.component';
     ForgetPasswordComponent,
     ConfirmEmailComponent,
     MainComponent,
+    NavbarComponent,
+    
   ],
   imports: [
     BsDatepickerModule.forRoot(),
@@ -29,7 +35,13 @@ import { MainComponent } from './Pages/main/main.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    BsDropdownModule.forRoot(),
     ReactiveFormsModule,
+    ToastrModule.forRoot({
+      timeOut: 4000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

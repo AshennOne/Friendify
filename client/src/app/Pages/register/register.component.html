@@ -5,6 +5,7 @@
         class="form-control my-3 "
         [formGroup]="registerForm"
         (submit)="onSubmit()"
+        
       >
       <div class="me-1">
         <app-form-input [control]="registerForm.controls.firstname"  [label]="'First Name'" [placeholder]="'enter first name'"></app-form-input>
