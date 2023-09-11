@@ -79,20 +79,20 @@ namespace API.Controllers
             else
             {
 
-                HandleEmail(newUser, false);
+                HandleEmail(newUser, false, " ");
 
                 return Ok("Succesfully registered, check your mailbox");
             }
         }
-        [HttpPost("forgetpassword")]
-        public async Task<ActionResult> ResetPassword([FromQuery] string userId, [FromQuery] string code, [FromQuery] string newPassword)
+        [HttpGet("forgetpassword")]
+        public async Task<ActionResult> ForgetPassword([FromQuery] string userId, [FromQuery] string code, [FromQuery] string newPassword)
         {
             if (userId == null || code == null) return BadRequest("Invalid email confirmation url");
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return BadRequest("Invalid email parameter");
             var result = await _userManager.ResetPasswordAsync(user, code, newPassword);
-            var status = result.Succeeded ? "Password set successful" : "Try again later, password change went wrong";
-            return Ok(status);
+            if (result.Succeeded) return Ok("Success! You can go back to page");
+            return BadRequest("Please try again later");
         }
 
         [HttpGet("confirmemail")]
@@ -110,34 +110,38 @@ namespace API.Controllers
 
 
         [HttpPost("sendEmail")]
-        public async Task<ActionResult> GetNewVerifyEmail([FromQuery] string email, [FromQuery] bool isPassword)
+        public async Task<ActionResult> GetNewVerifyEmail([FromQuery] string email, [FromQuery] bool isPassword, [FromQuery] string password = " ")
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null) return NotFound("Email not found");
             if (user.EmailConfirmed && !isPassword) return Ok("Email is Already verified");
-            HandleEmail(user, isPassword);
+            HandleEmail(user, isPassword, password);
             return Ok("Email has been sent, check your inbox. If you don't see verification Email, check your spam");
         }
-        private async void HandleEmail(User newUser, bool isPassword)
+        private async void HandleEmail(User newUser, bool isPassword, string password)
         {
-            var code = "";
-            var email_body = GetHtmlBody.GetBody();
-            var callback = "";
+
             if (isPassword)
             {
-                code = await _userManager.GeneratePasswordResetTokenAsync(newUser);
-                callback = Request.Scheme + "://" + Request.Host + Url.Action("forgetpassword", "Auth", new { userId = newUser.Id, code = code });
+                var email_body = GetHtmlBody.GetBodyForResetPassword();
+                var code = await _userManager.GeneratePasswordResetTokenAsync(newUser);
+                var callback = Request.Scheme + "://" + Request.Host + Url.Action("forgetpassword", "Auth", new { userId = newUser.Id, code = code, newPassword = password });
+                var body = email_body.Replace("#URL#", System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callback));
+                _emailSender.SendEmail(body, newUser.Email, "Reset your password");
             }
             else
             {
-                code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                callback = Request.Scheme + "://" + Request.Host + Url.Action("confirmEmail", "Auth", new { userId = newUser.Id, code = code });
+                var email_body = GetHtmlBody.GetBodyForConfirm();
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                var callback = Request.Scheme + "://" + Request.Host + Url.Action("confirmEmail", "Auth", new { userId = newUser.Id, code = code });
+                var body = email_body.Replace("#URL#", System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callback));
+                _emailSender.SendEmail(body, newUser.Email, "Confirm your email");
 
-                //            callback= $"https://localhost:4200/confirmemail/token?userId={newUser.Id}&code={code}";
+
             }
 
-            var body = email_body.Replace("#URL#", System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callback));
-            _emailSender.SendEmail(body, newUser.Email);
+
+
         }
         private bool IsEmailValid(string email)
         {

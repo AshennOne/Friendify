@@ -23,7 +23,9 @@ export class AuthService {
    sendConfirmEmail(email:string){
     return this.http.post(this.apiUrl+'auth/sendEmail?email='+email+'&isPassword=false',{},{responseType:'text'})
    }
-   
+   sendForgetPassword(email:string,password:string){
+    return this.http.post(this.apiUrl+'auth/sendEmail?email='+email+'&isPassword=true&password='+password,{},{responseType:'text'})
+   }
    confirmPassword(email:string){
     return this.http.post(this.apiUrl+'auth/sendEmail?email='+email+'&isPassword=true',{})
    }

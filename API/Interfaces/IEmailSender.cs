@@ -2,6 +2,6 @@ namespace API.Interfaces
 {
     public interface IEmailSender
     {
-        void SendEmail(string body, string email);
+        void SendEmail(string body, string email,string subject);
     }
 }

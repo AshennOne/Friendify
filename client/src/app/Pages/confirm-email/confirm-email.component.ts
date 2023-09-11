@@ -15,7 +15,6 @@ export class ConfirmEmailComponent implements OnInit {
   countdown = 60;
   mail = ''
   private countdownSubscription?: Subscription;
-
   constructor(private authService:AuthService,private userService:UserService,private toastr:ToastrService,private router:Router) {
     
   }

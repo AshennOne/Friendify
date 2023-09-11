@@ -12,12 +12,12 @@ namespace API.Helpers
             _configuration = configuration;
 
         }
-        public void SendEmail(string body, string email)
+        public void SendEmail(string body, string email,string subject)
         {
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("Friendlify Confirmation", "friendlify@noreply.com"));
             emailMessage.To.Add(new MailboxAddress("email", email));
-            emailMessage.Subject = "Confirm your address email";
+            emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
                 Text = body
