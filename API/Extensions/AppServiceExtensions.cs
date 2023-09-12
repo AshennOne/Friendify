@@ -1,4 +1,5 @@
 using API.Data;
+using API.Data.Repositories;
 using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace API.Extensions
             services.AddSingleton<IConfiguration>(configuration);
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IPostRepository, PostRepository>();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             return services;
