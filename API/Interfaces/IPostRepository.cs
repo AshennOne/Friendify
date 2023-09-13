@@ -9,5 +9,6 @@ namespace API.Interfaces
         Task AddPost(Post post);
         Task DeletePost(int id);
         Task<bool> SaveChangesAsync();
+        Task EditPost(int id,Post post);
     }
 }

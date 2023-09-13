@@ -24,9 +24,16 @@ namespace API.Data.Repositories
              _dbContext.Posts.Remove(post);
         }
 
+        public async Task EditPost(int id,Post post)
+        {
+            var oldPost = await _dbContext.Posts.FirstOrDefaultAsync(p => p.Id == id);
+            oldPost.ImgUrl = post.ImgUrl;
+            oldPost.TextContent = post.TextContent;
+        }
+
         public async Task<IEnumerable<Post>> GetPostsForUser(string username)
         {
-           return await _dbContext.Posts.Where(u => u.Author.UserName == username).ToListAsync();
+           return await _dbContext.Posts.Where(u => u.Author.UserName.ToLower() == username.ToLower()).ToListAsync();
         }
         public async Task<bool> SaveChangesAsync()
         {

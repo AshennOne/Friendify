@@ -11,6 +11,11 @@ namespace API.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+             builder.Entity<User>()
+            .HasMany(u => u.Posts)
+            .WithOne(p => p.Author)
+            .HasForeignKey(p => p.AuthorId);
+
         }
     }
 }

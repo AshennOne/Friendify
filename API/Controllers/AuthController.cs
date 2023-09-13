@@ -46,7 +46,8 @@ namespace API.Controllers
                 {
                     UserName = user.UserName,
                     Email = user.Email,
-                    Token = token
+                    Token = token,
+                    EmailConfirmed = user.EmailConfirmed
                 });
             }
             else
