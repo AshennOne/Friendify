@@ -29,4 +29,7 @@ export class AuthService {
    confirmPassword(email:string){
     return this.http.post(this.apiUrl+'auth/sendEmail?email='+email+'&isPassword=true',{})
    }
+   getCurrentUser(){
+    return this.http.get<User>(this.apiUrl+'auth/currentUser');
+   }
 }

@@ -1,0 +1,11 @@
+
+<div *ngIf="post?.author" class="row my-3">
+<hr>
+<div class=" col-2 col-lg-1 d-flex justify-content-center">
+<img class="photo" src="{{post?.author?.imgUrl}}">
+</div>
+<div class="col-10 col-lg-11">
+  <span class="smalltext my-0 py-0 d-flex align-items-top"><strong >{{post?.author?.firstName}} {{post?.author?.lastName}}</strong> <span class="text-muted ms-2">@{{post?.author?.userName}}</span> </span>
+  <div class="midtext"><p>{{post?.textContent}}</p></div>
+</div>
+</div>

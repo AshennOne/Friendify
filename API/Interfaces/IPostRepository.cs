@@ -1,14 +1,15 @@
-using API.Data;
+using API.Dtos;
 using API.Entities;
 
 namespace API.Interfaces
 {
     public interface IPostRepository
     {
-        Task<IEnumerable<Post>> GetPostsForUser(string username);
+        IEnumerable<PostDto> GetPostsForUser(string username);
+        IEnumerable<PostDto> GetAllPosts(User user);
         Task AddPost(Post post);
         Task DeletePost(int id);
         Task<bool> SaveChangesAsync();
-        Task EditPost(int id,Post post);
+        Task EditPost(int id, Post post);
     }
 }

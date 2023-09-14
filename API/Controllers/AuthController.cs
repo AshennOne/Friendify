@@ -1,11 +1,13 @@
 using System.Text.RegularExpressions;
 using API.Dtos;
 using API.Entities;
+using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -119,6 +121,14 @@ namespace API.Controllers
             HandleEmail(user, isPassword, password);
             return Ok("Email has been sent, check your inbox. If you don't see verification Email, check your spam");
         }
+        [HttpGet("{currentUser}")]
+        public async Task<ActionResult<UserClientDto>> GetCurrentUser()
+        {
+            var UserName = User.GetUsernameFromToken();
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == UserName);
+            if(user == null) return NotFound("User not found");
+            return Ok(user);
+        }
         private async void HandleEmail(User newUser, bool isPassword, string password)
         {
 
@@ -152,5 +162,6 @@ namespace API.Controllers
 
             return Regex.IsMatch(email, pattern);
         }
+        
     }
 }

@@ -42,7 +42,6 @@ export class HomeComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.getUserFromForm()).subscribe({
         next: (user) => {
-          console.log(user)
           if (!user) this.toastr.error('user not found');
           localStorage.setItem('token', user.token + '');
           localStorage.setItem('username', user.userName + '');

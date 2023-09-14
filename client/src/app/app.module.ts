@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Pages/home/home.component';
 import { FormInputComponent } from './Components/form-input/form-input.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './Pages/register/register.component';
 import { ForgetPasswordComponent } from './Pages/forget-password/forget-password.component';
@@ -15,7 +15,14 @@ import { MainComponent } from './Pages/main/main.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
+import { PostComponent } from './Components/post/post.component';
+import { TokenInterceptor } from './_Interceptors/token.interceptor';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NewPostComponent } from './Components/new-post/new-post.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +33,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ConfirmEmailComponent,
     MainComponent,
     NavbarComponent,
-    
+    PostComponent,
+    NewPostComponent  
   ],
   imports: [
     BsDatepickerModule.forRoot(),
@@ -42,8 +50,19 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    ModalModule.forRoot(),
+    MatIconModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatCardModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,1 +1,19 @@
-<p>main works!</p>
+<div class="container-fluid mt-3 row">
+  <div
+    class="col-10 offset-1 col-md-8 offset-md-2 col-lg-4 offset-lg-4 form-group d-flex"
+  >
+    <input
+      type="search"
+      class="form-control border-gray me-1"
+      placeholder="search posts"
+    />
+    <button class="btn btn-secondary border-gray">
+      <i class="fa fa-search"></i>
+    </button>
+  </div>
+  <div class="col-md-8 col-10 mt-4 offset-1 offset-md-2">
+    <app-new-post></app-new-post>
+
+    <div *ngFor="let post of posts"><app-post [post]="post"></app-post></div>
+  </div>
+</div>

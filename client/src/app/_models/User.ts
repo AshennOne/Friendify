@@ -3,6 +3,7 @@ export interface User{
   lastName?:string,
   userName?:string,
   email?:string,
+  imgUrl?:string,
   id?:string,
   emailConfirmed?:boolean,
   gender?:string,

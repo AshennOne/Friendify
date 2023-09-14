@@ -1,0 +1,14 @@
+.photo{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.border-gray{
+  border-color: rgb(156, 156, 156)!important;
+}
+.smalltext{
+  font-size: 0.8rem!important
+}
+.midtext{
+  font-size: 0.9rem!important
+}

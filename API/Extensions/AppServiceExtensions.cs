@@ -24,6 +24,7 @@ namespace API.Extensions
                 .AllowAnyHeader();
            });
             });
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton<IConfiguration>(configuration);
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IEmailSender, EmailSender>();

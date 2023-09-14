@@ -53,6 +53,7 @@ export class ConfirmEmailComponent implements OnInit {
             localStorage.setItem("token",user.token+'')
             localStorage.setItem('username',user.userName+'')
             this.router.navigateByUrl("main");
+            localStorage.removeItem("email")
             
           }else{
             this.toastr.error("Email not confirmed")

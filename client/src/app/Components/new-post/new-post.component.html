@@ -1,0 +1,63 @@
+<div class="d-flex">
+  <img class="photo me-2" src="{{ user.imgUrl }}" />
+  <textarea
+    (click)="openModal(template)"
+    maxlength="0"
+    rows="2"
+    class="form-control resize-none"
+    placeholder="Share your thoughts in new post..."
+  ></textarea>
+</div>
+
+<ng-template #template>
+  <mat-card>
+    <mat-card-header class="me-auto d-block text-center justify-content-start mb-2">
+      <h4>Create Post</h4>
+    </mat-card-header>
+
+    
+    <textarea
+      (ngModelChange)="checkCharCount()"
+      [(ngModel)]="textContent"
+      maxlength="500"
+      rows="4"
+      class="form-control resize-none"
+      placeholder="Share your thoughts in new post..."
+    ></textarea>
+    <div class="d-flex">
+      <div class="mb-2">
+        <select
+          [(ngModel)]="option"
+          class="form-select form-select-sm"
+          aria-label="Default select example"
+        >
+          <option value="public" selected>Public</option>
+          <option value="private">Private</option>
+          <option value="friends">Friends</option>
+        </select>
+      </div>
+      <label class="text-muted d-flex ms-auto"
+        >{{ textContent.length }}/500</label
+      >
+    </div>
+    <div *ngIf="selectedImageFile" id="post-review" class="ms-auto d-flex justify-content-end mt-2">
+     
+      <img class="preview" id="post-preview-image">
+    </div>
+    
+    <mat-card-actions align="end">
+      <button mat-button class="btn-gallery">
+        <label for="photo-upload">
+          <input id="photo-upload" #photoSelector (change)="onPhotoSelected(photoSelector)" type="file" accept="image/*" />
+          <mat-icon>insert_photo</mat-icon>
+        </label>
+      </button>
+    </mat-card-actions>
+    <div class="row">
+      <div class="d-flex">
+        <button class="ms-auto me-1 btn btn-secondary mt-1">Cancel</button>
+        <button class="btn btn-success mt-1">Done</button>
+      </div>
+    </div>
+  </mat-card>
+</ng-template>
