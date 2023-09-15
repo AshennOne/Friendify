@@ -49,7 +49,8 @@ namespace API.Controllers
                     UserName = user.UserName,
                     Email = user.Email,
                     Token = token,
-                    EmailConfirmed = user.EmailConfirmed
+                    EmailConfirmed = user.EmailConfirmed,
+                    ImgUrl = user.ImgUrl
                 });
             }
             else

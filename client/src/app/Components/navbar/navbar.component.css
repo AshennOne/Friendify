@@ -10,3 +10,8 @@
 .dropdownList {
   transform: translateX(-20px) !important;
 }
+.photo{
+  width: 40px;
+  height:40px;
+  border-radius: 70%;
+}

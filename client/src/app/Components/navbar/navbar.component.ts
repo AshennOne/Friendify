@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {  Router } from '@angular/router';
+import { User } from 'firebase/auth';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -8,13 +9,17 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-username = ''
+userName = ""
+imgUrl = ""
   constructor(private router:Router,private toastr:ToastrService) { }
 
   ngOnInit(): void {
-   var username= localStorage.getItem('username')
-   if(username) this.username = username
-   else this.username = "user"
+    var userString = localStorage.getItem('user') +''
+   var user= JSON.parse(userString) 
+   if(!user) return;
+   this.userName = user.userName;
+   this.imgUrl = user.imgUrl;
+  
    
   }
   logout(){
