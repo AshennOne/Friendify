@@ -7,5 +7,8 @@
 <div class="col-10 col-lg-11">
   <span class="smalltext my-0 py-0 d-flex align-items-top"><strong >{{post?.author?.firstName}} {{post?.author?.lastName}}</strong> <span class="text-muted ms-2">@{{post?.author?.userName}}</span> </span>
   <div class="midtext"><p>{{post?.textContent}}</p></div>
+  <div class="" *ngIf="post?.imgUrl">
+    <img src="{{post?.imgUrl}}" class="photo2">
+  </div>
 </div>
 </div>

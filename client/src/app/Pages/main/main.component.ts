@@ -17,4 +17,7 @@ export class MainComponent implements OnInit {
       },
     });
   }
+  addPostToList(event:any){
+    this.posts.unshift(event);
+  }
 }

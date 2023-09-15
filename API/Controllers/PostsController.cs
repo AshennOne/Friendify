@@ -38,20 +38,35 @@ namespace API.Controllers
             return Ok(posts);
         }
         [HttpPost]
-        public async Task<ActionResult> AddPost(Post post)
+        public async Task<ActionResult<Post>> AddPost(Post post)
         {
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
+            post.AuthorId = user.Id;
+            var userDto = new UserClientDto{
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email  =user.Email,
+                ImgUrl = user.ImgUrl,
+                Id=  user.Id,
+                Gender = user.Gender,
+                DateOfBirth = user.DateOfBirth
+            };
             if (user == null) return NotFound("User not found");
-            await _postRepository.AddPost(new Post
+           
+            await _postRepository.AddPost(post);
+             var newPost = new PostDto
             {
-                AuthorId = user.Id,
+                Id = post.Id,
+                Created = post.Created,
+                Author = userDto,
                 TextContent = post.TextContent,
                 ImgUrl = post.ImgUrl
-            });
+            };
             if (await _postRepository.SaveChangesAsync())
             {
-                return Ok("Succesfully added new post");
+                return Ok(newPost);
             }
             else
             {

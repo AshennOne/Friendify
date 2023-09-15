@@ -37,7 +37,7 @@ namespace API.Data.Repositories
 
         public IEnumerable<PostDto> GetAllPosts(User user)
         {
-            var posts = _dbContext.Posts.Where(u => u.AuthorId != user.Id).Include(u => u.Author).OrderByDescending(u => u.Created);
+            var posts = _dbContext.Posts.Include(u => u.Author).OrderByDescending(u => u.Created);
             return _mapper.Map<IEnumerable<PostDto>>(posts);
         }
 

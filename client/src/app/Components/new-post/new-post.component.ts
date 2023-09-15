@@ -1,7 +1,16 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
+import {
+  Storage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from '@angular/fire/storage';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import { AuthService } from 'src/app/_services/auth.service';
+import { PostService } from 'src/app/_services/post.service';
 
 @Component({
   selector: 'app-new-post',
@@ -12,12 +21,17 @@ export class NewPostComponent implements OnInit {
   user: User = {} as User;
   charCount = 0;
   textContent = '';
-  selectedImageFile?:File
+  imgUrl = ""
+  selectedImageFile?: File;
   option = 'public';
   modalRef?: BsModalRef;
+  @Output() newPost = new EventEmitter<Post>();
   constructor(
     private authService: AuthService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private storage: Storage,
+    private postService:PostService,
+    private toastr:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -33,20 +47,59 @@ export class NewPostComponent implements OnInit {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-  onPhotoSelected(photoSelector:HTMLInputElement){
-    if(!photoSelector.files) return;
-   this.selectedImageFile = photoSelector.files[0]
-   if(!this.selectedImageFile) return;
-   var fileReader= new FileReader();
-   fileReader.readAsDataURL(this.selectedImageFile)
-   fileReader.addEventListener(
-    "loadend", ev =>{
+  onPhotoSelected(photoSelector: HTMLInputElement) {
+    if (!photoSelector.files) return;
+    this.selectedImageFile = photoSelector.files[0];
+    if (!this.selectedImageFile) return;
+    var fileReader = new FileReader();
+    fileReader.readAsDataURL(this.selectedImageFile);
+    fileReader.addEventListener('loadend', (ev) => {
+      var readableString = fileReader.result?.toString();
+      var postPreviewImage = <HTMLImageElement>(
+        document.getElementById('post-preview-image')
+      );
+      if (!readableString) return;
+      postPreviewImage.src = readableString;
+    });
+  }
+  onSubmit() {
+    if (!this.selectedImageFile) return;
+    var storageRef = ref(this.storage, 'folder/' + this.selectedImageFile.name);
+    var uploadTask = uploadBytesResumable(storageRef, this.selectedImageFile);
+    uploadTask.on(
+      'state_changed',
+      () => {
+        
+      },
+      (error)=>{
+        console.log(error)
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl)=>{
+          this.imgUrl = downloadUrl
+          this.addPost()
+        })
+      }
+    );
+  }
+  addPost(){
+    var post = {
+      imgUrl: this.imgUrl,
+      textContent: this.textContent
+    } as Post;
+    this.postService.addPost(post).subscribe({
+      next:(post)=>{
+        this.toastr.success("Succesfully created new post")
+        this.modalRef?.hide();
+        this.newPost.emit(post)
+        this.textContent = '',
+        this.selectedImageFile = {} as File;
+      },
+      error:(err)=>{
+        this.toastr.error(err)
+        this.modalRef?.hide()
+      }
       
-     var readableString= fileReader.result?.toString(); 
-     var postPreviewImage = <HTMLImageElement>document.getElementById("post-preview-image")
-     if(!readableString) return;
-     postPreviewImage.src = readableString;
-    }
-   );
+    })
   }
 }

@@ -12,3 +12,7 @@
 .midtext{
   font-size: 0.9rem!important
 }
+.photo2{
+max-width: 100%;
+max-height: 450px;
+}

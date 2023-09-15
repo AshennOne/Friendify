@@ -23,6 +23,11 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {provideAuth,getAuth} from '@angular/fire/auth'
+import {provideFirestore,getFirestore} from '@angular/fire/firestore'
+import{provideStorage,getStorage} from '@angular/fire/storage';
+import {initializeApp,provideFirebaseApp} from '@angular/fire/app'
+import { environment } from 'src/environments/environment.prod';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +45,10 @@ import {MatCardModule} from '@angular/material/card';
     BsDatepickerModule.forRoot(),
     BrowserAnimationsModule,
     BrowserModule,
+    provideFirebaseApp(()=>initializeApp(environment.firebaseConfig)),
+    provideAuth(()=> getAuth()),
+    provideFirestore(()=>getFirestore()),
+    provideStorage(()=>getStorage()),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,

@@ -16,7 +16,7 @@ export class PostService {
     return this.http.get<Post[]>(this.baseUrl + 'posts');
   }
   addPost(post:Post){
-    return this.http.post(this.baseUrl+'posts',post);
+    return this.http.post<Post>(this.baseUrl+'posts',post);
   }
   deletePost(id:number){
     return this.http.delete(this.baseUrl+'posts/'+id);
