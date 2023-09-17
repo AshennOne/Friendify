@@ -30,6 +30,7 @@ namespace API.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<ICommentRepository,CommentRepository>();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             return services;

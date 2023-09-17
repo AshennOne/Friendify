@@ -47,11 +47,8 @@ namespace API.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.UserName,
-                Email  =user.Email,
                 ImgUrl = user.ImgUrl,
-                Id=  user.Id,
-                Gender = user.Gender,
-                DateOfBirth = user.DateOfBirth
+                Id=  user.Id
             };
             if (user == null) return NotFound("User not found");
            

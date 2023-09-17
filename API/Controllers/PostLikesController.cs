@@ -1,3 +1,4 @@
+using API.Data.Repositories;
 using API.Entities;
 using API.Extensions;
 using API.Interfaces;
@@ -23,24 +24,27 @@ public class PostLikesController : BaseApiController
     var likes = await _postLikeRepository.GetLikedPosts(user.Id);
     return Ok(likes);
   }
-  [HttpPost("{id}")]
-  public async Task<ActionResult> AddLike(int id)
+  [HttpPost("{postId}")]
+  public async Task<ActionResult> AddLike(int postId)
   {
     var user = await GetUser();
     if (user == null) return NotFound("User not found");
-   var isAdded = await _postLikeRepository.AddLike(user.Id, id);
-   if(!isAdded) return BadRequest("Invalid operation, you cannot like your own post and like post that is already liked");
+   var belongsToUser = await _postLikeRepository.PostBelongsToUser(user, postId);
+   if(belongsToUser) return BadRequest("You can't like and dislike your own post");
+   await _postLikeRepository.AddLike(user.Id,postId);
     if (await _postLikeRepository.SaveChangesAsync())
       return Ok("Success");
     else return BadRequest("Adding like failed");
   }
-  [HttpDelete("{id}")]
-  public async Task<ActionResult> RemoveLike(int id)
+  [HttpDelete("{postId}")]
+  public async Task<ActionResult> RemoveLike(int postId)
   {
     var user = await GetUser();
     if (user == null) return NotFound("User not found");
-   var isRemoved = await _postLikeRepository.RemoveLike(user.Id,id);
-   if(!isRemoved) return BadRequest("you can delete only your own like");
+    if(await _postLikeRepository.PostBelongsToUser(user,postId)){
+      return BadRequest("You can't like and dislike your own post");
+    }
+  await _postLikeRepository.RemoveLike(user.Id,postId);
     if (await _postLikeRepository.SaveChangesAsync())
       return Ok("Success");
     else return BadRequest("Deleting like failed");

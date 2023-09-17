@@ -5,8 +5,9 @@ namespace API.Interfaces
     public interface IPostLikeRepository
     {
         Task<IEnumerable<Post>> GetLikedPosts(string userId);
-        Task<bool> AddLike(string userId, int postId);
-        Task<bool> RemoveLike(string userId, int likeId);
+        Task AddLike(string userId, int postId);
+        Task RemoveLike(string userId, int postId);
         Task<bool> SaveChangesAsync();
+        Task<bool> PostBelongsToUser(User user,int postId);
     }
 }

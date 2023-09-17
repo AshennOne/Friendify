@@ -5,7 +5,6 @@ namespace API.Entities
     public class Post
     {
         public int Id { get; set; }
-       [JsonIgnore]
         public User Author { get; set; }
 
         public string AuthorId { get; set; }
@@ -14,6 +13,8 @@ namespace API.Entities
         public DateTime Created { get; set; } = DateTime.UtcNow;
         [JsonIgnore]
         public List<PostLike> Likes{get;set;}= new List<PostLike>();
+        [JsonIgnore]
+        public List<Comment> Comments{get;set;}= new List<Comment>();
 
     }
 }

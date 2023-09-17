@@ -14,5 +14,7 @@ namespace API.Entities
         public List<Post> Posts{get;set;} = new List<Post>();
         [JsonIgnore]
         public List<PostLike> Likes{get;set;}= new List<PostLike>();
+        [JsonIgnore]
+        public List<Comment> Comments{get;set;}= new List<Comment>();
     }
 }

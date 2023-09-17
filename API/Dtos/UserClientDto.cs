@@ -6,9 +6,6 @@ namespace API.Dtos
        public string LastName { get; set; }
        public string UserName { get; set; }
         public string ImgUrl { get; set; }
-       public string Email{get;set;}
        public string Id { get; set; }
-       public string Gender { get; set; }
-       public DateTime DateOfBirth{get;set;}
     }
 }
