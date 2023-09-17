@@ -8,6 +8,7 @@ namespace API.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options){}
         public DbSet<Post> Posts { get; set; }
+        public DbSet<PostLike> Likes{get;set;}
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

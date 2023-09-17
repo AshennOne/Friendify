@@ -12,5 +12,7 @@ namespace API.Entities
         public DateTime DateOfBirth{get;set;} 
         [JsonIgnore]
         public List<Post> Posts{get;set;} = new List<Post>();
+        [JsonIgnore]
+        public List<PostLike> Likes{get;set;}= new List<PostLike>();
     }
 }

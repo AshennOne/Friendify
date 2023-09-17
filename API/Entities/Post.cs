@@ -12,6 +12,8 @@ namespace API.Entities
         public string TextContent { get; set; }
         public string ImgUrl { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;
+        [JsonIgnore]
+        public List<PostLike> Likes{get;set;}= new List<PostLike>();
 
     }
 }

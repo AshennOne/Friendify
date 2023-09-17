@@ -26,6 +26,7 @@ namespace API.Extensions
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton<IConfiguration>(configuration);
+            services.AddScoped<IPostLikeRepository,PostLikeRepository>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IPostRepository, PostRepository>();
