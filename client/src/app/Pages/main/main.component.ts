@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/_models/Post';
+import { User } from 'src/app/_models/User';
+import { LikeService } from 'src/app/_services/like.service';
 import { PostService } from 'src/app/_services/post.service';
 @Component({
   selector: 'app-main',
@@ -16,6 +18,7 @@ export class MainComponent implements OnInit {
         this.posts = posts;
       },
     });
+   
   }
   addPostToList(event:any){
     this.posts.unshift(event);

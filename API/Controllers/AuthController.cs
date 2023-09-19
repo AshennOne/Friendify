@@ -128,7 +128,14 @@ namespace API.Controllers
             var UserName = User.GetUsernameFromToken();
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == UserName);
             if(user == null) return NotFound("User not found");
-            return Ok(user);
+            return Ok(new UserClientDto
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Id = user.Id,
+                    ImgUrl = user.ImgUrl
+                });
         }
         private async void HandleEmail(User newUser, bool isPassword, string password)
         {

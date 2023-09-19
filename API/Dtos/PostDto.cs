@@ -7,5 +7,7 @@ namespace API.Dtos
         public string ImgUrl { get; set; }
         public DateTime Created { get; set; }
         public UserClientDto Author{get;set;}
+        public int LikesCount{get;set;}
+        public int CommentsCount{get;set;}
     }
 }

@@ -24,7 +24,7 @@ namespace API.Controllers
             var username = User.GetUsernameFromToken();
             var user = await _userManager.Users.Include(p => p.Posts).FirstOrDefaultAsync(u => u.UserName == username);
             if(user == null) return NotFound("User not found");
-            var posts =  _postRepository.GetAllPosts(user);
+            var posts =  _postRepository.GetAllPosts();
             return Ok(posts);
         }
         [HttpGet]

@@ -28,6 +28,9 @@ import {provideFirestore,getFirestore} from '@angular/fire/firestore'
 import{provideStorage,getStorage} from '@angular/fire/storage';
 import {initializeApp,provideFirebaseApp} from '@angular/fire/app'
 import { environment } from 'src/environments/environment.prod';
+import { LikeComponent } from './Components/post/like/like.component';
+import { CommentComponent } from './Components/post/comment/comment.component';
+import { RetweetComponent } from './Components/post/retweet/retweet.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +42,10 @@ import { environment } from 'src/environments/environment.prod';
     MainComponent,
     NavbarComponent,
     PostComponent,
-    NewPostComponent  
+    NewPostComponent,
+    LikeComponent,
+    CommentComponent,
+    RetweetComponent  
   ],
   imports: [
     BsDatepickerModule.forRoot(),

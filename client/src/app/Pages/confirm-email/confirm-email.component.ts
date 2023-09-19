@@ -51,7 +51,6 @@ export class ConfirmEmailComponent implements OnInit {
           if(user.emailConfirmed){
             this.toastr.success("Succesfully confirmed")
             localStorage.setItem("token",user.token+'')
-            localStorage.setItem('user', JSON.stringify(user));
             this.router.navigateByUrl("main");
             localStorage.removeItem("email")
             

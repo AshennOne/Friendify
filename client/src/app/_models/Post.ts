@@ -1,3 +1,4 @@
+import { Comment } from "./Comment";
 import { User } from "./User";
 
 export interface Post{
@@ -6,5 +7,8 @@ export interface Post{
   authorId?:User,
   created?:Date
   imgUrl?:string,
-  id:number
+  id?:number,
+  likesCount?:number,
+  commentsCount?:number,
+  comments?:Comment[]
 }

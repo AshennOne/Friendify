@@ -16,12 +16,10 @@
     <div *ngIf="post?.imgUrl">
       <img src="{{ post?.imgUrl }}" class="photo2" />
     </div>
-    <div class="btn-group d-flex mt-2">
-      <button class="btn btn-light">
-        <i class="fa fa-heart me-2" style="color: #000000; border: black"></i>0
-      </button>
-      <button class="btn btn-light"><i class="me-2 fa fa-retweet"></i>0</button>
-      <button class="btn btn-light"><i class="fa me-2 fa-comment"></i>0</button>
+    <div class="d-flex mt-2">
+      <div class="col-4"><app-like [count]="post?.likesCount || 0" [isLiked]="isLiked"></app-like></div>
+      <div class="col-4"><app-retweet></app-retweet></div>
+      <div class="col-4"><app-comment [count]="post?.commentsCount || 0"></app-comment></div>
     </div>
   </div>
 </div>

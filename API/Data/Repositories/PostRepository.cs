@@ -35,9 +35,9 @@ namespace API.Data.Repositories
             oldPost.TextContent = post.TextContent;
         }
 
-        public IEnumerable<PostDto> GetAllPosts(User user)
+        public IEnumerable<PostDto> GetAllPosts()
         {
-            var posts = _dbContext.Posts.Include(u => u.Author).OrderByDescending(u => u.Created);
+            var posts = _dbContext.Posts.Include(u => u.Author).Include(u => u.Likes).Include(u => u.Comments).OrderByDescending(u => u.Created);
             return _mapper.Map<IEnumerable<PostDto>>(posts);
         }
 

@@ -6,7 +6,7 @@ namespace API.Interfaces
     public interface IPostRepository
     {
         IEnumerable<PostDto> GetPostsForUser(string username);
-        IEnumerable<PostDto> GetAllPosts(User user);
+        IEnumerable<PostDto> GetAllPosts();
         Task AddPost(Post post);
         Task DeletePost(int id);
         Task<bool> SaveChangesAsync();

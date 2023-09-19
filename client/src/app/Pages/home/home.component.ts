@@ -44,7 +44,6 @@ export class HomeComponent {
         next: (user) => {
           if (!user) this.toastr.error('user not found');
           localStorage.setItem('token', user.token + '');
-          localStorage.setItem('user', JSON.stringify(user));
           this.toastr.success('Succesfully logged in');
           this.router.navigateByUrl('main');
         },

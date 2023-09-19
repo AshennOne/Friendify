@@ -1,3 +1,5 @@
+import { Post } from "./Post"
+
 export interface User{
   firstName?:string,
   lastName?:string,
@@ -9,4 +11,5 @@ export interface User{
   gender?:string,
   dateOfBirth?:Date,
   token?:string
+  liked?:Post[]
 }
