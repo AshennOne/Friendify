@@ -9,9 +9,10 @@ import { AuthService } from 'src/app/_services/auth.service';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit,OnChanges{
-  @Input() post?:Post
+  @Input() post:Post = {} as Post
   user:User = {} as User
   isLiked = false;
+  belongToUser = false;
   constructor(private authService:AuthService) {
     this.authService.getCurrentUser().subscribe({
       next:(user)=>{
@@ -23,6 +24,9 @@ export class PostComponent implements OnInit,OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['post']&&this.post){
       this.checkIsLiked()
+      if(this.post.author?.id==this.user.id){
+        this.belongToUser = true
+      }
     }
   }
    checkIsLiked(){

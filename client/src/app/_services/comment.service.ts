@@ -13,12 +13,15 @@ export class CommentService {
     return this.http.get<Comment[]>(this.apiUrl+"comments/"+postId);
    }
    AddComment(comment:Comment){
-    return this.http.post(this.apiUrl+"comments",comment);
+    return this.http.post(this.apiUrl+"comments",comment,
+    { responseType: 'text' });
    }
    EditComment(commentId:number,comment:Comment){
-    return this.http.put(this.apiUrl+"comments/"+commentId,comment);
+    return this.http.put(this.apiUrl+"comments/"+commentId,comment,
+    { responseType: 'text' });
    }
    DeleteComment(commentId:number){
-    return this.http.delete(this.apiUrl+"comments/"+commentId);
+    return this.http.delete(this.apiUrl+"comments/"+commentId,
+    { responseType: 'text' });
    }
 }

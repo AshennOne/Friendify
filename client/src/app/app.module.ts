@@ -45,7 +45,8 @@ import { RetweetComponent } from './Components/post/retweet/retweet.component';
     NewPostComponent,
     LikeComponent,
     CommentComponent,
-    RetweetComponent  
+    RetweetComponent,
+   
   ],
   imports: [
     BsDatepickerModule.forRoot(),

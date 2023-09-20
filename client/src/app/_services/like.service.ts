@@ -15,9 +15,11 @@ export class LikeService {
     return this.http.get<Post[]>(this.apiUrl+"postlikes");
    }
    AddLike(postId:number){
-    return this.http.post(this.apiUrl+"postlikes/"+postId,{});
+    return this.http.post(this.apiUrl+"postlikes/"+postId,{},
+    { responseType: 'text' });
    }
    RemoveLike(postId:number){
-    return this.http.delete(this.apiUrl+"postlikes/"+postId);
+    return this.http.delete(this.apiUrl+"postlikes/"+postId,
+    { responseType: 'text' });
    }
 }

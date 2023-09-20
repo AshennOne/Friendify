@@ -5,3 +5,17 @@
 .btn-light:hover {
   background-color: #d9dee4 !important;
 }
+.resize-none {
+  resize: none;
+}
+.photo{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.smalltext{
+  font-size: 0.8rem!important
+}
+.midtext{
+  font-size: 0.9rem!important
+}

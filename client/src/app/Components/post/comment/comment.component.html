@@ -1,1 +1,53 @@
-<button class="btn btn-light"><i class="fa me-2 fa-comment"></i>{{count}}</button>
+<button  (click)="openModal(template)" class="btn btn-light"><i class="fa me-2 fa-comment"></i>{{count}}</button>
+<ng-template #template>
+
+   
+
+   
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Comments ({{count}})</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+    
+
+    <div class="modal-body">
+    <textarea
+      [(ngModel)]="textContent"
+      maxlength="150"
+      rows="3"
+      class="form-control resize-none"
+      placeholder="Add new Comment"
+    ></textarea>
+    <div class="d-flex">
+      
+      <label class="text-muted d-flex mt-2"
+        >{{ textContent.length }}/150</label
+      >
+      <button (click)="addComment()" class="btn btn-success ms-auto mt-2"><i class="fa fa-plus"></i></button>
+    </div>
+   
+    <div *ngFor="let comment of comments">
+      <div *ngIf="post.author" class="row my-3 mx-2">
+        <hr />
+        <div class="col-2 col-lg-1 d-flex justify-content-center">
+          <img class="photo me-2" src="{{ comment.commentedBy?.imgUrl || 'assets/user.png' }}" />
+        </div>
+        <div class="col-10 col-lg-11">
+          <span class="smalltext my-0 py-0 d-flex align-items-top"
+            ><strong
+              >{{ comment.commentedBy?.firstName }} {{ comment.commentedBy?.lastName }}</strong
+            >
+            <span class="text-muted ms-2">@{{ comment.commentedBy?.userName }}</span>
+          </span>
+          <div class="midtext">
+            <p>{{ comment.content }}</p>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</ng-template>
