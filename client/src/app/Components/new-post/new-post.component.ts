@@ -63,24 +63,27 @@ export class NewPostComponent implements OnInit {
     });
   }
   onSubmit() {
-    if (!this.selectedImageFile) return;
-    var storageRef = ref(this.storage, 'folder/' + this.selectedImageFile.name);
-    var uploadTask = uploadBytesResumable(storageRef, this.selectedImageFile);
-    uploadTask.on(
-      'state_changed',
-      () => {
-        
-      },
-      (error)=>{
-        console.log(error)
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl)=>{
-          this.imgUrl = downloadUrl
-          this.addPost()
-        })
-      }
-    );
+    if (!this.selectedImageFile) this.addPost();
+    else{
+      var storageRef = ref(this.storage, 'folder/' + this.selectedImageFile.name);
+      var uploadTask = uploadBytesResumable(storageRef, this.selectedImageFile);
+      uploadTask.on(
+        'state_changed',
+        () => {
+          
+        },
+        (error)=>{
+          console.log(error)
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl)=>{
+            this.imgUrl = downloadUrl
+            this.addPost()
+          })
+        }
+      );
+    }
+    
   }
   addPost(){
     var post = {

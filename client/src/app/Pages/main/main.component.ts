@@ -13,14 +13,17 @@ export class MainComponent implements OnInit {
   constructor(private postService: PostService) {}
 
   ngOnInit(): void {
+    this.getAllPosts()
+   
+  }
+  addPostToList(event:any){
+    this.getAllPosts()
+  }
+  getAllPosts(){
     this.postService.getAllPosts().subscribe({
       next: (posts) => {
         this.posts = posts;
       },
     });
-   
-  }
-  addPostToList(event:any){
-    this.posts.unshift(event);
   }
 }

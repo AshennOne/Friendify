@@ -28,7 +28,7 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401) {
-            localStorage.removeItem('token');
+            localStorage.clear()
             this.toastr.warning('Token has expired, log in again');
             this.router.navigateByUrl('');
           }

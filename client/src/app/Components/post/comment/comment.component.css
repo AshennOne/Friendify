@@ -19,3 +19,11 @@
 .midtext{
   font-size: 0.9rem!important
 }
+.icon-button {
+  opacity: 0;
+  transition: opacity 0.3s; 
+}
+.onHovering:hover .icon-button  {
+  opacity: 1;
+}
+

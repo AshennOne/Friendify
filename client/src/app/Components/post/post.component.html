@@ -19,7 +19,7 @@
     <div class="d-flex mt-2">
       <div class="col-4"><app-like [belongToUser]="belongToUser" [post]="post" [count]="post.likesCount || 0" [isLiked]="isLiked"></app-like></div>
       <div class="col-4"><app-retweet></app-retweet></div>
-      <div class="col-4"><app-comment  [post]="post" [count]="post.commentsCount || 0"></app-comment></div>
+      <div class="col-4"><app-comment [authorId]="user.id|| ''" [post]="post" [count]="post.commentsCount || 0"></app-comment></div>
     </div>
   </div>
 </div>
