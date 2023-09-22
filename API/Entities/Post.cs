@@ -12,9 +12,11 @@ namespace API.Entities
         public string ImgUrl { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;
         [JsonIgnore]
-        public List<PostLike> Likes{get;set;}= new List<PostLike>();
+        public List<PostLike> Likes { get; set; } = new List<PostLike>();
         [JsonIgnore]
-        public List<Comment> Comments{get;set;}= new List<Comment>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+         public int RepostedFromId{get;set;}
+        public int RepostCount{get;set;} = 0;
 
     }
 }

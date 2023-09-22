@@ -1,3 +1,5 @@
+using API.Entities;
+
 namespace API.Dtos
 {
     public class PostDto
@@ -8,6 +10,8 @@ namespace API.Dtos
         public DateTime Created { get; set; }
         public UserClientDto Author{get;set;}
         public int LikesCount{get;set;}
-        public int CommentsCount{get;set;}
+        public int CommentsCount{get;set;}   
+        public int RepostCount{get;set;}
+        public int RepostedFromId{get;set;}
     }
 }

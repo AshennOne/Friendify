@@ -23,8 +23,8 @@ namespace API.Controllers
         {
             var username = User.GetUsernameFromToken();
             var user = await _userManager.Users.Include(p => p.Posts).FirstOrDefaultAsync(u => u.UserName == username);
-            if(user == null) return NotFound("User not found");
-            var posts =  _postRepository.GetAllPosts();
+            if (user == null) return NotFound("User not found");
+            var posts = _postRepository.GetAllPosts();
             return Ok(posts);
         }
         [HttpGet]
@@ -34,7 +34,7 @@ namespace API.Controllers
             if (username == null) return NotFound("user not found");
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return NotFound("user not found");
-            var posts =  _postRepository.GetPostsForUser(username);
+            var posts = _postRepository.GetPostsForUser(username);
             return Ok(posts);
         }
         [HttpPost]
@@ -43,17 +43,19 @@ namespace API.Controllers
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
             post.AuthorId = user.Id;
-            var userDto = new UserClientDto{
+            
+            var userDto = new UserClientDto
+            {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.UserName,
                 ImgUrl = user.ImgUrl,
-                Id=  user.Id
+                Id = user.Id
             };
             if (user == null) return NotFound("User not found");
-           
+
             await _postRepository.AddPost(post);
-             var newPost = new PostDto
+            var newPost = new PostDto
             {
                 Id = post.Id,
                 Created = post.Created,
@@ -77,6 +79,8 @@ namespace API.Controllers
             var user = await _userManager.Users.Include(p => p.Posts).FirstOrDefaultAsync(u => u.UserName == username);
             var userpost = user.Posts.FirstOrDefault(p => p.Id == id);
             if (userpost == null) return BadRequest("Unable to delete");
+            if (userpost.RepostedFromId != 0) return BadRequest("You can't delete post this way, you have to unrepost");
+
             await _postRepository.DeletePost(id);
             if (await _postRepository.SaveChangesAsync())
             {

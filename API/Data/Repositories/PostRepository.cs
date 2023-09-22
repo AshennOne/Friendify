@@ -25,7 +25,11 @@ namespace API.Data.Repositories
         public async Task DeletePost(int id)
         {
             var post = await _dbContext.Posts.FirstOrDefaultAsync(u => u.Id == id);
-            _dbContext.Posts.Remove(post);
+            var posts = await _dbContext.Posts.Where(p => p.RepostedFromId == id).ToListAsync();
+            if (post != null)
+                _dbContext.Posts.Remove(post);
+            _dbContext.Posts.RemoveRange(posts);
+
         }
 
         public async Task EditPost(int id, Post post)
@@ -40,6 +44,16 @@ namespace API.Data.Repositories
             var posts = _dbContext.Posts.Include(u => u.Author).Include(u => u.Likes).Include(u => u.Comments).OrderByDescending(u => u.Created);
             return _mapper.Map<IEnumerable<PostDto>>(posts);
         }
+        public async Task UnRepost(Post post)
+        {
+            var OriginalPost = await _dbContext.Posts.FirstOrDefaultAsync(u => u.Id == post.RepostedFromId);
+            OriginalPost.RepostCount -= 1;
+            _dbContext.Posts.Remove(post);
+        }
+        public async Task<Post> GetPostById(int id)
+        {
+            return await _dbContext.Posts.FirstOrDefaultAsync(p => p.Id == id);
+        }
 
         public IEnumerable<PostDto> GetPostsForUser(string username)
         {
@@ -49,6 +63,19 @@ namespace API.Data.Repositories
         public async Task<bool> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync() > 0;
+        }
+        public bool CheckIsReposted(Post post, string userId)
+        {
+            var isReposted = false;
+            var posts = _dbContext.Posts.Where(p => p.AuthorId == userId);
+            foreach (var userPost in posts)
+            {
+                if (userPost.RepostedFromId == post.Id)
+                {
+                    isReposted = true;
+                }
+            }
+            return isReposted;
         }
     }
 }
