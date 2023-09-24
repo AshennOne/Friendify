@@ -12,8 +12,8 @@
     </button>
   </div>
   <div class="col-md-8 col-10 mt-4 offset-1 offset-md-2">
-    <app-new-post (newPost)="addPostToList($event)"></app-new-post>
+    <app-new-post  (newPost)="addPostToList($event)"></app-new-post>
 
-    <div *ngFor="let post of posts"><app-post [post]="post"></app-post></div>
+    <div *ngFor="let post of posts"><app-post (onRepostChange)="getAllPosts()" [post]="post"></app-post></div>
   </div>
 </div>

@@ -11,5 +11,6 @@ export interface User{
   gender?:string,
   dateOfBirth?:Date,
   token?:string
-  liked?:Post[]
+  liked?:Post[],
+  reposted?:Post[]
 }

@@ -3,14 +3,15 @@ import { environment } from 'src/environments/environment';
 import { UserAuth } from '../_models/UserAuth';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../_models/User';
-import { map, of, switchMap } from 'rxjs';
+import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
 import { LikeService } from './like.service';
+import { RepostService } from './repost.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient,private likeService:LikeService) {}
+  constructor(private http: HttpClient,private likeService:LikeService,private repostService:RepostService) {}
   register(user: UserAuth) {
     return this.http.post(this.apiUrl + 'auth/register', user, {
       responseType: 'text',
@@ -61,11 +62,20 @@ export class AuthService {
     if (!user) {
       return this.http.get<User>(this.apiUrl + 'auth/currentUser').pipe(
         switchMap((user) => {
-          return this.likeService.GetLikedPostsForUser().pipe(
-            map((posts) => {
-              user.liked = posts;
-              localStorage.setItem('user',JSON.stringify(user));
-              return user; 
+          const likedPosts$ = this.likeService.GetLikedPostsForUser();
+          const repostedPosts$ = this.repostService.getAllReposts();
+    
+          return forkJoin({ likedPosts$, repostedPosts$ }).pipe(
+            map((result) => {
+              user.liked = result.likedPosts$;
+              user.reposted = result.repostedPosts$;
+              localStorage.setItem('user', JSON.stringify(user));
+              return user;
+            }),
+            catchError((error) => {
+             
+              console.error('Error:', error);
+              return of(user); 
             })
           );
         })

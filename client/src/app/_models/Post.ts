@@ -10,6 +10,7 @@ export interface Post{
   id?:number,
   likesCount?:number,
   commentsCount?:number,
+  repostCount?:number,
   comments?:Comment[]
   repostedFromId?:number
 }

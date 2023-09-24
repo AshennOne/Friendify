@@ -11,8 +11,9 @@ namespace API.Interfaces
         Task AddPost(Post post);
         Task DeletePost(int id);
         Task<bool> SaveChangesAsync();
-        Task UnRepost(Post post);
+        Task UnRepost(Post post,User user);
         Task EditPost(int id, Post post);
         bool CheckIsReposted(Post post, string userId);
-    }
+        Task<IEnumerable<PostDto>> GetRepostedPosts(User user);
+    }   
 }

@@ -1,3 +1,4 @@
+using API.Dtos;
 using API.Entities;
 using API.Extensions;
 using API.Interfaces;
@@ -22,9 +23,10 @@ namespace API.Controllers
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
             var post = await _postRepository.GetPostById(id);
-            if(post == null) return BadRequest("post doesn't exists");
+            if (post == null) return BadRequest("post doesn't exists");
             if (post.AuthorId == user.Id) return BadRequest("You cannot repost your own post");
-            if(_postRepository.CheckIsReposted(post,user.Id)){
+            if (_postRepository.CheckIsReposted(post, user.Id))
+            {
                 return BadRequest("You already reposted this post!");
             }
             post.RepostCount += 1;
@@ -52,10 +54,10 @@ namespace API.Controllers
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
             var post = await _postRepository.GetPostById(id);
-            if(post == null) return BadRequest("post doesn't exists");
-            if (user.Id != post.AuthorId) return BadRequest("Invalid authorization");
-            if(post.RepostedFromId == 0) return BadRequest("This post isn't reposted");
-            await _postRepository.UnRepost(post);
+            if (post == null) return BadRequest("post doesn't exists");
+            if (user.Id == post.AuthorId) return BadRequest("Invalid request");
+            if (post.RepostedFromId != 0) return BadRequest("This post is reposted");
+            await _postRepository.UnRepost(post, user);
             if (await _postRepository.SaveChangesAsync())
             {
 
@@ -65,6 +67,15 @@ namespace API.Controllers
             {
                 return BadRequest("Failed to delete");
             }
+        }
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetAllRepostedPostsByUser()
+        {
+            var username = User.GetUsernameFromToken();
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return Unauthorized();
+            var posts = await _postRepository.GetRepostedPosts(user);
+            return Ok(posts);
         }
     }
 }

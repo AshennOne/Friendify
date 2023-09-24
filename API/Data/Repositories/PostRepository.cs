@@ -38,17 +38,27 @@ namespace API.Data.Repositories
             oldPost.ImgUrl = post.ImgUrl;
             oldPost.TextContent = post.TextContent;
         }
+        public async Task<IEnumerable<PostDto>> GetRepostedPosts(User user)
+        {
+            var postsIds = _dbContext.Posts.Where(p => p.AuthorId == user.Id && p.RepostedFromId != 0).Select(p => p.RepostedFromId);
 
+            var OriginalPosts = _mapper.Map<IEnumerable<PostDto>>(await _dbContext.Posts.Where(p => postsIds.Contains(p.Id)).ToListAsync());
+
+
+
+            return OriginalPosts;
+
+        }
         public IEnumerable<PostDto> GetAllPosts()
         {
             var posts = _dbContext.Posts.Include(u => u.Author).Include(u => u.Likes).Include(u => u.Comments).OrderByDescending(u => u.Created);
             return _mapper.Map<IEnumerable<PostDto>>(posts);
         }
-        public async Task UnRepost(Post post)
+        public async Task UnRepost(Post post, User user)
         {
-            var OriginalPost = await _dbContext.Posts.FirstOrDefaultAsync(u => u.Id == post.RepostedFromId);
-            OriginalPost.RepostCount -= 1;
-            _dbContext.Posts.Remove(post);
+            var userPost = await _dbContext.Posts.FirstOrDefaultAsync(u => u.RepostedFromId == post.Id && u.AuthorId == user.Id);
+            post.RepostCount -= 1;
+            _dbContext.Posts.Remove(userPost);
         }
         public async Task<Post> GetPostById(int id)
         {

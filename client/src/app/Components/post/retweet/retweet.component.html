@@ -1,1 +1,1 @@
-<button class="btn btn-light"><i class="me-2 fa fa-retweet"></i>0</button>
+<button (click)="repost()" [disabled]="belongToUser" class="btn btn-light"><i *ngIf="!isReposted" class="me-2 fa fa-retweet"></i><i *ngIf="isReposted" class="me-2 fa fa-retweet" style="color: rgb(0, 255, 179);"></i>{{count}}</button>

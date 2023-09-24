@@ -28,5 +28,24 @@ export class LocalstorageService {
     var stringifiedUser = JSON.stringify(parsedUser);
     localStorage.setItem('user',stringifiedUser)
   }
-
+  addPostToReposted(post:Post){
+    var user = localStorage.getItem('user');
+    if(!user) return;
+    var parsedUser = JSON.parse(user) as User;
+    var posts = parsedUser.reposted
+    if(!posts) return;
+    posts.push(post);
+    var stringifiedUser = JSON.stringify(parsedUser);
+    localStorage.setItem('user',stringifiedUser)
+  }  
+  removePostFromReposted(post:Post){
+    var user = localStorage.getItem('user');
+    if(!user) return;
+    var parsedUser = JSON.parse(user) as User;
+    var posts = parsedUser.reposted
+    if(!posts) return;
+  parsedUser.reposted= posts.filter(p => p.id != post.id);
+    var stringifiedUser = JSON.stringify(parsedUser);
+    localStorage.setItem('user',stringifiedUser)
+  }
 }
