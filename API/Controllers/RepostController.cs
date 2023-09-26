@@ -36,7 +36,9 @@ namespace API.Controllers
                 AuthorId = user.Id,
                 TextContent = post.TextContent,
                 ImgUrl = post.ImgUrl,
-                RepostedFromId = post.Id
+                RepostedFromId = post.Id,
+                OriginalAuthorId = post.Author.Id,
+                OriginalAuthor = post.Author
             };
             await _postRepository.AddPost(newPost);
             if (await _postRepository.SaveChangesAsync())

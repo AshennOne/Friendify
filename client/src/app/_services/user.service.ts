@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/User';
+import { Post } from '../_models/Post';
 
 @Injectable({
   providedIn: 'root'
@@ -12,4 +13,8 @@ export class UserService {
   getUserByEmail(email:string){
     return this.http.get<User>(this.apiUrl+'user/'+email)
   }
+  getUserById(id:string){
+    return this.http.get<User>(this.apiUrl+'user/id/'+id);
+  }
+  
 }

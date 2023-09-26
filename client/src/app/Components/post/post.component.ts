@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -23,7 +24,7 @@ export class PostComponent implements OnInit, OnChanges {
   isLiked = false;
   belongToUser = false;
   isReposted = false;
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,private router:Router) {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.user = user;
@@ -31,10 +32,10 @@ export class PostComponent implements OnInit, OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['post'] && this.post) {
+    if (changes['post'] && this.post && this.user.id) {
       this.checkIsLiked();
       this.checkIsReposted();
-      if (this.post.authorId == this.user.id) {
+      if (this.post.author?.id == this.user.id) {
         this.belongToUser = true;
       }
     }
@@ -61,5 +62,9 @@ export class PostComponent implements OnInit, OnChanges {
   }
   loadPosts(){
     this.onRepostChange.emit(this.post)
+  }
+  redirect(id:string){
+    if(id == '' || !id) return;
+    this.router.navigateByUrl("user/"+id)
   }
 }

@@ -31,6 +31,9 @@ import { environment } from 'src/environments/environment.prod';
 import { LikeComponent } from './Components/post/like/like.component';
 import { CommentComponent } from './Components/post/comment/comment.component';
 import { RetweetComponent } from './Components/post/retweet/retweet.component';
+import { TimeagoModule } from "ngx-timeago";
+import { DetailsComponent } from './Pages/details/details.component';
+import {MatDividerModule} from '@angular/material/divider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +49,7 @@ import { RetweetComponent } from './Components/post/retweet/retweet.component';
     LikeComponent,
     CommentComponent,
     RetweetComponent,
+    DetailsComponent,
    
   ],
   imports: [
@@ -70,7 +74,9 @@ import { RetweetComponent } from './Components/post/retweet/retweet.component';
     MatIconModule,
     MatDialogModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    TimeagoModule.forRoot(),
+    MatDividerModule
   ],
   providers: [
     {

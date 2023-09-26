@@ -18,6 +18,11 @@ namespace API.Controllers
             _postRepository = postRepository;
 
         }
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> SearchPosts([FromQuery] string searchstring)
+        {
+            return Ok(await _postRepository.SearchPosts(searchstring));
+        }
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetAllPostsExceptUser()
         {
@@ -37,13 +42,21 @@ namespace API.Controllers
             var posts = _postRepository.GetPostsForUser(username);
             return Ok(posts);
         }
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsForUserId(string id)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if(user == null) return NotFound("user not found");
+            var posts = _postRepository.GetPostsForUser(user.UserName);
+            return Ok(posts);
+        } 
         [HttpPost]
         public async Task<ActionResult<Post>> AddPost(Post post)
         {
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
             post.AuthorId = user.Id;
-            
+
             var userDto = new UserClientDto
             {
                 FirstName = user.FirstName,

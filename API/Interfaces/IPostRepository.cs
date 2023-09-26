@@ -15,5 +15,6 @@ namespace API.Interfaces
         Task EditPost(int id, Post post);
         bool CheckIsReposted(Post post, string userId);
         Task<IEnumerable<PostDto>> GetRepostedPosts(User user);
+        Task<IEnumerable<PostDto>> SearchPosts(string searchstring);
     }   
 }

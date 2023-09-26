@@ -12,5 +12,6 @@ export interface User{
   dateOfBirth?:Date,
   token?:string
   liked?:Post[],
-  reposted?:Post[]
+  reposted?:Post[],
+  bio:string
 }

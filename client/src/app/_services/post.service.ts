@@ -12,7 +12,10 @@ export class PostService {
   getAllPosts() {
     return this.http.get<Post[]>(this.baseUrl + 'posts/all');
   }
-  getPostsForUser() {
+  searchPosts(searchstring:string){
+    return this.http.get<Post[]>(this.baseUrl+"posts/search?searchstring="+searchstring);
+  }
+  getPostsForCurrentUser() {
     return this.http.get<Post[]>(this.baseUrl + 'posts');
   }
   addPost(post:Post){
@@ -20,5 +23,8 @@ export class PostService {
   }
   deletePost(id:number){
     return this.http.delete(this.baseUrl+'posts/'+id);
+  }
+  getPostsForUserId(id:string){
+    return this.http.get<Post[]>(this.baseUrl+"posts/user/"+id);
   }
 }

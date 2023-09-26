@@ -1,9 +1,11 @@
 using API.Dtos;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -11,8 +13,10 @@ namespace API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly ITokenService _tokenService;
-        public UserController(UserManager<User> userManager, ITokenService tokenService)
+        private readonly IMapper _mapper;
+        public UserController(UserManager<User> userManager, ITokenService tokenService, IMapper mapper)
         {
+            _mapper = mapper;
             _tokenService = tokenService;
             _userManager = userManager;
 
@@ -35,6 +39,13 @@ namespace API.Controllers
                     ImgUrl = user.ImgUrl
                 });
             }
+        }
+        [HttpGet("id/{id}")]
+        public async Task<ActionResult<UserClientDto>> GetUserById(string id)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null) return NotFound();
+            return Ok(_mapper.Map<UserClientDto>(user));
         }
     }
 }

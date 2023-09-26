@@ -9,6 +9,7 @@ namespace API.Entities
         public string LastName { get; set; }
         public string ImgUrl { get; set; } = null;
         public string Gender { get; set; }
+        public string Bio {get;set;}
         public DateTime DateOfBirth{get;set;} 
         [JsonIgnore]
         public List<Post> Posts{get;set;} = new List<Post>();

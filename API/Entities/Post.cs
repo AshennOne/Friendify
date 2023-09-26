@@ -6,7 +6,8 @@ namespace API.Entities
     {
         public int Id { get; set; }
         public User Author { get; set; }
-
+        public string OriginalAuthorId{get;set;}
+        public User OriginalAuthor{get;set;}
         public string AuthorId { get; set; }
         public string TextContent { get; set; }
         public string ImgUrl { get; set; }

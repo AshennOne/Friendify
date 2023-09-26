@@ -1,15 +1,19 @@
 <div *ngIf="post.author" class="row my-3">
   <hr />
   <div class="col-2 col-lg-1 d-flex justify-content-center">
-    <img class="photo" src="{{ post.author.imgUrl }}" />
+    <img (click)="redirect(post.author.id||'')" class="photo clickable" src="{{ post.author.imgUrl }}" />
   </div>
   <div class="col-10 col-lg-11">
+    
     <span class="smalltext my-0 py-0 d-flex align-items-top"
-      ><strong
-        >{{ post.author.firstName }} {{ post.author.lastName }}</strong
       >
-      <span class="text-muted ms-2">@{{ post.author.userName }}</span>
+      
+      <span (click)="redirect(post.author.id||'')" class="clickable"><strong 
+        >{{ post.author.firstName }} {{ post.author.lastName }}</strong
+      ><strong class=" text-muted ms-1">@{{ post.author.userName }}</strong></span>
+      <span class="ms-3 text-muted">{{post.created + 'Z'| timeago}}</span>
     </span>
+    <span (click)="redirect(post.originalAuthor?.id||'')" class="clickable smalltext" *ngIf="post.repostedFromId !== 0">(Reposted post <i class="fa fa-retweet"></i> from <img class="smallpic" src="{{post.originalAuthor?.imgUrl}}"> @{{post.originalAuthor?.userName}})</span>
     <div class="midtext">
       <p>{{ post.textContent }}</p>
     </div>
@@ -18,8 +22,9 @@
     </div>
     <div class="d-flex mt-2">
       <div class="col-4"><app-like [belongToUser]="belongToUser" [post]="post" [count]="post.likesCount || 0" [isLiked]="isLiked"></app-like></div>
-      <div class="col-4"><app-retweet (onRepostChange)="loadPosts()" [isReposted]="isReposted" [post]="post" [count]="post.repostCount||0" [belongToUser]="belongToUser"></app-retweet></div>
       <div class="col-4"><app-comment [authorId]="user.id|| ''" [post]="post" [count]="post.commentsCount || 0"></app-comment></div>
+      <div class="col-4"><app-retweet (onRepostChange)="loadPosts()" [isReposted]="isReposted" [post]="post" [count]="post.repostCount||0" [belongToUser]="belongToUser"></app-retweet></div>
+      
     </div>
   </div>
 </div>

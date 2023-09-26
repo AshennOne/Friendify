@@ -13,11 +13,13 @@ export class AuthService {
   apiUrl = environment.apiUrl;
   constructor(private http: HttpClient,private likeService:LikeService,private repostService:RepostService) {}
   register(user: UserAuth) {
+    localStorage.clear()
     return this.http.post(this.apiUrl + 'auth/register', user, {
       responseType: 'text',
     });
   }
   login(user: UserAuth) {
+    localStorage.clear()
     return this.http.post<User>(this.apiUrl + 'auth/login', user);
   }
   forgetPassword(userId: string, code: string, newPassword: string) {
