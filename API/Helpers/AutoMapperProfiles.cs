@@ -12,9 +12,12 @@ namespace API.Helpers
             CreateMap<Post, PostDto>()
                 .ForMember(dest => dest.LikesCount, opt => opt.MapFrom(src => src.Likes.Count))
                 .ForMember(dest => dest.CommentsCount, opt => opt.MapFrom(src => src.Comments.Count));
-               
+
             CreateMap<User, UserClientDto>();
             CreateMap<Comment, CommentResponseDto>();
+            CreateMap<Follow, FollowDto>();
+            CreateMap<FollowDto, Follow>();
+            CreateMap<UserClientDto,User>();
         }
 
     }

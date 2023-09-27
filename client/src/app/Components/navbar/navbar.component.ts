@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class NavbarComponent implements OnInit {
   userName = '';
   imgUrl = '';
+  id = ""
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -21,7 +22,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
-        
+        this.id = user.id||''
         this.userName = user.userName+"";
         this.imgUrl = user.imgUrl+"";
       },
@@ -31,5 +32,8 @@ export class NavbarComponent implements OnInit {
     localStorage.clear()
     this.router.navigateByUrl('');
     this.toastr.success('Succesfully logged out');
+  }
+  redirect(){
+    this.router.navigateByUrl('user/'+this.id)
   }
 }
