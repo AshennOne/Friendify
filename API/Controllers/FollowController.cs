@@ -35,16 +35,16 @@ namespace API.Controllers
             return Ok(follows);
         }
         [HttpPost("{id}")]
-        public async Task<ActionResult> Follow(string id)
+        public async Task<ActionResult<FollowDto>> Follow(string id)
         {
             var user = await getUser();
             if (user.Id == id) return BadRequest("You cannot follow yourself");
             var follow = await _followRepository.GetFollow(user.Id, id);
 
-            if (follow == null) await _followRepository.Follow(user.Id, id);
+            if (follow == null) follow = await _followRepository.Follow(user.Id, id);
             else return BadRequest("User already followed");
             if (await _followRepository.SaveChangesAsync())
-                return Ok("Success");
+                return Ok(follow);
             else return BadRequest("Following failed");
         }
         [HttpDelete("{id}")]

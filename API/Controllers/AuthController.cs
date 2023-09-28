@@ -4,6 +4,7 @@ using API.Entities;
 using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +18,10 @@ namespace API.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ITokenService _tokenService;
         private readonly IEmailSender _emailSender;
-        public AuthController(UserManager<User> userManager, ITokenService tokenService, IEmailSender emailSender)
+        private readonly IMapper _mapper;
+        public AuthController(UserManager<User> userManager, ITokenService tokenService, IEmailSender emailSender, IMapper mapper)
         {
+            _mapper = mapper;
             _emailSender = emailSender;
             _tokenService = tokenService;
             _userManager = userManager;
@@ -126,16 +129,19 @@ namespace API.Controllers
         public async Task<ActionResult<UserClientDto>> GetCurrentUser()
         {
             var UserName = User.GetUsernameFromToken();
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == UserName);
-            if(user == null) return NotFound("User not found");
+            var user = await _userManager.Users.Include(u => u.Followed).Include(u => u.Followers).FirstOrDefaultAsync(u => u.UserName == UserName);
+            if (user == null) return NotFound("User not found");
             return Ok(new UserClientDto
-                {
-                    UserName = user.UserName,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Id = user.Id,
-                    ImgUrl = user.ImgUrl
-                });
+            {
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Id = user.Id,
+                ImgUrl = user.ImgUrl,
+                Followed = _mapper.Map<List<FollowDto>>(user.Followed),
+                Followers = _mapper.Map<List<FollowDto>>(user.Followers)
+
+            });
         }
         private async void HandleEmail(User newUser, bool isPassword, string password)
         {
@@ -170,6 +176,6 @@ namespace API.Controllers
 
             return Regex.IsMatch(email, pattern);
         }
-        
+
     }
 }

@@ -43,7 +43,7 @@ namespace API.Controllers
         [HttpGet("id/{id}")]
         public async Task<ActionResult<UserClientDto>> GetUserById(string id)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userManager.Users.Include(u => u.Followed).Include(u => u.Followers).FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
             return Ok(_mapper.Map<UserClientDto>(user));
         }

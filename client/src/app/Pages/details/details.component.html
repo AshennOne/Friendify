@@ -12,10 +12,12 @@
               <i class="fa fa-pencil mx-1"></i>
             </button>
             <button
+            (click)="toggleFollow()"
               *ngIf="!isCurrentUser"
               class="btn btn-sm btn-light px-3 me-1"
             >
-              <i class="fa fa-heart mx-1"></i>
+              <i *ngIf="isFollowedByCurrent" class="fa fa-heart mx-1" style="color: #ff0000;"></i>
+              <i *ngIf="!isFollowedByCurrent" class="fa fa-heart mx-1"></i>
             </button>
             <button *ngIf="!isCurrentUser" class="btn btn-light">
               <i class="fa fa-envelope mx-1"></i>

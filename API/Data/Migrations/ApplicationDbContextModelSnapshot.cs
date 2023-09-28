@@ -374,11 +374,11 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Follow", b =>
                 {
                     b.HasOne("API.Entities.User", "Followed")
-                        .WithMany("Followed")
+                        .WithMany("Followers")
                         .HasForeignKey("FollowedId");
 
                     b.HasOne("API.Entities.User", "Follower")
-                        .WithMany("Followers")
+                        .WithMany("Followed")
                         .HasForeignKey("FollowerId");
 
                     b.Navigation("Followed");

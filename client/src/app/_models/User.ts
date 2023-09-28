@@ -1,3 +1,4 @@
+import { Follow } from "./Follow"
 import { Post } from "./Post"
 
 export interface User{
@@ -14,4 +15,6 @@ export interface User{
   liked?:Post[],
   reposted?:Post[],
   bio:string
+  followed?:Follow[],
+  followers?:Follow[]
 }

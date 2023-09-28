@@ -20,12 +20,12 @@ namespace API.Data
             .HasForeignKey(p => p.AuthorId);
             builder.Entity<User>()
             .HasMany(u => u.Followed)
-            .WithOne(p => p.Followed)
-            .HasForeignKey(p => p.FollowedId);
-            builder.Entity<User>()
-            .HasMany(u => u.Followers)
             .WithOne(p => p.Follower)
             .HasForeignKey(p => p.FollowerId);
+            builder.Entity<User>()
+            .HasMany(u => u.Followers)
+            .WithOne(p => p.Followed)
+            .HasForeignKey(p => p.FollowedId);
             
         }
     }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230926205148_Follows")]
-    partial class Follows
+    [Migration("20230928191925_Follow")]
+    partial class Follow
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -377,11 +377,11 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Follow", b =>
                 {
                     b.HasOne("API.Entities.User", "Followed")
-                        .WithMany("Followed")
+                        .WithMany("Followers")
                         .HasForeignKey("FollowedId");
 
                     b.HasOne("API.Entities.User", "Follower")
-                        .WithMany("Followers")
+                        .WithMany("Followed")
                         .HasForeignKey("FollowerId");
 
                     b.Navigation("Followed");
