@@ -9,18 +9,20 @@ namespace API.Controllers
 {
     public class CommentsController : BaseApiController
     {
-        private readonly ICommentRepository _commentRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
         private readonly UserManager<User> _userManager;
-        public CommentsController(ICommentRepository commentRepository, UserManager<User> userManager)
+        public CommentsController(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
-            _commentRepository = commentRepository;
+
 
         }
         [HttpGet("{postId}")]
         public ActionResult<IEnumerable<CommentResponseDto>> GetCommentsForPost(int postId)
         {
-            var comments =  _commentRepository.GetCommentsForPost(postId);
+            var comments = _unitOfWork.CommentRepository.GetCommentsForPost(postId);
             return Ok(comments);
 
         }
@@ -35,8 +37,8 @@ namespace API.Controllers
                 CommentedById = user.Id,
                 PostId = commentDto.PostId
             };
-            await _commentRepository.AddComment(comment);
-            if (await _commentRepository.SaveChangesAsync())
+            await _unitOfWork.CommentRepository.AddComment(comment);
+            if (await _unitOfWork.SaveChangesAsync())
                 return Ok("Success");
             return BadRequest("Adding comment failed");
         }
@@ -45,9 +47,9 @@ namespace API.Controllers
         {
             var user = await GetUser();
             if (user == null) return NotFound("User not found");
-            if (!await _commentRepository.BelongsToUser(user.Id, id)) return BadRequest("You can edit only your own comments");
-            await _commentRepository.EditComment(id, user.Id, commentDto.Content);
-            if (await _commentRepository.SaveChangesAsync())
+            if (!await _unitOfWork.CommentRepository.BelongsToUser(user.Id, id)) return BadRequest("You can edit only your own comments");
+            await _unitOfWork.CommentRepository.EditComment(id, user.Id, commentDto.Content);
+            if (await _unitOfWork.SaveChangesAsync())
                 return Ok("Success");
             return BadRequest("Editing comment failed");
         }
@@ -56,9 +58,9 @@ namespace API.Controllers
         {
             var user = await GetUser();
             if (user == null) return NotFound("User not found");
-            if (!await _commentRepository.BelongsToUser(user.Id, id)) return BadRequest("You can delete only your own comments");
-            await _commentRepository.DeleteComment(id, user.Id);
-            if (await _commentRepository.SaveChangesAsync())
+            if (!await _unitOfWork.CommentRepository.BelongsToUser(user.Id, id)) return BadRequest("You can delete only your own comments");
+            await _unitOfWork.CommentRepository.DeleteComment(id, user.Id);
+            if (await _unitOfWork.SaveChangesAsync())
                 return Ok("Success");
             return BadRequest("Deleting comment failed");
         }

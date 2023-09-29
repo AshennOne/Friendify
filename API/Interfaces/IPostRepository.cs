@@ -10,7 +10,6 @@ namespace API.Interfaces
         Task<Post> GetPostById(int id); 
         Task AddPost(Post post);
         Task DeletePost(int id);
-        Task<bool> SaveChangesAsync();
         Task UnRepost(Post post,User user);
         Task EditPost(int id, Post post);
         bool CheckIsReposted(Post post, string userId);

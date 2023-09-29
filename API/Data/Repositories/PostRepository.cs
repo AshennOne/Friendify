@@ -75,10 +75,6 @@ namespace API.Data.Repositories
             var posts = _dbContext.Posts.Include(p => p.OriginalAuthor).Where(u => u.Author.UserName.ToLower() == username.ToLower()).OrderByDescending(u => u.Created);
             return _mapper.Map<IEnumerable<PostDto>>(posts);
         }
-        public async Task<bool> SaveChangesAsync()
-        {
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
         public bool CheckIsReposted(Post post, string userId)
         {
             var isReposted = false;

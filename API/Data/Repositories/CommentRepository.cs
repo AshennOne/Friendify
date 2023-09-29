@@ -47,14 +47,11 @@ namespace API.Data.Repositories
 
         public IEnumerable<CommentResponseDto> GetCommentsForPost(int postId)
         {
-            var comments =  _dbContext.Comments.Include(c => c.CommentedBy).Include(c => c.Post).ThenInclude(p => p.Author).Where(c => c.PostId == postId).OrderByDescending(c => c.Created);
+            var comments = _dbContext.Comments.Include(c => c.CommentedBy).Include(c => c.Post).ThenInclude(p => p.Author).Where(c => c.PostId == postId).OrderByDescending(c => c.Created);
             return _mapper.Map<IEnumerable<CommentResponseDto>>(comments);
 
 
         }
-        public async Task<bool> SaveChangesAsync()
-        {
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
+
     }
 }

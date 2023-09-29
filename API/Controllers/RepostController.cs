@@ -10,10 +10,10 @@ namespace API.Controllers
     public class RepostController : BaseApiController
     {
         private readonly UserManager<User> _userManager;
-        private readonly IPostRepository _postRepository;
-        public RepostController(UserManager<User> userManager, IPostRepository postRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public RepostController(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
-            _postRepository = postRepository;
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
 
         }
@@ -22,10 +22,10 @@ namespace API.Controllers
         {
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
-            var post = await _postRepository.GetPostById(id);
+            var post = await _unitOfWork.PostRepository.GetPostById(id);
             if (post == null) return BadRequest("post doesn't exists");
             if (post.AuthorId == user.Id) return BadRequest("You cannot repost your own post");
-            if (_postRepository.CheckIsReposted(post, user.Id))
+            if (_unitOfWork.PostRepository.CheckIsReposted(post, user.Id))
             {
                 return BadRequest("You already reposted this post!");
             }
@@ -40,8 +40,8 @@ namespace API.Controllers
                 OriginalAuthorId = post.Author.Id,
                 OriginalAuthor = post.Author
             };
-            await _postRepository.AddPost(newPost);
-            if (await _postRepository.SaveChangesAsync())
+            await _unitOfWork.PostRepository.AddPost(newPost);
+            if (await _unitOfWork.SaveChangesAsync())
             {
                 return Ok(newPost);
             }
@@ -55,12 +55,12 @@ namespace API.Controllers
         {
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
-            var post = await _postRepository.GetPostById(id);
+            var post = await _unitOfWork.PostRepository.GetPostById(id);
             if (post == null) return BadRequest("post doesn't exists");
             if (user.Id == post.AuthorId) return BadRequest("Invalid request");
             if (post.RepostedFromId != 0) return BadRequest("This post is reposted");
-            await _postRepository.UnRepost(post, user);
-            if (await _postRepository.SaveChangesAsync())
+            await _unitOfWork.PostRepository.UnRepost(post, user);
+            if (await _unitOfWork.SaveChangesAsync())
             {
 
                 return Ok("Success");
@@ -76,7 +76,7 @@ namespace API.Controllers
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return Unauthorized();
-            var posts = await _postRepository.GetRepostedPosts(user);
+            var posts = await _unitOfWork.PostRepository.GetRepostedPosts(user);
             return Ok(posts);
         }
     }

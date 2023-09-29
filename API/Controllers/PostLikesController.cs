@@ -9,19 +9,19 @@ namespace API.Controllers;
 
 public class PostLikesController : BaseApiController
 {
-  private readonly IPostLikeRepository _postLikeRepository;
   private readonly UserManager<User> _userManager;
-  public PostLikesController(IPostLikeRepository postLikeRepository, UserManager<User> userManager)
+  private readonly IUnitOfWork _unitOfWork;
+  public PostLikesController(IUnitOfWork unitOfWork, UserManager<User> userManager)
   {
+    _unitOfWork = unitOfWork;
     _userManager = userManager;
-    _postLikeRepository = postLikeRepository;
   }
   [HttpGet]
   public async Task<ActionResult<IEnumerable<Post>>> GetLikedPostsForUser()
   {
     var user = await GetUser();
     if (user == null) return NotFound("User not found");
-    var likes = await _postLikeRepository.GetLikedPosts(user.Id);
+    var likes = await _unitOfWork.PostLikeRepository.GetLikedPosts(user.Id);
     return Ok(likes);
   }
   [HttpPost("{postId}")]
@@ -29,10 +29,10 @@ public class PostLikesController : BaseApiController
   {
     var user = await GetUser();
     if (user == null) return NotFound("User not found");
-   var belongsToUser = await _postLikeRepository.PostBelongsToUser(user, postId);
-   if(belongsToUser) return BadRequest("You can't like and dislike your own post");
-   await _postLikeRepository.AddLike(user.Id,postId);
-    if (await _postLikeRepository.SaveChangesAsync())
+    var belongsToUser = await _unitOfWork.PostLikeRepository.PostBelongsToUser(user, postId);
+    if (belongsToUser) return BadRequest("You can't like and dislike your own post");
+    await _unitOfWork.PostLikeRepository.AddLike(user.Id, postId);
+    if (await _unitOfWork.SaveChangesAsync())
       return Ok("Success");
     else return BadRequest("Adding like failed");
   }
@@ -41,11 +41,12 @@ public class PostLikesController : BaseApiController
   {
     var user = await GetUser();
     if (user == null) return NotFound("User not found");
-    if(await _postLikeRepository.PostBelongsToUser(user,postId)){
+    if (await _unitOfWork.PostLikeRepository.PostBelongsToUser(user, postId))
+    {
       return BadRequest("You can't like and dislike your own post");
     }
-  await _postLikeRepository.RemoveLike(user.Id,postId);
-    if (await _postLikeRepository.SaveChangesAsync())
+    await _unitOfWork.PostLikeRepository.RemoveLike(user.Id, postId);
+    if (await _unitOfWork.SaveChangesAsync())
       return Ok("Success");
     else return BadRequest("Deleting like failed");
   }

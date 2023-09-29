@@ -10,18 +10,18 @@ namespace API.Controllers
 {
     public class PostsController : BaseApiController
     {
-        private readonly IPostRepository _postRepository;
         private readonly UserManager<User> _userManager;
-        public PostsController(IPostRepository postRepository, UserManager<User> userManager)
+        private readonly IUnitOfWork _unitOfWork;
+        public PostsController(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
-            _postRepository = postRepository;
 
         }
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<PostDto>>> SearchPosts([FromQuery] string searchstring)
         {
-            return Ok(await _postRepository.SearchPosts(searchstring));
+            return Ok(await _unitOfWork.PostRepository.SearchPosts(searchstring));
         }
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetAllPostsExceptUser()
@@ -29,7 +29,7 @@ namespace API.Controllers
             var username = User.GetUsernameFromToken();
             var user = await _userManager.Users.Include(p => p.Posts).FirstOrDefaultAsync(u => u.UserName == username);
             if (user == null) return NotFound("User not found");
-            var posts = _postRepository.GetAllPosts();
+            var posts = _unitOfWork.PostRepository.GetAllPosts();
             return Ok(posts);
         }
         [HttpGet]
@@ -39,17 +39,17 @@ namespace API.Controllers
             if (username == null) return NotFound("user not found");
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return NotFound("user not found");
-            var posts = _postRepository.GetPostsForUser(username);
+            var posts = _unitOfWork.PostRepository.GetPostsForUser(username);
             return Ok(posts);
         }
         [HttpGet("user/{id}")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsForUserId(string id)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if(user == null) return NotFound("user not found");
-            var posts = _postRepository.GetPostsForUser(user.UserName);
+            if (user == null) return NotFound("user not found");
+            var posts = _unitOfWork.PostRepository.GetPostsForUser(user.UserName);
             return Ok(posts);
-        } 
+        }
         [HttpPost]
         public async Task<ActionResult<Post>> AddPost(Post post)
         {
@@ -67,7 +67,7 @@ namespace API.Controllers
             };
             if (user == null) return NotFound("User not found");
 
-            await _postRepository.AddPost(post);
+            await _unitOfWork.PostRepository.AddPost(post);
             var newPost = new PostDto
             {
                 Id = post.Id,
@@ -76,7 +76,7 @@ namespace API.Controllers
                 TextContent = post.TextContent,
                 ImgUrl = post.ImgUrl
             };
-            if (await _postRepository.SaveChangesAsync())
+            if (await _unitOfWork.SaveChangesAsync())
             {
                 return Ok(newPost);
             }
@@ -94,8 +94,8 @@ namespace API.Controllers
             if (userpost == null) return BadRequest("Unable to delete");
             if (userpost.RepostedFromId != 0) return BadRequest("You can't delete post this way, you have to unrepost");
 
-            await _postRepository.DeletePost(id);
-            if (await _postRepository.SaveChangesAsync())
+            await _unitOfWork.PostRepository.DeletePost(id);
+            if (await _unitOfWork.SaveChangesAsync())
             {
                 return Ok("Succesfully deleted post");
             }
@@ -111,8 +111,8 @@ namespace API.Controllers
             var user = await _userManager.Users.Include(p => p.Posts).FirstOrDefaultAsync(u => u.UserName == username);
             var userpost = user.Posts.FirstOrDefault(p => p.Id == id);
             if (userpost == null) return BadRequest("Unable to edit");
-            await _postRepository.EditPost(id, post);
-            if (await _postRepository.SaveChangesAsync())
+            await _unitOfWork.PostRepository.EditPost(id, post);
+            if (await _unitOfWork.SaveChangesAsync())
             {
                 return Ok("Succesfully edited post");
             }

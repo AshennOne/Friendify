@@ -52,9 +52,6 @@ namespace API.Data.Repositories
         
                 
         }
-        public async Task<bool> SaveChangesAsync()
-        {
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
+     
     }
 }

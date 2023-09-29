@@ -11,10 +11,10 @@ namespace API.Controllers
     public class FollowController : BaseApiController
     {
         private readonly UserManager<User> _userManager;
-        private readonly IFollowRepository _followRepository;
-        public FollowController(UserManager<User> userManager, IFollowRepository followRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public FollowController(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
-            _followRepository = followRepository;
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
 
         }
@@ -23,7 +23,7 @@ namespace API.Controllers
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
-            var follows = _followRepository.GetFollowersForUser(id);
+            var follows = _unitOfWork.FollowRepository.GetFollowersForUser(id);
             return Ok(follows);
         }
         [HttpGet("followed/{id}")]
@@ -31,7 +31,7 @@ namespace API.Controllers
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
-            var follows = _followRepository.GetFollowedByUser(id);
+            var follows = _unitOfWork.FollowRepository.GetFollowedByUser(id);
             return Ok(follows);
         }
         [HttpPost("{id}")]
@@ -39,11 +39,11 @@ namespace API.Controllers
         {
             var user = await getUser();
             if (user.Id == id) return BadRequest("You cannot follow yourself");
-            var follow = await _followRepository.GetFollow(user.Id, id);
+            var follow = await _unitOfWork.FollowRepository.GetFollow(user.Id, id);
 
-            if (follow == null) follow = await _followRepository.Follow(user.Id, id);
+            if (follow == null) follow = await _unitOfWork.FollowRepository.Follow(user.Id, id);
             else return BadRequest("User already followed");
-            if (await _followRepository.SaveChangesAsync())
+            if (await _unitOfWork.SaveChangesAsync())
                 return Ok(follow);
             else return BadRequest("Following failed");
         }
@@ -52,7 +52,8 @@ namespace API.Controllers
         {
             var user = await getUser();
             if (user.Id == id) return BadRequest("You cannot unfollow yourself");
-            await _followRepository.Unfollow(user.Id, id);
+            await _unitOfWork.FollowRepository.Unfollow(user.Id, id);
+            await _unitOfWork.SaveChangesAsync();
             return NoContent();
         }
         private async Task<User> getUser()

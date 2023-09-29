@@ -47,9 +47,6 @@ namespace API.Data.Repositories
             _dbContext.Likes.Remove(postLike);
 
         }
-        public async Task<bool> SaveChangesAsync()
-        {
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
+      
     }
 }

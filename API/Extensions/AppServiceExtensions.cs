@@ -13,7 +13,7 @@ namespace API.Extensions
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
