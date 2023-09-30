@@ -39,7 +39,11 @@ namespace API.Controllers
             };
             await _unitOfWork.CommentRepository.AddComment(comment);
             if (await _unitOfWork.SaveChangesAsync())
+            {
+               await _unitOfWork.NotificationRepository.AddNotification(user,comment.Post.Author,NotiType.Comment, comment.Id);
                 return Ok("Success");
+            }
+
             return BadRequest("Adding comment failed");
         }
         [HttpPut("{id}")]

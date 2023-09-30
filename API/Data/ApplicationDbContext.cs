@@ -11,6 +11,7 @@ namespace API.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostLike> Likes{get;set;}
         public DbSet<Follow> Follows{get;set;}
+        public DbSet<Notification> Notifications{get;set;}
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

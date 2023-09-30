@@ -6,6 +6,7 @@ namespace API.Interfaces
         IPostLikeRepository PostLikeRepository{get;}
         IFollowRepository FollowRepository{get;}
         ICommentRepository CommentRepository{get;}
+        INotificationRepository NotificationRepository{get;}
         Task<bool> SaveChangesAsync();
     }
 }
