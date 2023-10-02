@@ -10,7 +10,7 @@ namespace API.Interfaces
         Task<Post> GetPostById(int id); 
         Task AddPost(Post post);
         Task DeletePost(int id);
-        Task UnRepost(Post post,User user);
+        Task<Post> UnRepost(Post post,User user);
         Task EditPost(int id, Post post);
         bool CheckIsReposted(Post post, string userId);
         Task<IEnumerable<PostDto>> GetRepostedPosts(User user);

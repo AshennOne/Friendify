@@ -40,11 +40,16 @@ namespace API.Controllers
             var user = await getUser();
             if (user.Id == id) return BadRequest("You cannot follow yourself");
             var follow = await _unitOfWork.FollowRepository.GetFollow(user.Id, id);
-
-            if (follow == null) follow = await _unitOfWork.FollowRepository.Follow(user.Id, id);
+            var followed  = await _userManager.FindByIdAsync(id);
+            if (follow == null)  await _unitOfWork.FollowRepository.Follow(user.Id, id);
             else return BadRequest("User already followed");
             if (await _unitOfWork.SaveChangesAsync())
+            {
+                follow =await _unitOfWork.FollowRepository.GetFollow(user.Id,id);
+                await _unitOfWork.NotificationRepository.AddNotification(user, followed, NotiType.Follow, follow.Id);
                 return Ok(follow);
+            }
+
             else return BadRequest("Following failed");
         }
         [HttpDelete("{id}")]
@@ -52,8 +57,12 @@ namespace API.Controllers
         {
             var user = await getUser();
             if (user.Id == id) return BadRequest("You cannot unfollow yourself");
-            await _unitOfWork.FollowRepository.Unfollow(user.Id, id);
-            await _unitOfWork.SaveChangesAsync();
+          var follow =  await _unitOfWork.FollowRepository.Unfollow(user.Id, id);
+            if(await _unitOfWork.SaveChangesAsync())
+            {
+                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Follow, follow.Id);
+            }
+
             return NoContent();
         }
         private async Task<User> getUser()

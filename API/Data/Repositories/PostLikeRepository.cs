@@ -12,17 +12,19 @@ namespace API.Data.Repositories
             _dbContext = dbContext;
 
         }
-        public async Task AddLike(string userId, int postId)
+        public async Task<PostLike> AddLike(string userId, int postId)
         {
             if (await _dbContext.Likes.FirstOrDefaultAsync(l => l.PostId == postId && l.LikedById == userId) == null)
             {
-                await _dbContext.AddAsync(new PostLike
+                var like = new PostLike
                 {
                     LikedById = userId,
                     PostId = postId
-                });
+                };
+                await _dbContext.AddAsync(like);
+                return like;
             }
-
+            return null;
 
         }
 
@@ -40,13 +42,14 @@ namespace API.Data.Repositories
             return await _dbContext.Likes.Include(p => p.Post).Where(u => u.LikedById == userId).Select(p => p.Post).ToListAsync();
         }
 
-        public async Task RemoveLike(string userId, int postId)
+        public async Task<PostLike> RemoveLike(string userId, int postId)
         {
             var postLike = await _dbContext.Likes.FirstOrDefaultAsync(u => u.PostId == postId && u.LikedById == userId);
-            if(postLike != null)
-            _dbContext.Likes.Remove(postLike);
-
+            if (postLike != null)
+                _dbContext.Likes.Remove(postLike);
+            return postLike;
         }
-      
+
+        
     }
 }

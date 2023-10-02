@@ -7,8 +7,8 @@ namespace API.Interfaces
     {
         IEnumerable<FollowDto> GetFollowersForUser(string id);
         IEnumerable<FollowDto> GetFollowedByUser(string id);
-        Task<FollowDto> Follow(string followerId, string followedId);
-        Task Unfollow(string followerId, string followedId);
+        Task Follow(string followerId, string followedId);
+        Task<Follow> Unfollow(string followerId, string followedId);
         Task<FollowDto> GetFollow(string followerId, string followedId);
     }
 }

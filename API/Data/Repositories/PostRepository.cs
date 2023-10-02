@@ -59,11 +59,12 @@ namespace API.Data.Repositories
             var posts = _dbContext.Posts.Include(u => u.Author).Include(p => p.OriginalAuthor).Include(u => u.Likes).Include(u => u.Comments).OrderByDescending(u => u.Created);
             return _mapper.Map<IEnumerable<PostDto>>(posts);
         }
-        public async Task UnRepost(Post post, User user)
+        public async Task<Post> UnRepost(Post post, User user)
         {
             var userPost = await _dbContext.Posts.FirstOrDefaultAsync(u => u.RepostedFromId == post.Id && u.AuthorId == user.Id);
             post.RepostCount -= 1;
             _dbContext.Posts.Remove(userPost);
+            return userPost;
         }
         public async Task<Post> GetPostById(int id)
         {

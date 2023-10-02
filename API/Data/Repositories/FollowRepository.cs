@@ -16,7 +16,7 @@ namespace API.Data.Repositories
             _dbContext = dbContext;
 
         }
-        public async Task<FollowDto> Follow(string followerId, string followedId)
+        public async Task Follow(string followerId, string followedId)
         {
             var follow = new Follow
             {
@@ -24,7 +24,6 @@ namespace API.Data.Repositories
                 FollowerId = followerId
             };
             await _dbContext.Follows.AddAsync(follow);
-            return _mapper.Map<FollowDto>(follow);
         }
 
         public IEnumerable<FollowDto> GetFollowedByUser(string id)
@@ -38,20 +37,20 @@ namespace API.Data.Repositories
             var follows = _dbContext.Follows.Where(p => p.FollowedId == id);
             return _mapper.Map<IEnumerable<FollowDto>>(follows);
         }
-        public async  Task<FollowDto> GetFollow(string followerId, string followedId)
+        public async Task<FollowDto> GetFollow(string followerId, string followedId)
         {
             var follow = await _dbContext.Follows.FirstOrDefaultAsync(f => f.FollowerId == followerId && f.FollowedId == followedId);
             return _mapper.Map<FollowDto>(follow);
         }
-        public async Task Unfollow(string followerId, string followedId)
+        public async Task<Follow> Unfollow(string followerId, string followedId)
         {
             var follow = await _dbContext.Follows.FirstOrDefaultAsync(f => f.FollowerId == followerId && f.FollowedId == followedId);
-           
-                if(follow != null)
+
+            if (follow != null)
                 _dbContext.Follows.Remove(follow);
-        
-                
+            return follow;
+
         }
-     
+
     }
 }

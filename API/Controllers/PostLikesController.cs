@@ -31,9 +31,16 @@ public class PostLikesController : BaseApiController
     if (user == null) return NotFound("User not found");
     var belongsToUser = await _unitOfWork.PostLikeRepository.PostBelongsToUser(user, postId);
     if (belongsToUser) return BadRequest("You can't like and dislike your own post");
-    await _unitOfWork.PostLikeRepository.AddLike(user.Id, postId);
+    var like = await _unitOfWork.PostLikeRepository.AddLike(user.Id, postId);
+
+    var post = await _unitOfWork.PostRepository.GetPostById(postId);
+    var Author = await _userManager.FindByIdAsync(post.AuthorId);
     if (await _unitOfWork.SaveChangesAsync())
+    {
+      await _unitOfWork.NotificationRepository.AddNotification(user, Author, NotiType.PostLike, like.Id);
       return Ok("Success");
+    }
+
     else return BadRequest("Adding like failed");
   }
   [HttpDelete("{postId}")]
@@ -45,9 +52,14 @@ public class PostLikesController : BaseApiController
     {
       return BadRequest("You can't like and dislike your own post");
     }
-    await _unitOfWork.PostLikeRepository.RemoveLike(user.Id, postId);
+
+   var like = await _unitOfWork.PostLikeRepository.RemoveLike(user.Id, postId);
     if (await _unitOfWork.SaveChangesAsync())
+    {
+      await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.PostLike, like.Id);
       return Ok("Success");
+    }
+
     else return BadRequest("Deleting like failed");
   }
   private async Task<User> GetUser()

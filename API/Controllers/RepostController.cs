@@ -43,6 +43,7 @@ namespace API.Controllers
             await _unitOfWork.PostRepository.AddPost(newPost);
             if (await _unitOfWork.SaveChangesAsync())
             {
+                await _unitOfWork.NotificationRepository.AddNotification(user, post.Author, NotiType.Repost, newPost.Id);
                 return Ok(newPost);
             }
             else
@@ -59,10 +60,10 @@ namespace API.Controllers
             if (post == null) return BadRequest("post doesn't exists");
             if (user.Id == post.AuthorId) return BadRequest("Invalid request");
             if (post.RepostedFromId != 0) return BadRequest("This post is reposted");
-            await _unitOfWork.PostRepository.UnRepost(post, user);
+           var repost = await _unitOfWork.PostRepository.UnRepost(post, user);
             if (await _unitOfWork.SaveChangesAsync())
             {
-
+                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Repost, repost.Id);
                 return Ok("Success");
             }
             else

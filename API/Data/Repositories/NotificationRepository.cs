@@ -44,6 +44,7 @@ namespace API.Data.Repositories
                 default:
                     break;
             }
+            
             await _dbContext.Notifications.AddAsync(notification);
             await _dbContext.SaveChangesAsync();
             return notification;
@@ -51,7 +52,8 @@ namespace API.Data.Repositories
 
         public async Task<IEnumerable<Notification>> GetNotifications(User user)
         {
-            return await _dbContext.Notifications.Where(n => n.ToUserId == user.Id).ToListAsync();
+            var notifs = await _dbContext.Notifications.Where(n => n.ToUserId == user.Id && n.FromUserId != user.Id).ToListAsync();
+            return notifs;
         }
 
         public async Task RemoveNotification(NotiType type, int elementId)

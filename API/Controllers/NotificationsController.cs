@@ -21,7 +21,7 @@ namespace API.Controllers
         {
             var username = User.GetUsernameFromToken();
             var user = await _userManager.FindByNameAsync(username);
-            var notifications = _unitOfWork.NotificationRepository.GetNotifications(user);
+            var notifications = await _unitOfWork.NotificationRepository.GetNotifications(user);
             return Ok(notifications);
         }
     }

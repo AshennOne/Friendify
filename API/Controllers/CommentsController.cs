@@ -35,12 +35,17 @@ namespace API.Controllers
             {
                 Content = commentDto.Content,
                 CommentedById = user.Id,
-                PostId = commentDto.PostId
+                PostId = commentDto.PostId,
+                Post = await _unitOfWork.PostRepository.GetPostById(commentDto.PostId)
             };
             await _unitOfWork.CommentRepository.AddComment(comment);
             if (await _unitOfWork.SaveChangesAsync())
             {
-               await _unitOfWork.NotificationRepository.AddNotification(user,comment.Post.Author,NotiType.Comment, comment.Id);
+                if (comment.CommentedById != comment.Post.Author.Id)
+                {
+                    await _unitOfWork.NotificationRepository.AddNotification(user, comment.Post.Author, NotiType.Comment, comment.Id);
+
+                }
                 return Ok("Success");
             }
 
@@ -65,7 +70,11 @@ namespace API.Controllers
             if (!await _unitOfWork.CommentRepository.BelongsToUser(user.Id, id)) return BadRequest("You can delete only your own comments");
             await _unitOfWork.CommentRepository.DeleteComment(id, user.Id);
             if (await _unitOfWork.SaveChangesAsync())
+            {
+                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Comment,id);
                 return Ok("Success");
+            }
+
             return BadRequest("Deleting comment failed");
         }
         private async Task<User> GetUser()
