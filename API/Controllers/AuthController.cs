@@ -58,7 +58,7 @@ namespace API.Controllers
             }
             else
             {
-                return Unauthorized("Invalid login data");
+                return BadRequest("Invalid login data");
             }
 
         }

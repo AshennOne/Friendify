@@ -1,19 +1,22 @@
-<nav class="navbar navbar-expand-lg bg-info" data-bs-theme="dark">
-  <div class="container-fluid  mx-4">
-    <a class="navbar-brand" href="#">Friendify</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+<nav class="navbar navbar-expand-sm bg-info" data-bs-theme="dark">
+  <div class="container-fluid mx-4">
+    <div class="w-100 d-flex justify-content-between">
+      <a class="navbar-brand" routerLink="main">Friendify</a>
+    
+      
+    
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item mx-3">
           <a class="nav-link " routerLink="main" routerLinkActive="active"><i class="fa fa-home"></i></a>
         </li>
-        <li class="nav-item mx-5">
-          <a class="nav-link" routerLinkActive="active"><i class="fa fa-bell"></i></a>
+        <li class="nav-item mx-3">
+          <a class="nav-link" routerLink="notifications"  routerLinkActive="active"><i class="fa fa-bell"></i></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active"><i class="fa fa-envelope"></i></a>
+        <li class="nav-item mx-3">
+          <a class="nav-link" routerLink="messages"  routerLinkActive="active"><i class="fa fa-envelope"></i></a>
+        </li>
+        <li class="nav-item mx-3">
+          <a class="nav-link" routerLink="users"  routerLinkActive="active"><i class="fa fa-user"></i></a>
         </li>
       </ul>
       <span class="cursor-pointer ms-auto me-3 text-light dropdown" dropdown>
@@ -28,7 +31,9 @@
            <a (click)="logout()" class="dropdown-item">logout</a>
          </div>
       </span>
+    </div>
+    
       
     </div>
-  </div>
+
 </nav>

@@ -6,6 +6,9 @@ import { ForgetPasswordComponent } from './Pages/forget-password/forget-password
 import { ConfirmEmailComponent } from './Pages/confirm-email/confirm-email.component';
 import { MainComponent } from './Pages/main/main.component';
 import { DetailsComponent } from './Pages/details/details.component';
+import { MessagesComponent } from './Pages/messages/messages.component';
+import { NotificationsComponent } from './Pages/notifications/notifications.component';
+import { UsersComponent } from './Pages/users/users.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,7 +17,9 @@ const routes: Routes = [
   { path: 'forgetpassword', component: ForgetPasswordComponent },
   {path: 'user/:id', component:DetailsComponent},
   { path: 'main', component: MainComponent },
-  
+  { path: 'messages', component: MessagesComponent },
+  { path: 'notifications', component: NotificationsComponent },
+  { path: 'users', component: UsersComponent },
 ];
 
 @NgModule({

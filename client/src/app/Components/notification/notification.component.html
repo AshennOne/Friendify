@@ -1,0 +1,23 @@
+<div class="">
+  <div class="d-flex">
+    <div >
+      <img (click)="redirect(notification.fromUserId)" class="clickable photo me-4" src="{{notification.imgUrl}}">
+    </div>
+    <div >
+      <div class="smalltext text-muted">
+      {{notification.createDate+"Z" |timeago}}
+      <span *ngIf="!notification.isRead" class="bg bg-danger text-light round px-1 ms-1">new</span>
+      </div>
+      <div class="d-flex mt-2">
+         <span (click)="redirect(notification.fromUserId)"  class="clickable me-1">{{notification.fromUserName}} </span> 
+        <p> {{notification.message}} {{notification.elementId}}</p>
+      </div>
+    
+    </div>
+    <button class="ms-2 circle ms-auto btn btn-warning my-3">
+      <i class="fa fa-info "></i>
+    </button>
+   
+    </div>
+    <mat-divider style="color: rgb(168, 168, 168);"></mat-divider>
+</div>

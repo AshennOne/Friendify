@@ -26,19 +26,19 @@ namespace API.Data.Repositories
             switch (type)
             {
                 case NotiType.PostLike:
-                    notification.Message = $"{from.UserName} liked your post";
+                    notification.Message = "liked your post";
                     break;
 
                 case NotiType.Follow:
-                    notification.Message = $"{from.UserName} started following you";
+                    notification.Message = "started following you";
                     break;
 
                 case NotiType.Comment:
-                    notification.Message = $"{from.UserName} commented your post";
+                    notification.Message = "commented your post";
                     break;
 
                 case NotiType.Repost:
-                    notification.Message = $"{from.UserName} reposted your post";
+                    notification.Message = "reposted your post";
                     break;
 
                 default:

@@ -1,0 +1,20 @@
+.photo{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.smalltext{
+  font-size: 0.8rem;
+}
+.clickable{
+  cursor:pointer;
+}
+span.clickable:hover{
+  text-decoration:underline
+}
+.circle{
+  border-radius: 100%;
+}
+.round{
+  border-radius: 20%;
+}
