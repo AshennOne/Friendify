@@ -10,5 +10,6 @@ namespace API.Interfaces
         Task AddComment(Comment comment);
         Task DeleteComment(int commentId, string userId);
         Task<bool> BelongsToUser(string userId, int commentId);
+        Task<Comment> GetCommentById(int id);
     }
 }

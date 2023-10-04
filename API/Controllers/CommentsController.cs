@@ -43,7 +43,7 @@ namespace API.Controllers
             {
                 if (comment.CommentedById != comment.Post.Author.Id)
                 {
-                    await _unitOfWork.NotificationRepository.AddNotification(user, comment.Post.Author, NotiType.Comment, comment.Id);
+                    await _unitOfWork.NotificationRepository.AddNotification(user, comment.Post.Author, NotiType.Comment, comment.PostId);
 
                 }
                 return Ok("Success");
@@ -68,10 +68,11 @@ namespace API.Controllers
             var user = await GetUser();
             if (user == null) return NotFound("User not found");
             if (!await _unitOfWork.CommentRepository.BelongsToUser(user.Id, id)) return BadRequest("You can delete only your own comments");
+            var comment = await _unitOfWork.CommentRepository.GetCommentById(id);
             await _unitOfWork.CommentRepository.DeleteComment(id, user.Id);
             if (await _unitOfWork.SaveChangesAsync())
             {
-                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Comment,id);
+                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Comment,comment.PostId);
                 return Ok("Success");
             }
 

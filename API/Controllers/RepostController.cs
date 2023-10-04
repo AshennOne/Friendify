@@ -43,7 +43,7 @@ namespace API.Controllers
             await _unitOfWork.PostRepository.AddPost(newPost);
             if (await _unitOfWork.SaveChangesAsync())
             {
-                await _unitOfWork.NotificationRepository.AddNotification(user, post.Author, NotiType.Repost, newPost.Id);
+                await _unitOfWork.NotificationRepository.AddNotification(user, post.Author, NotiType.Repost, newPost.RepostedFromId);
                 return Ok(newPost);
             }
             else
@@ -63,7 +63,7 @@ namespace API.Controllers
            var repost = await _unitOfWork.PostRepository.UnRepost(post, user);
             if (await _unitOfWork.SaveChangesAsync())
             {
-                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Repost, repost.Id);
+                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Repost, repost.RepostedFromId);
                 return Ok("Success");
             }
             else

@@ -37,7 +37,7 @@ public class PostLikesController : BaseApiController
     var Author = await _userManager.FindByIdAsync(post.AuthorId);
     if (await _unitOfWork.SaveChangesAsync())
     {
-      await _unitOfWork.NotificationRepository.AddNotification(user, Author, NotiType.PostLike, like.Id);
+      await _unitOfWork.NotificationRepository.AddNotification(user, Author, NotiType.PostLike, like.PostId);
       return Ok("Success");
     }
 
@@ -56,7 +56,7 @@ public class PostLikesController : BaseApiController
    var like = await _unitOfWork.PostLikeRepository.RemoveLike(user.Id, postId);
     if (await _unitOfWork.SaveChangesAsync())
     {
-      await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.PostLike, like.Id);
+      await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.PostLike, like.PostId);
       return Ok("Success");
     }
 

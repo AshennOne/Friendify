@@ -52,6 +52,9 @@ namespace API.Data.Repositories
 
 
         }
+       public async Task<Comment> GetCommentById(int id){
+        return await _dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
+        }
 
     }
 }
