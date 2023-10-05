@@ -27,4 +27,7 @@ export class PostService {
   getPostsForUserId(id:string){
     return this.http.get<Post[]>(this.baseUrl+"posts/user/"+id);
   }
+  getPostById(id:number){
+    return this.http.get<Post>(this.baseUrl +"posts/"+id);
+  }
 }

@@ -10,13 +10,14 @@
       </div>
       <div class="d-flex mt-2">
          <span (click)="redirect(notification.fromUserId)"  class="clickable me-1">{{notification.fromUserName}} </span> 
-        <p> {{notification.message}} {{notification.elementId}}</p>
+        <p> {{notification.message}}</p>
       </div>
     
     </div>
-    <button class="ms-2 circle ms-auto btn btn-warning my-3">
-      <i class="fa fa-info "></i>
-    </button>
+    <div class="ms-auto">
+      <app-post-modal (isRead)="readPost()" [postId]="notification.elementId"></app-post-modal>
+    </div>
+   
    
     </div>
     <mat-divider style="color: rgb(168, 168, 168);"></mat-divider>

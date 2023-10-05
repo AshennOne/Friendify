@@ -24,5 +24,19 @@ namespace API.Controllers
             var notifications = await _unitOfWork.NotificationRepository.GetNotifications(user);
             return Ok(notifications);
         }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Notification>> ReadNotification(int id)
+        {
+            var notification = await _unitOfWork.NotificationRepository.GetNotificationById(id);
+            notification.IsRead = true;
+            if (await _unitOfWork.SaveChangesAsync())
+            {
+                return Ok(notification);
+            }
+            else
+            {
+                return BadRequest("Failed to read");
+            }
+        }
     }
 }

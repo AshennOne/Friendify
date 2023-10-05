@@ -12,9 +12,7 @@
 span.clickable:hover{
   text-decoration:underline
 }
-.circle{
-  border-radius: 100%;
-}
+
 .round{
   border-radius: 20%;
 }

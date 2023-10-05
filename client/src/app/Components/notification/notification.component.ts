@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Notification } from 'src/app/_models/Notification';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 @Component({
   selector: 'app-notification',
@@ -9,12 +10,19 @@ import { Notification } from 'src/app/_models/Notification';
 })
 export class NotificationComponent implements OnInit {
 @Input() notification:Notification = {} as Notification
-  constructor(private router:Router) { }
+  constructor(private router:Router,private notificationService:NotificationService) { }
 
   ngOnInit(): void {
   }
   redirect(id:string){
     if(id == '' || !id) return;
     this.router.navigateByUrl("user/"+id)
+  }
+  readPost(){
+    this.notificationService.readNotifications(this.notification.id).subscribe({
+      next:(notification)=>{
+        this.notification.isRead = true;
+      }
+    })
   }
 }

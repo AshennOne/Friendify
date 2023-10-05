@@ -24,6 +24,7 @@ import { MessagesComponent } from './Pages/messages/messages.component';
 import { UsersComponent } from './Pages/users/users.component';
 import { NotificationComponent } from './Components/notification/notification.component';
 import { SharedModule } from './_modules/shared.module';
+import { PostModalComponent } from './Components/post-modal/post-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { SharedModule } from './_modules/shared.module';
     MessagesComponent,
     UsersComponent,
     NotificationComponent,
+    PostModalComponent,
    
   ],
   imports: [

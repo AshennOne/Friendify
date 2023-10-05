@@ -49,10 +49,14 @@ namespace API.Data.Repositories
             await _dbContext.SaveChangesAsync();
             return notification;
         }
+        public async Task<Notification> GetNotificationById(int id)
+        {
+            return await _dbContext.Notifications.FirstOrDefaultAsync(n => n.Id == id);
+        }
 
         public async Task<IEnumerable<Notification>> GetNotifications(User user)
         {
-            var notifs = await _dbContext.Notifications.Where(n => n.ToUserId == user.Id && n.FromUserId != user.Id).ToListAsync();
+            var notifs = await _dbContext.Notifications.Where(n => n.ToUserId == user.Id && n.FromUserId != user.Id).OrderByDescending(n => n.CreateDate).ToListAsync();
             return notifs;
         }
 

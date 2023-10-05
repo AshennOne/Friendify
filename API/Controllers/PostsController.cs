@@ -50,6 +50,13 @@ namespace API.Controllers
             var posts = _unitOfWork.PostRepository.GetPostsForUser(user.UserName);
             return Ok(posts);
         }
+        [HttpGet("{id}")]
+         public async Task<ActionResult<PostDto>> GetPostsForById(int id)
+         {
+           var post = await _unitOfWork.PostRepository.GetPostById(id);
+           if(post == null) return BadRequest("Post doesn't exists");
+           return Ok(post);
+         }
         [HttpPost]
         public async Task<ActionResult<Post>> AddPost(Post post)
         {
