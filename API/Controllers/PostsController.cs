@@ -55,7 +55,7 @@ namespace API.Controllers
          {
            var post = await _unitOfWork.PostRepository.GetPostById(id);
            if(post == null) return BadRequest("Post doesn't exists");
-           return Ok(post);
+           return Ok(_unitOfWork.PostRepository.ConvertToDto(post));
          }
         [HttpPost]
         public async Task<ActionResult<Post>> AddPost(Post post)

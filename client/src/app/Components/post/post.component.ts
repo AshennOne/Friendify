@@ -20,6 +20,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class PostComponent implements OnInit, OnChanges {
   @Input() post: Post = {} as Post;
   @Output() onRepostChange = new EventEmitter<Post>();
+  @Input() isFromNoti = false;
   user: User = {} as User;
   isLiked = false;
   belongToUser = false;
@@ -28,6 +29,9 @@ export class PostComponent implements OnInit, OnChanges {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.user = user;
+        if (this.post.author?.id == this.user.id) {
+          this.belongToUser = true;
+        }
       },
     });
   }
@@ -56,9 +60,7 @@ export class PostComponent implements OnInit, OnChanges {
     });
   }
   ngOnInit(): void {
-    if (this.post.author?.id == this.user.id) {
-      this.belongToUser = true;
-    }
+   
   }
   loadPosts(){
     this.onRepostChange.emit(this.post)

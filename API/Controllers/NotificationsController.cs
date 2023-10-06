@@ -29,14 +29,8 @@ namespace API.Controllers
         {
             var notification = await _unitOfWork.NotificationRepository.GetNotificationById(id);
             notification.IsRead = true;
-            if (await _unitOfWork.SaveChangesAsync())
-            {
-                return Ok(notification);
-            }
-            else
-            {
-                return BadRequest("Failed to read");
-            }
+            await _unitOfWork.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

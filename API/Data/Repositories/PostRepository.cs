@@ -69,11 +69,15 @@ namespace API.Data.Repositories
         public async Task<Post> GetPostById(int id)
         {
             return await _dbContext.Posts.Include(p => p.Author).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(p => p.Id == id);
-        }
 
+        }
+        public  PostDto ConvertToDto(Post Post)
+        {
+            return  _mapper.Map<PostDto>(Post);
+        }
         public IEnumerable<PostDto> GetPostsForUser(string username)
         {
-            var posts = _dbContext.Posts.Include(p => p.OriginalAuthor).Where(u => u.Author.UserName.ToLower() == username.ToLower()).OrderByDescending(u => u.Created);
+            var posts = _dbContext.Posts.Include(u => u.Author).Include(p => p.OriginalAuthor).Include(u => u.Likes).Include(u => u.Comments).Where(u => u.Author.UserName.ToLower() == username.ToLower()).OrderByDescending(u => u.Created);
             return _mapper.Map<IEnumerable<PostDto>>(posts);
         }
         public bool CheckIsReposted(Post post, string userId)
