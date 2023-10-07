@@ -39,9 +39,9 @@
         <div class="mt-3 text-center text-lg-start">
           <p>{{ user.bio || "no bio set yet" }}</p>
           <div class="d-flex justify-content-between">
-            <div class="col-4"><strong>0</strong> Posts</div>
-            <div class="col-4"><strong>0</strong> Followers</div>
-            <div class="col-4"><strong>0</strong> Following</div>
+            <div class="col-4"><strong>{{posts.length}} </strong> Posts</div>
+            <div class="col-4"><strong>{{followersCount}}</strong> Followers</div>
+            <div class="col-4"><strong>{{followedCount}}</strong> Following</div>
           </div>
         </div>
       </div>

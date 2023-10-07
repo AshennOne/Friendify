@@ -9,11 +9,11 @@
         <li class="nav-item mx-3">
           <a class="nav-link " routerLink="main" routerLinkActive="active"><mat-icon class="d-flex align-items-center justify-content-center" style="font-size: 1rem;" fontIcon="home"></mat-icon></a>
         </li>
-        <li class="nav-item mx-3">
-          <a class="nav-link" routerLink="notifications"  routerLinkActive="active"><mat-icon  class="d-flex align-items-center justify-content-center" style="font-size: 1rem;" >notifications</mat-icon></a>
+        <li  class="nav-item mx-3">
+          <a  class="nav-link" routerLink="notifications" routerLinkActive="active"><mat-icon [matBadgeHidden]="notificationsCount<1" [matBadge]="notificationsCount" matBadgeColor="warn" matBadgeSize="small" class="d-flex align-items-center justify-content-center" style="font-size: 1rem;" >notifications</mat-icon></a>
         </li>
         <li class="nav-item mx-3">
-          <a class="nav-link" routerLink="messages"  routerLinkActive="active"><mat-icon class="d-flex align-items-center justify-content-start ms-1" style="font-size: 1rem;">messages</mat-icon></a>
+          <a class="nav-link" routerLink="messages"  routerLinkActive="active"><mat-icon [matBadgeHidden]="messagesCount<1" [matBadge]="messagesCount" matBadgeColor="warn" matBadgeSize="small" class="d-flex align-items-center justify-content-start ms-1" style="font-size: 1rem;">messages</mat-icon></a>
         </li>
         <li class="nav-item mx-3">
           <a class="nav-link" routerLink="users"  routerLinkActive="active"><mat-icon class="d-flex align-items-center justify-content-center" style="font-size: 1rem;" >people</mat-icon></a>

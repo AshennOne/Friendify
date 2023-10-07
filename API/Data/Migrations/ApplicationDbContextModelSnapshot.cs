@@ -112,7 +112,12 @@ namespace API.Data.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
                 });
@@ -426,6 +431,13 @@ namespace API.Data.Migrations
                     b.Navigation("Follower");
                 });
 
+            modelBuilder.Entity("API.Entities.Notification", b =>
+                {
+                    b.HasOne("API.Entities.User", null)
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("API.Entities.Post", b =>
                 {
                     b.HasOne("API.Entities.User", "Author")
@@ -525,6 +537,8 @@ namespace API.Data.Migrations
                     b.Navigation("Followers");
 
                     b.Navigation("Likes");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("Posts");
                 });

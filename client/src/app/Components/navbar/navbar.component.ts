@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_models/User';
 import { AuthService } from 'src/app/_services/auth.service';
+import { ConnectorService } from 'src/app/_services/connector.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,12 +14,19 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class NavbarComponent implements OnInit {
   userName = '';
   imgUrl = '';
-  id = ""
+  id = "";
+  notificationsCount = 0
+  messagesCount = 0
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private connectorService:ConnectorService
+  ) {this.connectorService.unread.subscribe({
+    next:(count:number)=>{
+      this.notificationsCount = count
+    }
+  })}
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe({
@@ -36,4 +45,5 @@ export class NavbarComponent implements OnInit {
   redirect(){
     this.router.navigateByUrl('user/'+this.id)
   }
+ 
 }

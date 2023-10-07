@@ -19,8 +19,10 @@ namespace API.Controllers
         private readonly ITokenService _tokenService;
         private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
-        public AuthController(UserManager<User> userManager, ITokenService tokenService, IEmailSender emailSender, IMapper mapper)
+        private readonly IUnitOfWork _unitOfWork;
+        public AuthController(UserManager<User> userManager, ITokenService tokenService, IEmailSender emailSender, IMapper mapper, IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _emailSender = emailSender;
             _tokenService = tokenService;
@@ -129,7 +131,8 @@ namespace API.Controllers
         public async Task<ActionResult<UserClientDto>> GetCurrentUser()
         {
             var UserName = User.GetUsernameFromToken();
-            var user = await _userManager.Users.Include(u => u.Followed).Include(u => u.Followers).FirstOrDefaultAsync(u => u.UserName == UserName);
+            var user = await _userManager.Users.Include(u => u.Followed).Include(u => u.Followers).Include(u => u.Notifications).FirstOrDefaultAsync(u => u.UserName == UserName);
+            var Notifications =await _unitOfWork.NotificationRepository.GetNotifications(user);
             if (user == null) return NotFound("User not found");
             return Ok(new UserClientDto
             {

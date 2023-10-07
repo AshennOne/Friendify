@@ -17,14 +17,16 @@ export class DetailsComponent implements OnInit {
   isCurrentUser = false;
   posts: Post[] = [];
   isFollowedByCurrent = false;
-  currentUserId = "";
+  currentUserId = '';
+  followersCount = 0;
+  followedCount = 0;
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
     private router: Router,
     private postService: PostService,
     private followService: FollowService,
-    private localStorageService:LocalstorageService
+    private localStorageService: LocalstorageService
   ) {}
 
   ngOnInit() {
@@ -38,6 +40,8 @@ export class DetailsComponent implements OnInit {
           this.isCurrentUser = this.checkIsCurrent();
           this.getPosts();
           this.checkIsFollowed();
+          this.checkFollowedCount();
+          this.checkFollowersCount();
         },
         error: (err) => {
           if (err) this.router.navigateByUrl('/main');
@@ -49,8 +53,8 @@ export class DetailsComponent implements OnInit {
     var userString = localStorage.getItem('user');
     if (userString) {
       var parsedUser = JSON.parse(userString) as User;
-      if(!parsedUser.id) return false;
-      this.currentUserId = parsedUser.id
+      if (!parsedUser.id) return false;
+      this.currentUserId = parsedUser.id;
       if (parsedUser.userName == this.user.userName) {
         return true;
       }
@@ -65,21 +69,36 @@ export class DetailsComponent implements OnInit {
       },
     });
   }
-  toggleFollow(){
-    if( this.isFollowedByCurrent){
-      this.unfollow()
-    }else{
+  toggleFollow() {
+    if (this.isFollowedByCurrent) {
+      this.unfollow();
+    } else {
       this.follow();
     }
   }
-  checkIsFollowed(){
-    if(this.isCurrentUser == false){
-
-      this.user.followers?.forEach(element =>{
-        if(element.followerId == this.currentUserId){
-          this.isFollowedByCurrent = true
+  checkFollowersCount() {
+    if (this.user.id)
+      this.followService.getFollowers(this.user.id).subscribe({
+        next: (followers) => {
+          this.followersCount = followers.length;
+        },
+      });
+  }
+  checkFollowedCount() {
+    if (this.user.id)
+      this.followService.getFollowed(this.user.id).subscribe({
+        next: (followed) => {
+          this.followedCount = followed.length;
+        },
+      });
+  }
+  checkIsFollowed() {
+    if (this.isCurrentUser == false) {
+      this.user.followers?.forEach((element) => {
+        if (element.followerId == this.currentUserId) {
+          this.isFollowedByCurrent = true;
         }
-      })
+      });
     }
   }
   follow() {
@@ -87,16 +106,16 @@ export class DetailsComponent implements OnInit {
       this.followService.follow(this.user.id).subscribe({
         next: (follow) => {
           this.isFollowedByCurrent = true;
-          this.localStorageService.addFollow(follow)
+          this.localStorageService.addFollow(follow);
         },
       });
   }
-  unfollow(){
+  unfollow() {
     if (this.user.id && this.isFollowedByCurrent)
       this.followService.unfollow(this.user.id).subscribe({
         next: () => {
           this.isFollowedByCurrent = false;
-          this.localStorageService.removeFollow(this.user.id +"")
+          this.localStorageService.removeFollow(this.user.id + '');
         },
       });
   }

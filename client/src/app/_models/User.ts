@@ -16,5 +16,6 @@ export interface User{
   reposted?:Post[],
   bio:string
   followed?:Follow[],
-  followers?:Follow[]
+  followers?:Follow[],
+  notifications?:Notification[]
 }

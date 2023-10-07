@@ -18,10 +18,10 @@ export class FollowService {
     return this.http.delete(this.apiUrl+'follow/'+userId,{});
   }
   getFollowers(userId:string){
-    return this.http.get<Follow[]>(this.apiUrl+"followers/"+userId);
+    return this.http.get<Follow[]>(this.apiUrl+"follow/followers/"+userId);
   }
   getFollowed(userId:string){
-    return this.http.get<Follow[]>(this.apiUrl+"followed/"+userId);
+    return this.http.get<Follow[]>(this.apiUrl+"follow/followed/"+userId);
   }
 
 }
