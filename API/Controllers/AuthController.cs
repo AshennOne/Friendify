@@ -140,6 +140,7 @@ namespace API.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Id = user.Id,
+                Bio = user.Bio,
                 ImgUrl = user.ImgUrl,
                 Followed = _mapper.Map<List<FollowDto>>(user.Followed),
                 Followers = _mapper.Map<List<FollowDto>>(user.Followers)

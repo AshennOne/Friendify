@@ -16,5 +16,7 @@ export class UserService {
   getUserById(id:string){
     return this.http.get<User>(this.apiUrl+'user/id/'+id);
   }
-  
+  editUser(user:User){
+    return this.http.put<User>(this.apiUrl+"user",user)
+  }
 }
