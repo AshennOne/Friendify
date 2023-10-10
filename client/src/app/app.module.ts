@@ -25,6 +25,8 @@ import { UsersComponent } from './Pages/users/users.component';
 import { NotificationComponent } from './Components/notification/notification.component';
 import { SharedModule } from './_modules/shared.module';
 import { PostModalComponent } from './Components/post-modal/post-modal.component';
+import { FollowComponent } from './Components/follow/follow.component';
+import {BioComponent} from './Components/bio/bio.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,19 +48,18 @@ import { PostModalComponent } from './Components/post-modal/post-modal.component
     UsersComponent,
     NotificationComponent,
     PostModalComponent,
-   
+    FollowComponent,
+    BioComponent,
   ],
   imports: [
-    
     BrowserAnimationsModule,
     BrowserModule,
-    
+
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     SharedModule,
-    ReactiveFormsModule
-    
+    ReactiveFormsModule,
   ],
   providers: [
     {

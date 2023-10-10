@@ -1,0 +1,8 @@
+<button
+            (click)="toggleFollow()"
+            [disabled]="isCurrentUser"
+              class="btn btn-sm btn-light px-3 me-1 py-2"
+            >
+              <i *ngIf="isFollowedByCurrent" class="fa fa-heart mx-1" style="color: #ff0000;"></i>
+              <i *ngIf="!isFollowedByCurrent" class="fa fa-heart mx-1"></i>
+            </button>

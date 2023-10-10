@@ -29,9 +29,7 @@ export class PostComponent implements OnInit, OnChanges {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.user = user;
-        if (this.post.author?.id == this.user.id) {
-          this.belongToUser = true;
-        }
+       
       },
     });
   }
@@ -39,7 +37,7 @@ export class PostComponent implements OnInit, OnChanges {
     if (changes['post'] && this.post && this.user.id) {
       this.checkIsLiked();
       this.checkIsReposted();
-      if (this.post.author?.id == this.user.id) {
+      if (this.post.author?.id == this.user.id || this.post.originalAuthorId == this.user.id) {
         this.belongToUser = true;
       }
     }

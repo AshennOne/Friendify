@@ -14,9 +14,9 @@ import { UserService } from 'src/app/_services/user.service';
 })
 export class DetailsComponent implements OnInit {
   user: User = {} as User;
-  isCurrentUser = false;
+
   posts: Post[] = [];
-  isFollowedByCurrent = false;
+  isCurrentUser = false;
   currentUserId = '';
   followersCount = 0;
   followedCount = 0;
@@ -25,8 +25,7 @@ export class DetailsComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private postService: PostService,
-    private followService: FollowService,
-    private localStorageService: LocalstorageService
+    private followService: FollowService
   ) {}
 
   ngOnInit() {
@@ -37,9 +36,9 @@ export class DetailsComponent implements OnInit {
       this.userService.getUserById(id).subscribe({
         next: (user) => {
           this.user = user;
-          this.isCurrentUser = this.checkIsCurrent();
+
           this.getPosts();
-          this.checkIsFollowed();
+          this.isCurrentUser = this.checkIsCurrent();
           this.checkFollowedCount();
           this.checkFollowersCount();
         },
@@ -69,13 +68,7 @@ export class DetailsComponent implements OnInit {
       },
     });
   }
-  toggleFollow() {
-    if (this.isFollowedByCurrent) {
-      this.unfollow();
-    } else {
-      this.follow();
-    }
-  }
+
   checkFollowersCount() {
     if (this.user.id)
       this.followService.getFollowers(this.user.id).subscribe({
@@ -92,31 +85,12 @@ export class DetailsComponent implements OnInit {
         },
       });
   }
-  checkIsFollowed() {
-    if (this.isCurrentUser == false) {
-      this.user.followers?.forEach((element) => {
-        if (element.followerId == this.currentUserId) {
-          this.isFollowedByCurrent = true;
-        }
-      });
+  changeCounter(event:any){
+    if(event == false){
+      this.followersCount -=1
+    }else{
+      this.followersCount +=1
     }
-  }
-  follow() {
-    if (this.user.id && !this.isFollowedByCurrent)
-      this.followService.follow(this.user.id).subscribe({
-        next: (follow) => {
-          this.isFollowedByCurrent = true;
-          this.localStorageService.addFollow(follow);
-        },
-      });
-  }
-  unfollow() {
-    if (this.user.id && this.isFollowedByCurrent)
-      this.followService.unfollow(this.user.id).subscribe({
-        next: () => {
-          this.isFollowedByCurrent = false;
-          this.localStorageService.removeFollow(this.user.id + '');
-        },
-      });
+
   }
 }

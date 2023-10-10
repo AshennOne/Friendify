@@ -1,0 +1,10 @@
+<div class="d-flex">
+  <p *ngIf="!isBeingEdited">{{ bio || "no bio set yet" }}</p>
+  <textarea  class="form-control resize-none mb-2" *ngIf="isBeingEdited" [(ngModel)]="tempbio"></textarea>
+ <div class="midtext ms-auto d-flex">
+  <button *ngIf="isBeingEdited" (click)="cancel()" class="ms-1 btn m-0 p-0 icon-button"><mat-icon class="text-dark" aria-hidden="false" aria-label="Example cancel icon" fontIcon="cancel"></mat-icon></button>
+  <button *ngIf="!isBeingEdited" (click)="editBio()" class="ms-1 midtext btn m-0 p-0 icon-button" ><mat-icon class="text-dark" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon></button>
+  <button *ngIf="isBeingEdited" (click)="save()" class="ms-1 btn m-0 p-0 icon-button" ><mat-icon class="text-success" aria-hidden="false" aria-label="Example check icon" fontIcon="check"></mat-icon></button>
+ </div>
+ 
+</div>

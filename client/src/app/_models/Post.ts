@@ -13,6 +13,6 @@ export interface Post{
   repostCount?:number,
   comments?:Comment[]
   repostedFromId?:number,
-  originalAuthorId?:number,
+  originalAuthorId?:string,
   originalAuthor?:User
 }

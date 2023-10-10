@@ -1,0 +1,11 @@
+.resize-none {
+  resize: none;
+}
+.midtext{
+  font-size: 0.6rem;
+}
+button{
+  background-color: #f0f2f5!important;
+  box-shadow: none!important;
+  border: none !important;
+}
