@@ -1,0 +1,13 @@
+<div *ngIf="selectedImageFile" id="post-review" class="ms-auto d-flex justify-content-end mt-2">
+     
+  <img class="preview" id="post-preview-image">
+</div>
+
+<div class="ms-auto d-flex justify-content-end">
+  <button class="btn btn-gallery">
+    <label for="photo-upload">
+      <input id="photo-upload" #photoSelector (change)="onPhotoSelected(photoSelector)" type="file" accept="image/*" />
+      <mat-icon>insert_photo</mat-icon>
+    </label>
+  </button>
+</div>

@@ -6,13 +6,19 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, catchError } from 'rxjs';
+import { Observable } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { LoadingService } from '../_services/loading.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private toastr: ToastrService, private router: Router) {}
+  constructor(
+    private toastr: ToastrService,
+    private router: Router,
+    private loadingService: LoadingService
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -24,16 +30,22 @@ export class TokenInterceptor implements HttpInterceptor {
         setHeaders: { Authorization: 'Bearer ' + myToken },
       });
     }
+
+    this.loadingService.showLoading();
+
     return next.handle(request).pipe(
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401) {
-            localStorage.clear()
+            localStorage.clear();
             this.toastr.warning('Token has expired, log in again');
             this.router.navigateByUrl('');
           }
         }
-        throw err;
+        throw err; 
+      }),
+      finalize(() => {
+        this.loadingService.hideLoading(); 
       })
     );
   }

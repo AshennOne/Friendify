@@ -27,6 +27,7 @@ import { SharedModule } from './_modules/shared.module';
 import { PostModalComponent } from './Components/post-modal/post-modal.component';
 import { FollowComponent } from './Components/follow/follow.component';
 import {BioComponent} from './Components/bio/bio.component';
+import { PhotoUploadComponent } from './Components/photo-upload/photo-upload.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +51,7 @@ import {BioComponent} from './Components/bio/bio.component';
     PostModalComponent,
     FollowComponent,
     BioComponent,
+    PhotoUploadComponent,
   ],
   imports: [
     BrowserAnimationsModule,

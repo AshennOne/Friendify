@@ -47,21 +47,11 @@ export class NewPostComponent implements OnInit {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-  onPhotoSelected(photoSelector: HTMLInputElement) {
-    if (!photoSelector.files) return;
-    this.selectedImageFile = photoSelector.files[0];
-    if (!this.selectedImageFile) return;
-    var fileReader = new FileReader();
-    fileReader.readAsDataURL(this.selectedImageFile);
-    fileReader.addEventListener('loadend', (ev) => {
-      var readableString = fileReader.result?.toString();
-      var postPreviewImage = <HTMLImageElement>(
-        document.getElementById('post-preview-image')
-      );
-      if (!readableString) return;
-      postPreviewImage.src = readableString;
-    });
+  
+  loadPhoto(event:any){
+    this.selectedImageFile = event;
   }
+
   onSubmit() {
     if (!this.selectedImageFile) this.addPost();
     else{

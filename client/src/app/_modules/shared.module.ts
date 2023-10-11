@@ -16,6 +16,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment.prod';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {MatBadgeModule} from '@angular/material/badge';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [],
@@ -39,7 +40,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     BsDropdownModule.forRoot(),
     TimeagoModule.forRoot(),
     MatDividerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    NgxLoadingModule.forRoot({}),
   ],
   exports: [
     ToastrModule,
@@ -52,7 +54,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     BsDropdownModule,
     TimeagoModule,
     MatDividerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    NgxLoadingModule
   ],
 })
 export class SharedModule {}

@@ -40,19 +40,7 @@
         >{{ textContent.length }}/500</label
       >
     </div>
-    <div *ngIf="selectedImageFile" id="post-review" class="ms-auto d-flex justify-content-end mt-2">
-     
-      <img class="preview" id="post-preview-image">
-    </div>
-    
-    <mat-card-actions align="end">
-      <button mat-button class="btn-gallery">
-        <label for="photo-upload">
-          <input id="photo-upload" #photoSelector (change)="onPhotoSelected(photoSelector)" type="file" accept="image/*" />
-          <mat-icon>insert_photo</mat-icon>
-        </label>
-      </button>
-    </mat-card-actions>
+    <app-photo-upload (imageSelected)="loadPhoto($event)"></app-photo-upload>
     <div class="row">
       <div class="d-flex">
         <button class="ms-auto me-1 btn btn-secondary mt-1" (click)="modalRef?.hide()">Cancel</button>

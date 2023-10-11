@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { LoadingService } from './_services/loading.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,7 +10,11 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent {
   title = 'client';
   hideNavbar = true
-  constructor(private router:Router){}
+  isLoading = false;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  public primaryColour = '#ffffff';
+  public secondaryColour = '#ccc';
+  constructor(private router:Router,private loadingService:LoadingService){}
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -20,6 +25,12 @@ export class AppComponent {
         }
       }
     });
+    this.loadingService.loading$.subscribe({
+      next: (bool)=> {
+        this.isLoading = bool;
+      }
+    })
   }
+  
   
 }
