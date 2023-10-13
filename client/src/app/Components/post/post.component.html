@@ -1,6 +1,6 @@
 <div *ngIf="post.author" class="row my-3">
   <hr />
-  <div class="col-2 col-lg-1 d-flex justify-content-center" [class.col-lg-1]="!isFromNoti">
+  <div class="col-2 col-lg-1 me-auto justify-content-center" [class.col-lg-1]="!isFromNoti">
     <img (click)="redirect(post.author.id||'')" class="photo clickable" src="{{ post.author.imgUrl }}" />
   </div>
   <div class="col-10 " [class.col-lg-11]="!isFromNoti">
@@ -13,7 +13,7 @@
       ><strong class=" text-muted ms-1">@{{ post.author.userName }}</strong></span>
       <span class="ms-3 text-muted">{{post.created + 'Z'| timeago}}</span>
     </span>
-    <span (click)="redirect(post.originalAuthor?.id||'')" class="clickable smalltext" *ngIf="post.repostedFromId !== 0">(Reposted post <i class="fa fa-retweet"></i> from <img class="smallpic" src="{{post.originalAuthor?.imgUrl}}"> @{{post.originalAuthor?.userName}})</span>
+    <span (click)="redirect(post.originalAuthor?.id||'')" class="clickable smalltext" *ngIf="post.repostedFromId !== 0">(Reposted post <i class="fa fa-retweet"></i> from <span class="container-smallpic"> <img class="smallpic" src="{{post.originalAuthor?.imgUrl}}"></span>  @{{post.originalAuthor?.userName}})</span>
     <div class="midtext">
       <p>{{ post.textContent }}</p>
     </div>

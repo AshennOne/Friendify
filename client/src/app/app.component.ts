@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { LoadingService } from './_services/loading.service';
@@ -14,7 +14,7 @@ export class AppComponent {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#ffffff';
   public secondaryColour = '#ccc';
-  constructor(private router:Router,private loadingService:LoadingService){}
+  constructor(private router:Router,private loadingService:LoadingService,private changeDetector: ChangeDetectorRef){}
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -31,6 +31,8 @@ export class AppComponent {
       }
     })
   }
-  
+  ngAfterContentChecked(): void {
+    this.changeDetector.detectChanges();
+  }
   
 }

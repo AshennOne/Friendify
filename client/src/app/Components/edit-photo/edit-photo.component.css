@@ -1,0 +1,24 @@
+.photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.pos-relative:hover > img {
+  opacity: 0.3;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.pos-relative:hover > .position-abs {
+  opacity: 1;
+}
+
+.position-abs {
+  position: absolute;
+  left: 60%;
+  top: 40%;
+  opacity: 0;
+}
+
+.pos-relative {
+  position: relative;
+}

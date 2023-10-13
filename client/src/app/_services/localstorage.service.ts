@@ -69,4 +69,14 @@ export class LocalstorageService {
     var stringifiedUser = JSON.stringify(parsedUser);
     localStorage.setItem('user',stringifiedUser)
   }
+  changePhoto(imgUrl:string){
+    var user = localStorage.getItem('user');
+    if(!user) return;
+    var parsedUser = JSON.parse(user) as User;
+    if(parsedUser){
+      parsedUser.imgUrl = imgUrl;
+      var stringifiedUser = JSON.stringify(parsedUser);
+      localStorage.setItem('user',stringifiedUser)
+    }
+  }
 }

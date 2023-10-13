@@ -21,10 +21,16 @@
   object-position: center;
   width: 150px;
   height: 150px;
-  border-radius: 1em;
+  
   border: 1px dashed gray;
 }
+.rounded{
+  border-radius: 50% !important;
+  max-width: 150px;
+  max-height:  150px;
+}
 .preview{
+  border-radius: 1em;
   max-width: 150px !important;
   max-height: 150px !important;
 }

@@ -5,5 +5,6 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class ConnectorService {
   unread = new EventEmitter<number>();
+  imgUrl = new EventEmitter<string>();
   constructor() { }
 }

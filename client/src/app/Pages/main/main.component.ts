@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
+import { ConnectorService } from 'src/app/_services/connector.service';
 import { LikeService } from 'src/app/_services/like.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 import { PostService } from 'src/app/_services/post.service';
 @Component({
   selector: 'app-main',
@@ -12,7 +14,15 @@ export class MainComponent implements OnInit {
   posts: Post[] = [];
   submittedSearchString= ""
   searchstring = '';
-  constructor(private postService: PostService) {}
+  
+  constructor(private postService: PostService,private notificationService:NotificationService, private connectorService:ConnectorService ) {
+    this.notificationService.getNotificationsForUser().subscribe({
+      next:(notifications)=>{     
+        var unread = notifications.filter(n => n.isRead == false)
+        this.connectorService.unread.emit(unread.length)
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.setSearchString();

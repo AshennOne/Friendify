@@ -14,36 +14,45 @@ import { NotificationService } from 'src/app/_services/notification.service';
 export class NavbarComponent implements OnInit {
   userName = '';
   imgUrl = '';
-  id = "";
-  notificationsCount = 0
-  messagesCount = 0
+  id = '';
+  notificationsCount = 0;
+  messagesCount = 0;
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
-    private connectorService:ConnectorService
-  ) {this.connectorService.unread.subscribe({
-    next:(count:number)=>{
-      this.notificationsCount = count
-    }
-  })}
+    private connectorService: ConnectorService
+  ) {
+    this.connectorService.unread.subscribe({
+      next: (count: number) => {
+        this.notificationsCount = count;
+      },
+    });
+    this.connectorService.imgUrl.subscribe({
+      next: (imgurl:string) => {
+        if(this.imgUrl){
+          this.imgUrl = imgurl;
+        }
+        
+      },
+    });
+  }
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
-        this.id = user.id||''
-        this.userName = user.userName+"";
-        this.imgUrl = user.imgUrl+"";
+        this.id = user.id || '';
+        this.userName = user.userName + '';
+        this.imgUrl = user.imgUrl + '';
       },
     });
   }
   logout() {
-    localStorage.clear()
+    localStorage.clear();
     this.router.navigateByUrl('');
     this.toastr.success('Succesfully logged out');
   }
-  redirect(){
-    this.router.navigateByUrl('user/'+this.id)
+  redirect() {
+    this.router.navigateByUrl('user/' + this.id);
   }
- 
 }

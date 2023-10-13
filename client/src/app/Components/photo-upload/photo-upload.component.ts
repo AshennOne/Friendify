@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./photo-upload.component.css']
 })
 export class PhotoUploadComponent {
-
+@Input() isForUser = false;
   @Input() selectedImageFile?: File;
   @Output() imageSelected = new EventEmitter<File>();
   previewImageUrl?: string;
