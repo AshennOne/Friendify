@@ -29,6 +29,7 @@ import { FollowComponent } from './Components/follow/follow.component';
 import {BioComponent} from './Components/bio/bio.component';
 import { PhotoUploadComponent } from './Components/photo-upload/photo-upload.component';
 import { EditPhotoComponent } from './Components/edit-photo/edit-photo.component';
+import { UserComponent } from './Components/user/user.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +55,7 @@ import { EditPhotoComponent } from './Components/edit-photo/edit-photo.component
     BioComponent,
     PhotoUploadComponent,
     EditPhotoComponent,
+    UserComponent,
   ],
   imports: [
     BrowserAnimationsModule,

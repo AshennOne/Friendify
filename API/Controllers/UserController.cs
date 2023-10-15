@@ -62,5 +62,11 @@ namespace API.Controllers
             await _userManager.UpdateAsync(user);
             return _mapper.Map<UserClientDto>(user);
         }
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<UserClientDto>>> GetAllUsers()
+        {
+         var users= await _userManager.Users.ToListAsync();
+         return Ok(_mapper.Map<IEnumerable<UserClientDto>>(users));
+        }
     }
 }

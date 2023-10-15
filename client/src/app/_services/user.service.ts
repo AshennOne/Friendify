@@ -19,4 +19,7 @@ export class UserService {
   editUser(user:User){
     return this.http.put<User>(this.apiUrl+"user",user)
   }
+  getUsers(){
+    return this.http.get<User[]>(this.apiUrl+"user/all")
+  }
 }
