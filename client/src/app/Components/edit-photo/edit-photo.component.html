@@ -10,7 +10,7 @@
     <div class="modal-content">
       <div class="modal-header pb-0 mb-0">
         <h4 id="dialog-sizes-name1" class="modal-title pull-left">Change photo</h4>
-        <button type="button" class="btn-close close pull-right" (click)="modalService.hide()" aria-label="Close">
+        <button type="button" class="btn-close close pull-right" (click)="hideModal()" aria-label="Close">
           <span aria-hidden="true" class="visually-hidden">&times;</span>
         </button>
       </div>
@@ -19,7 +19,7 @@
           <app-photo-upload (imageSelected)="changeImage($event)" [isForUser]="true"></app-photo-upload>
         </div>
         <div class="col-6 offset-3 d-flex btn-group">
-          <button class="btn btn-warning"  (click)="modalService.hide()">Cancel</button>
+          <button class="btn btn-warning"  (click)="hideModal()">Cancel</button>
           <button class="btn btn-success" [disabled]="!selectedImageFile" (click)="onSubmit()">Change</button>
         </div>
       </div>

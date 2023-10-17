@@ -29,6 +29,10 @@ export class EditPhotoComponent implements OnInit {
     this.selectedImageFile = event;
    
   }
+  hideModal(){
+    this.modalService.hide()
+    this.selectedImageFile = undefined
+  }
   editPhoto() {
     var user = {imgUrl: this.imgUrl} as User
     this.userService.editUser(user).subscribe({

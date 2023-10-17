@@ -46,7 +46,7 @@
     <app-photo-upload (imageSelected)="loadPhoto($event)"></app-photo-upload>
     <div class="row">
       <div class="d-flex">
-        <button class="ms-auto me-1 btn btn-secondary mt-1" (click)="modalRef?.hide()">Cancel</button>
+        <button class="ms-auto me-1 btn btn-secondary mt-1" (click)="hideModal()">Cancel</button>
         <button [disabled]="textContent.length<1" class="btn btn-success mt-1" (click)="onSubmit()">Done</button>
       </div>
     </div>

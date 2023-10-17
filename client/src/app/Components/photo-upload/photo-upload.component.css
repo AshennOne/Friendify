@@ -17,11 +17,10 @@
   margin-top: 1em;
 }
 #post-preview-image{
-  object-fit: cover;
   object-position: center;
   width: 150px;
   height: 150px;
-  
+  object-fit: contain;
   border: 1px dashed gray;
 }
 .rounded{

@@ -51,7 +51,10 @@ export class NewPostComponent implements OnInit {
   loadPhoto(event:any){
     this.selectedImageFile = event;
   }
-
+  hideModal(){
+    this.modalService.hide()
+    this.selectedImageFile = undefined
+  }
   onSubmit() {
     if (!this.selectedImageFile) this.addPost();
     else{

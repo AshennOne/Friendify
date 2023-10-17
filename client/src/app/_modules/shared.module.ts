@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { ToastrModule } from 'ngx-toastr';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -42,6 +43,7 @@ import { NgxLoadingModule } from 'ngx-loading';
     MatDividerModule,
     MatBadgeModule,
     NgxLoadingModule.forRoot({}),
+    ImageCropperModule
   ],
   exports: [
     ToastrModule,
@@ -55,7 +57,8 @@ import { NgxLoadingModule } from 'ngx-loading';
     TimeagoModule,
     MatDividerModule,
     MatBadgeModule,
-    NgxLoadingModule
+    NgxLoadingModule,
+    ImageCropperModule
   ],
 })
 export class SharedModule {}

@@ -1,0 +1,14 @@
+.img-animation{
+ 
+  object-fit: cover; 
+}
+.card {
+  
+  position: relative!important;
+}
+
+.card img {
+  width: 100%!important;
+  height: 100%!important;
+  object-fit: cover!important;
+}

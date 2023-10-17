@@ -1,6 +1,7 @@
 <app-navbar *ngIf="!hideNavbar"></app-navbar>
 <router-outlet></router-outlet>
 <ngx-loading
+style="max-width: 100%; max-height: 500%;"
       [show]="isLoading"
       [config]="{
         animationType: ngxLoadingAnimationTypes.circleSwish,
