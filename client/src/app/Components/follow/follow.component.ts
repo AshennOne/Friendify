@@ -12,6 +12,7 @@ export class FollowComponent implements OnInit,OnChanges {
   isFollowedByCurrent = false;
   @Input() isCurrentUser = false;
   @Input() currentUserId = ""
+  @Input() isFromUsersPage = false
   @Input() user:User = {} as User
   @Output() isFollowed = new EventEmitter<boolean>()
   constructor(private followService:FollowService,private localStorageService: LocalstorageService) { }
@@ -54,13 +55,17 @@ export class FollowComponent implements OnInit,OnChanges {
   }
   checkIsFollowed() {
     if (this.isCurrentUser == false) {
-      this.user.followers?.forEach((element) => {
-        if (element.followerId == this.currentUserId) {
-          this.isFollowedByCurrent = true;
-        } else{
-          this.isFollowedByCurrent = false;
-        }
-      });
+      if(!this.user.followers) this.isFollowedByCurrent = false;
+      else{
+        this.user.followers.forEach((element) => {
+          if (element.followerId == this.currentUserId) {
+            this.isFollowedByCurrent = true;
+          } else{
+            this.isFollowedByCurrent = false;
+          }
+        });
+      }
+      
     }else{
       this.isFollowedByCurrent = false;
     } 

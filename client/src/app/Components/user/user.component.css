@@ -6,9 +6,13 @@
   
   position: relative!important;
 }
-
+h5:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
 .card img {
   width: 100%!important;
   height: 100%!important;
   object-fit: cover!important;
+  cursor:pointer
 }
