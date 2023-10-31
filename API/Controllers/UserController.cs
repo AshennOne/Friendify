@@ -51,12 +51,14 @@ namespace API.Controllers
         [HttpPut]
         public async Task<ActionResult<UserClientDto>> EditUser([FromBody] EditUserDto editUserDto)
         {
-         var username = User.GetUsernameFromToken();
-         var user =await _userManager.FindByNameAsync(username);
-            if(editUserDto.Bio != null && editUserDto.Bio.Length>1){
-               user.Bio = editUserDto.Bio;
+            var username = User.GetUsernameFromToken();
+            var user = await _userManager.FindByNameAsync(username);
+            if (editUserDto.Bio != null && editUserDto.Bio.Length > 1)
+            {
+                user.Bio = editUserDto.Bio;
             }
-            if(editUserDto.ImgUrl != null && editUserDto.ImgUrl.Length>1 ){
+            if (editUserDto.ImgUrl != null && editUserDto.ImgUrl.Length > 1)
+            {
                 user.ImgUrl = editUserDto.ImgUrl;
             }
             await _userManager.UpdateAsync(user);
@@ -65,8 +67,8 @@ namespace API.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<UserClientDto>>> GetAllUsers()
         {
-         var users= await _userManager.Users.ToListAsync();
-         return Ok(_mapper.Map<IEnumerable<UserClientDto>>(users));
+            var users = await _userManager.Users.Include(u => u.Followed).Include(u => u.Followers).ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<UserClientDto>>(users));
         }
     }
 }
