@@ -22,6 +22,7 @@ namespace API.Data.Repositories
         public ICommentRepository CommentRepository => new CommentRepository(_dbContext, _mapper);
 
         public INotificationRepository NotificationRepository => new NotificationRepository(_dbContext);
+        public IMessageRepository MessageRepository => new MessageRepository(_dbContext);
 
         public async Task<bool> SaveChangesAsync()
         {

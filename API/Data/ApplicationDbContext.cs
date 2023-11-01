@@ -11,6 +11,7 @@ namespace API.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostLike> Likes{get;set;}
         public DbSet<Follow> Follows{get;set;}
+        public DbSet<Message> Messages{get;set;}
         public DbSet<Notification> Notifications{get;set;}
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,6 +28,14 @@ namespace API.Data
             .HasMany(u => u.Followers)
             .WithOne(p => p.Followed)
             .HasForeignKey(p => p.FollowedId);
+            builder.Entity<User>()
+            .HasMany(u => u.MessagesReceived)
+            .WithOne(m => m.Receiver)
+            .HasForeignKey(m => m.ReceiverId);
+            builder.Entity<User>()
+            .HasMany(u=> u.MessagesSend)
+            .WithOne(p => p.Sender)
+            .HasForeignKey(p => p.SenderId);
             
         }
     }

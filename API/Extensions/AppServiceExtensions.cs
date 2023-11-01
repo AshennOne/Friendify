@@ -33,6 +33,7 @@ namespace API.Extensions
              services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<ICommentRepository,CommentRepository>();
             services.AddScoped<IFollowRepository,FollowRepository>();
+            services.AddScoped<IMessageRepository,MessageRepository>();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             return services;

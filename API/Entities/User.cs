@@ -22,5 +22,7 @@ namespace API.Entities
         
          public List<Follow> Followed{get;set;} = new List<Follow>();
          public List<Notification> Notifications{get;set;}= new List<Notification>();
+         public List<Message> MessagesSend{get;set;} = new List<Message>();
+         public List<Message> MessagesReceived{get;set;} = new List<Message>();
     }
 }
