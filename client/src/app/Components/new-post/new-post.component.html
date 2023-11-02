@@ -43,7 +43,7 @@
         >{{ textContent.length }}/500</label
       >
     </div>
-    <app-photo-upload (imageSelected)="loadPhoto($event)"></app-photo-upload>
+    <app-photo-upload (isInCroppingState)="checkIsCropping($event)" (imageSelected)="loadPhoto($event)"></app-photo-upload>
     <div class="row">
       <div class="d-flex">
         <button class="ms-auto me-1 btn btn-secondary mt-1" (click)="hideModal()">Cancel</button>

@@ -1,5 +1,5 @@
 
-  <button class="btn btn-warning d-flex" [disabled]="!selectedImageFile" (click)="emitImage()">Crop</button>
+  <button class="btn btn-warning d-flex ms-auto me-auto " *ngIf="selectedImageFile && !isCropped" (click)="emitImage()">Crop</button>
   <div *ngIf="selectedImageFile || isForUser" id="post-review" class="ms-auto d-flex justify-content-end mt-2">
        
     <img [class.preview]="!isForUser" [src]="croppedImagePreview"  [class.rounded]="isForUser" id="post-preview-image">
@@ -24,7 +24,7 @@
 <div class="ms-auto d-flex justify-content-end " [class.me-5]="isForUser">
   <button class="btn btn-gallery">
     <label for="photo-upload">
-      <input id="photo-upload" #photoSelector (change)="onPhotoSelected($event)" type="file" accept="image/*" />
+      <input id="photo-upload" #photoSelector (change)="fileChangeEvent($event)" type="file" accept="image/*" />
       <mat-icon>insert_photo</mat-icon>
       
     </label>

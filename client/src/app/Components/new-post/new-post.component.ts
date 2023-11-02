@@ -25,6 +25,7 @@ export class NewPostComponent implements OnInit {
   selectedImageFile?: File;
   option = 'public';
   modalRef?: BsModalRef;
+  isCropping = false;
   @Output() newPost = new EventEmitter<Post>();
   constructor(
     private authService: AuthService,
@@ -47,7 +48,10 @@ export class NewPostComponent implements OnInit {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-  
+  checkIsCropping(event:any){
+    if(event) this.isCropping = true
+    else this.isCropping = false;
+  }
   loadPhoto(event:any){
     this.selectedImageFile = event;
   }
@@ -56,6 +60,10 @@ export class NewPostComponent implements OnInit {
     this.selectedImageFile = undefined
   }
   onSubmit() {
+    if(this.isCropping) {
+      alert('You have uncropped image! remove image or crop it first')
+      return;
+    }
     if (!this.selectedImageFile) this.addPost();
     else{
       var storageRef = ref(this.storage, 'folder/' + this.selectedImageFile.name);
