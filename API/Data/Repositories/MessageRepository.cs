@@ -20,7 +20,7 @@ namespace API.Data.Repositories
         {
             var userId = user.Id;
 
-            var recentMessages = await _dbContext.Messages
+            var recentMessages = await _dbContext.Messages.Include(m => m.Receiver)
                 .Where(m => m.SenderId == userId || m.ReceiverId == userId)
                 .GroupBy(m => m.SenderId == userId ? m.ReceiverId : m.SenderId)
                 .Select(g => g.OrderByDescending(m => m.SendDate).First())

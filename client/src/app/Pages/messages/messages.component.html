@@ -1,1 +1,9 @@
-<p>messages works!</p>
+<div class="container-fluid">
+  <h4 class="text-center my-4"><strong>All conversations</strong></h4>
+  <div class="col-6 offset-3">
+    <div *ngFor="let message of lastMessages">
+      <app-message-headline [message]="message"></app-message-headline>
+    </div>
+  </div>
+ 
+</div>

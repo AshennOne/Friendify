@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class MessageController : BaseApiController
+    public class MessagesController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
-        public MessageController(IUnitOfWork unitOfWork, UserManager<User> userManager)
+        public MessagesController(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
