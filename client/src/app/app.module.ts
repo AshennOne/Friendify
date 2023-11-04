@@ -30,8 +30,8 @@ import {BioComponent} from './Components/bio/bio.component';
 import { PhotoUploadComponent } from './Components/photo-upload/photo-upload.component';
 import { EditPhotoComponent } from './Components/edit-photo/edit-photo.component';
 import { UserComponent } from './Components/user/user.component';
-import { MessageComponent } from './Components/message/message.component';
-import { MessageHeadlineComponent } from './Components/message-headline/message-headline.component';
+import { MessageComponent } from "./Components/message/message.component";
+import { MessageThreadComponent } from './Pages/message-thread/message-thread.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +59,7 @@ import { MessageHeadlineComponent } from './Components/message-headline/message-
     EditPhotoComponent,
     UserComponent,
     MessageComponent,
-    MessageHeadlineComponent,
+    MessageThreadComponent,
   ],
   imports: [
     BrowserAnimationsModule,

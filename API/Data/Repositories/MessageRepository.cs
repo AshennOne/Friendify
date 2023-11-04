@@ -31,7 +31,7 @@ namespace API.Data.Repositories
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserId, string viewedUserId)
         {
-            var messages = await _dbContext.Messages.Where(m => (m.SenderId == currentUserId && m.ReceiverId == viewedUserId) || (m.SenderId == viewedUserId && m.ReceiverId == currentUserId)).ToListAsync();
+            var messages = await _dbContext.Messages.Include(m => m.Receiver).Where(m => (m.SenderId == currentUserId && m.ReceiverId == viewedUserId) || (m.SenderId == viewedUserId && m.ReceiverId == currentUserId)).ToListAsync();
             messages.ForEach(element =>
             {
                 if (element.ReceiverId == currentUserId) element.Read = true;

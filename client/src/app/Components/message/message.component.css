@@ -1,0 +1,15 @@
+.photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.message-theme{
+  background-color: dodgerblue;
+  border-radius: 30%;
+  color: white;
+  padding: 0.5rem 0.7rem
+}

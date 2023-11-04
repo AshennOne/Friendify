@@ -9,6 +9,7 @@ import { DetailsComponent } from './Pages/details/details.component';
 import { MessagesComponent } from './Pages/messages/messages.component';
 import { NotificationsComponent } from './Pages/notifications/notifications.component';
 import { UsersComponent } from './Pages/users/users.component';
+import { MessageThreadComponent } from './Pages/message-thread/message-thread.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'user/:id', component:DetailsComponent},
   { path: 'main', component: MainComponent },
   { path: 'messages', component: MessagesComponent },
+  { path: 'messages/:id', component: MessageThreadComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'users', component: UsersComponent },
 ];

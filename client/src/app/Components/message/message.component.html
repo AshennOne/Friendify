@@ -1,1 +1,16 @@
-<p>message works!</p>
+<div *ngIf="isHeadline" class="d-flex cursor-pointer" (click)="redirect()">
+  <div class="col-1"><img class="photo" src="{{viewedUser?.imgUrl || ''}}"></div>
+  <div class="col-10 ms-3">
+    <h6><strong>{{viewedUser?.firstName}} {{viewedUser?.lastName}}</strong></h6>
+    <p>{{message?.sender?.id == currentUser?.id ? 'you:' : message?.sender?.firstName + ':'}} {{cropedContent}}</p>
+  </div>
+ 
+</div> 
+<div *ngIf="!isHeadline" class="d-flex cursor-pointer">
+  <div *ngIf="message?.sender?.id !== currentUser?.id" class="col-1"><img class="photo mb-3" src="{{message?.sender?.imgUrl || ''}}"></div>
+  <div [class.text-end]="message?.sender?.id === currentUser?.id"  class=" mx-4 mt-4 col-9 ms-3">
+    <span class="message-theme">{{cropedContent}}</span>
+  </div>
+  <div *ngIf="message?.sender?.id === currentUser?.id" class="col-1"><img class="photo mb-3" src="{{message?.sender?.imgUrl || ''}}"></div>
+</div> 
+<mat-divider class="mb-3 py-0" style="color: rgb(168, 168, 168)"></mat-divider>
