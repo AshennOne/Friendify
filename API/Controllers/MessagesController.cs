@@ -33,11 +33,11 @@ namespace API.Controllers
             return Ok(messages);
         }
         [HttpPost]
-        public async Task<ActionResult> SendMessage([FromBody] CreateMessageDto createMessageDto)
+        public async Task<ActionResult<MessageDto>> SendMessage([FromBody] CreateMessageDto createMessageDto)
         {
             var currentUser = await GetUserAsync();
-            await _unitOfWork.MessageRepository.SendMessage(currentUser.Id, createMessageDto.UserId, createMessageDto.Content);
-            if (await _unitOfWork.SaveChangesAsync()) return Ok("Sent");
+           var message = await _unitOfWork.MessageRepository.SendMessage(currentUser.Id, createMessageDto.UserId, createMessageDto.Content);
+            if (await _unitOfWork.SaveChangesAsync()) return Ok(message);
             return BadRequest("Error while sending");
         }
         private async Task<User> GetUserAsync()

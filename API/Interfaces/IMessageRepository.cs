@@ -7,7 +7,7 @@ namespace API.Interfaces
     {
         public Task<IEnumerable<MessageDto>> GetLastMessages(User user);
         public Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserId, string viewedUserId);
-        public Task SendMessage(string senderId, string receiverId, string content);
+        public Task<MessageDto> SendMessage(string senderId, string receiverId, string content);
 
 
     }
