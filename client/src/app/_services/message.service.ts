@@ -22,6 +22,6 @@ export class MessageService {
       content: content,
       userId: id
     }
-    return this.http.post(this.baseUrl+'messages',messageBody)
+    return this.http.post<Message>(this.baseUrl+'messages',messageBody)
   }
 }

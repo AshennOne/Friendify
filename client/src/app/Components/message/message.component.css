@@ -11,5 +11,6 @@
   background-color: dodgerblue;
   border-radius: 30%;
   color: white;
-  padding: 0.5rem 0.7rem
+  padding: 0.5rem 0.7rem;
+  margin-left: 0.7rem;
 }

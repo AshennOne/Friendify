@@ -2,13 +2,13 @@
   <div class="card mb-4 mx-3">
     <img src="{{user.imgUrl}}" class="card-img-top img-animation" alt="user image">
     <div class="card-body">
-      <h5 (click)="redirect()" class="card-title text-center">{{user.firstName}} {{user.lastName}}</h5>
+      <h5 (click)="redirectUser()" class="card-title text-center">{{user.firstName}} {{user.lastName}}</h5>
       <div class="text-center"> <span class="text-muted">@{{user.userName}}</span></div>
       <hr>
       <p class="card-text mt-2">{{user.bio||'no bio set yet'}}</p>
       <div class="btn-group d-flex">
-        <button (click)="redirect()" class="btn btn-info"><i class="fa fa-user"></i></button>
-        <button class="btn btn-info"><i class="fa fa-envelope"></i></button>
+        <button (click)="redirectUser()" class="btn btn-info"><i class="fa fa-user"></i></button>
+        <button (click)="redirectMessages()" class="btn btn-info"><i class="fa fa-envelope"></i></button>
         <app-follow [isCurrentUser]="isCurrentUser" [currentUserId]="currentUserId" [user]="user" [isFromUsersPage]="true"></app-follow>
       </div>
     </div>

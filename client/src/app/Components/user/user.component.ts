@@ -37,8 +37,13 @@ export class UserComponent implements OnInit,OnChanges{
   this.currentUserId = this.currentUser.id
   }
   
-  redirect(){
+  redirectUser(){
     if(this.user?.id)
     this.router.navigateByUrl('user/'+this.user.id)
+  }
+  redirectMessages(){
+    if(this.user.id){
+      this.router.navigateByUrl('messages/'+ this.user.id)
+    }
   }
 }

@@ -1,13 +1,18 @@
 <div class="container">
-<div class="col-md-6 offset-md-3 col-12   mt-4">
-  <div id="message-area">
+<div class="col-lg-6 offset-lg-3 col-12 col-md-8 offset-md-2  mt-4">
+  <div id="message-area" #messageArea>
+    <div class="d-flex align-items-center justify-content-center mb-3">
+      <img class="photo me-2" src="{{viewedUser?.imgUrl || ''}}">
+      <span><strong>{{viewedUser?.firstName}} {{viewedUser?.lastName}}</strong></span>
+    </div>
+    
     <div *ngFor="let message of messages">
       <app-message [message]="message"></app-message>
     </div>
   </div>
   <form class="form-control d-flex mb-3">
-    <input type="text" class="form-control" placeholder="enter message here...">
-    <button class="btn btn-info ms-2"><i class="fa fa-paper-plane"></i></button>
+    <input [(ngModel)]="messageContent" [ngModelOptions]="{standalone: true}" type="text" class="form-control" placeholder="enter message here...">
+    <button (click)="sendMessage()" class="btn btn-info ms-2"><i class="fa fa-paper-plane"></i></button>
   </form>
 </div>
 </div>
