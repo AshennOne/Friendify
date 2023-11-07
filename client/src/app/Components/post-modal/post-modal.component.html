@@ -1,7 +1,9 @@
-<button (click)="openModal(template)" class="ms-2 circle ms-auto btn btn-warning my-3">
+<button *ngIf="type != 1" (click)="openModal(template)" class="ms-2 circle ms-auto btn btn-warning my-3">
   <i class="fa fa-info "></i>
 </button>
-
+<button *ngIf="type == 1" (click)="redirect()" class="ms-2 circle ms-auto btn btn-warning my-3">
+  <i class="fa fa-info "></i>
+</button>
  
 <ng-template #template>
  

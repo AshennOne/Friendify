@@ -18,15 +18,15 @@ unreadCount = 0;
         this.notifications = notifications;
         var unread = this.notifications.filter(n => n.isRead == false)
         this.unreadCount = unread.length
-        this.connectorService.unread.emit(this.unreadCount)
+        this.connectorService.unreadNotifications.emit(this.unreadCount)
       }
     })
   }
 
   ngOnInit(): void {
   }
-emitCounter(){
+emitCounter(event:any){
   this.unreadCount -= 1
-  this.connectorService.unread.emit(this.unreadCount)
+  this.connectorService.unreadNotifications.emit(this.unreadCount)
 }
 }

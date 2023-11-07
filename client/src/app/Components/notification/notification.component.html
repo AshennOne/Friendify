@@ -30,7 +30,9 @@
     <div class="ms-auto">
       <app-post-modal
         (isRead)="readPost()"
-        [postId]="notification.elementId"
+        [type]="notification.type"
+        [elementId]="notification.elementId"
+        [fromUserId]="notification.fromUserId"
       ></app-post-modal>
     </div>
   </div>
