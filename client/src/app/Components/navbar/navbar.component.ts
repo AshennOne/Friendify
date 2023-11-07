@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService,
     private connectorService: ConnectorService
   ) {
-    this.connectorService.unread.subscribe({
+    this.connectorService.unreadNotifications.subscribe({
       next: (count: number) => {
         this.notificationsCount = count;
       },
@@ -36,6 +36,12 @@ export class NavbarComponent implements OnInit {
         
       },
     });
+    this.connectorService.unreadMessages.subscribe({
+      next:(count:number)=>{
+        this.messagesCount = count
+      }
+    })
+    
   }
 
   ngOnInit(): void {

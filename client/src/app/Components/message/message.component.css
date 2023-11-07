@@ -9,7 +9,7 @@
 }
 .message-theme{
   background-color: dodgerblue;
-  border-radius: 30%;
+  border-radius: 10px 10px 10px 10px;
   color: white;
   padding: 0.5rem 0.7rem;
   margin-left: 0.7rem;

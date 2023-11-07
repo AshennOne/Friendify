@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from 'src/app/_models/Message';
 import { User } from 'src/app/_models/User';
+import { ConnectorService } from 'src/app/_services/connector.service';
 import { MessageService } from 'src/app/_services/message.service';
 import { UserService } from 'src/app/_services/user.service';
 
@@ -18,8 +19,11 @@ export class MessageThreadComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private connectorService:ConnectorService
+  ) {
+    
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -28,19 +32,21 @@ export class MessageThreadComponent implements OnInit {
       this.messageService.getMessageThread(id).subscribe({
         next: (messages) => {
           this.messages = messages;
-         
+          this.connectorService.updateMessagesCount.emit(true)
           if (id)
             this.userService.getUserById(id).subscribe({
               next: (user) => {
               this.viewedUser = user;
+              
               this.scrollToBottom()
+              
               },
             });
         },
       });
     });
   }
-  
+ 
   sendMessage(){
     if(!this.viewedUser?.id) return;
     this.messageService.sendMessage(this.viewedUser.id,this.messageContent).subscribe({

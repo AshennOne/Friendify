@@ -2,7 +2,7 @@
   <div class="col-1"><img class="photo" src="{{viewedUser?.imgUrl || ''}}"></div>
   <div class="col-10 ms-5">
     <h6><strong>{{viewedUser?.firstName}} {{viewedUser?.lastName}}</strong></h6>
-    <p>{{message?.sender?.id == currentUser?.id ? 'you:' : message?.sender?.firstName + ':'}} {{cropedContent}}</p>
+    <p [class.fw-bold]="!message?.read && message?.sender?.id == viewedUser?.id">{{message?.sender?.id == currentUser?.id ? 'you:' : message?.sender?.firstName + ':'}} {{cropedContent}}</p>
   </div>
  
 </div> 

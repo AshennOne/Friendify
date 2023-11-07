@@ -3,6 +3,7 @@ import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import { ConnectorService } from 'src/app/_services/connector.service';
 import { LikeService } from 'src/app/_services/like.service';
+import { MessageService } from 'src/app/_services/message.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { PostService } from 'src/app/_services/post.service';
 @Component({
@@ -15,11 +16,17 @@ export class MainComponent implements OnInit {
   submittedSearchString= ""
   searchstring = '';
   
-  constructor(private postService: PostService,private notificationService:NotificationService, private connectorService:ConnectorService ) {
+  constructor(private postService: PostService,private notificationService:NotificationService, private connectorService:ConnectorService, private messagesService:MessageService ) {
     this.notificationService.getNotificationsForUser().subscribe({
       next:(notifications)=>{     
         var unread = notifications.filter(n => n.isRead == false)
-        this.connectorService.unread.emit(unread.length)
+        this.connectorService.unreadNotifications.emit(unread.length)
+      }
+    })
+    this.messagesService.getMessageHeadlines().subscribe({
+      next:(messages)=>{
+        var unread = messages.filter(m => m.read == false)
+        this.connectorService.unreadMessages.emit(unread.length)
       }
     })
   }
