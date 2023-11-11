@@ -21,7 +21,8 @@ export class HomeComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    
   ) {}
 
   createForm() {
@@ -46,6 +47,8 @@ export class HomeComponent {
           localStorage.setItem('token', user.token + '');
           this.toastr.success('Succesfully logged in');
           this.router.navigateByUrl('main');
+          
+         
         },
         error: (err) => {
           if (err.error === 'Email needs to be confirmed') {
@@ -67,7 +70,7 @@ export class HomeComponent {
       return { passwordWithoutDigit: true };
     }
   }
-
+ 
   private getUserFromForm() {
     if (this.loginForm.valid) {
       return {

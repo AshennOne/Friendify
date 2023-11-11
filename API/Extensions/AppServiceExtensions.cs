@@ -24,6 +24,7 @@ namespace API.Extensions
                 .AllowAnyHeader();
            });
             });
+            services.AddSignalR();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton<IConfiguration>(configuration);
             services.AddScoped<IPostLikeRepository,PostLikeRepository>();

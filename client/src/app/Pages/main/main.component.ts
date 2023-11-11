@@ -34,6 +34,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.setSearchString();
     this.getAllPosts();
+    
   }
   addPostToList(event: any) {
     this.getAllPosts();
