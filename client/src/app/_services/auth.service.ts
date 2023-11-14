@@ -6,12 +6,13 @@ import { User } from '../_models/User';
 import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
 import { LikeService } from './like.service';
 import { RepostService } from './repost.service';
+import { PresenceService } from './presence.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient,private likeService:LikeService,private repostService:RepostService) {}
+  constructor(private http: HttpClient,private likeService:LikeService,private repostService:RepostService, private presenceService:PresenceService) {}
   register(user: UserAuth) {
     localStorage.clear()
     return this.http.post(this.apiUrl + 'auth/register', user, {
@@ -72,6 +73,7 @@ export class AuthService {
               user.liked = result.likedPosts$;
               user.reposted = result.repostedPosts$;
               localStorage.setItem('user', JSON.stringify(user));
+             
               return user;
             }),
             catchError((error) => {
@@ -87,5 +89,9 @@ export class AuthService {
       var parsedUser = JSON.parse(user) as User;
       return of(parsedUser)
     }
+  }
+  logout(){
+    localStorage.clear();
+    this.presenceService.stopHubConnection()
   }
 }

@@ -1,3 +1,5 @@
+using API.SignalR;
+
 namespace API.Middlewares
 {
     public static class BaseMiddlewares
@@ -9,8 +11,8 @@ namespace API.Middlewares
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseCors();
+            app.MapHub<PresenceHub>("hubs/presence");
+            
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseAuthentication();

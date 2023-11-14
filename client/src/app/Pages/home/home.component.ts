@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserAuth } from 'src/app/_models/UserAuth';
 import { AuthService } from 'src/app/_services/auth.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,7 @@ export class HomeComponent {
     private authService: AuthService,
     private router: Router,
     private toastr: ToastrService,
-    
+    private presenceService:PresenceService
   ) {}
 
   createForm() {
@@ -45,6 +46,7 @@ export class HomeComponent {
         next: (user) => {
           if (!user) this.toastr.error('user not found');
           localStorage.setItem('token', user.token + '');
+          this.presenceService.createHubConnection()
           this.toastr.success('Succesfully logged in');
           this.router.navigateByUrl('main');
           

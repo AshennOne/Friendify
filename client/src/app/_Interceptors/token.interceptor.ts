@@ -11,13 +11,15 @@ import { catchError, finalize } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoadingService } from '../_services/loading.service';
+import { PresenceService } from '../_services/presence.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(
     private toastr: ToastrService,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private presenceService:PresenceService
   ) {}
 
   intercept(
@@ -45,6 +47,7 @@ export class TokenInterceptor implements HttpInterceptor {
         throw err; 
       }),
       finalize(() => {
+        if(!this.presenceService.isHubConnection()) this.presenceService.createHubConnection()
         this.loadingService.hideLoading(); 
       })
     );
