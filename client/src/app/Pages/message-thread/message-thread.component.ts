@@ -4,6 +4,7 @@ import { Message } from 'src/app/_models/Message';
 import { User } from 'src/app/_models/User';
 import { ConnectorService } from 'src/app/_services/connector.service';
 import { MessageService } from 'src/app/_services/message.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -14,13 +15,14 @@ import { UserService } from 'src/app/_services/user.service';
 export class MessageThreadComponent implements OnInit {
   @ViewChild('messageArea') messageArea?: ElementRef;
   messages: Message[] = [];
-  viewedUser?: User;
+  viewedUser: User =  {} as User;
   messageContent = ''
   constructor(
     private route: ActivatedRoute,
     private messageService: MessageService,
     private userService: UserService,
-    private connectorService:ConnectorService
+    private connectorService:ConnectorService,
+    public presenceService:PresenceService
   ) {
     
   }

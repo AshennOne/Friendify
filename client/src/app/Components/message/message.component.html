@@ -1,16 +1,73 @@
 <div *ngIf="isHeadline" class="d-flex cursor-pointer" (click)="redirect()">
-  <div class="col-1"><img class="photo" src="{{viewedUser?.imgUrl || ''}}"></div>
+  <div class="image-container col-1">
+    <img class="photo me-2" src="{{ viewedUser.imgUrl }}" />
+    <span
+      *ngIf="
+        viewedUser.userName != undefined &&
+        (presenceService.onlineUsers$ | async)?.includes(viewedUser.userName)
+      "
+      class="circle"
+      [class.is-online]="
+        viewedUser.userName != undefined &&
+        (presenceService.onlineUsers$ | async)?.includes(viewedUser.userName)
+      "
+    >
+      <i class="fa fa-circle"></i
+    ></span>
+  </div>
   <div class="col-10 ms-5">
-    <h6><strong>{{viewedUser?.firstName}} {{viewedUser?.lastName}}</strong></h6>
-    <p [class.fw-bold]="!message?.read && message?.sender?.id == viewedUser?.id">{{message?.sender?.id == currentUser?.id ? 'you:' : message?.sender?.firstName + ':'}} {{cropedContent}}</p>
+    <h6>
+      <strong>{{ viewedUser.firstName }} {{ viewedUser.lastName }}</strong>
+    </h6>
+    <p [class.fw-bold]="!message.read && message.sender?.id == viewedUser.id">
+      {{
+        message.sender?.id == currentUser?.id
+          ? "you:"
+          : message.sender?.firstName + ":"
+      }}
+      {{ cropedContent }}
+    </p>
   </div>
- 
-</div> 
+</div>
 <div *ngIf="!isHeadline" class="d-flex cursor-pointer">
-  <div *ngIf="message?.sender?.id !== currentUser?.id" class="col-1"><img class="photo mb-3 " src="{{message?.sender?.imgUrl || ''}}"></div>
-  <div [class.text-end]="message?.sender?.id === currentUser?.id"  class=" mx-4 mt-4 col-9">
-    <span class="message-theme">{{message?.content}}</span>
+  <div
+    *ngIf="message?.sender?.id !== currentUser?.id"
+    class="image-container col-1"
+  >
+    <img class="photo mb-3" src="{{ message.sender?.imgUrl || '' }}" />
+    <span
+      *ngIf="
+        message.sender?.userName != undefined &&
+        (presenceService.onlineUsers$ | async)?.includes(
+          message.sender?.userName!
+        )
+      "
+      class="circle is-online"
+    >
+      <i class="fa fa-circle"></i
+    ></span>
   </div>
-  <div *ngIf="message?.sender?.id === currentUser?.id" class="col-1"><img class="photo mb-3" src="{{message?.sender?.imgUrl || ''}}"></div>
-</div> 
+  <div
+    [class.text-end]="message.sender?.id === currentUser?.id"
+    class="mx-4 mt-4 col-9"
+  >
+    <span class="message-theme">{{ message.content }}</span>
+  </div>
+  <div
+    *ngIf="message?.sender?.id === currentUser?.id"
+    class="col-1 image-container"
+  >
+    <img class="photo mb-3" src="{{ message.sender?.imgUrl || '' }}" /><span
+      *ngIf="
+        message.sender?.userName != undefined &&
+        (presenceService.onlineUsers$ | async)?.includes(
+          message.sender?.userName!
+        )
+      "
+      class="circle is-online"
+    >
+      <i class="fa fa-circle"></i
+    ></span>
+  </div>
+</div>
 <mat-divider class="mb-3 py-0" style="color: rgb(168, 168, 168)"></mat-divider>

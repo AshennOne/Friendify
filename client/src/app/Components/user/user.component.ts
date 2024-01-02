@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/_models/User';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-user',
@@ -18,7 +19,7 @@ export class UserComponent implements OnInit,OnChanges{
   currentUser?:User
   currentUserId = ''
   isCurrentUser = false;
-  constructor(private router:Router) {}
+  constructor(private router:Router,public presenceService:PresenceService) {}
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['user']&&this.user.id){
       if(this.user.id == this.currentUser?.id){

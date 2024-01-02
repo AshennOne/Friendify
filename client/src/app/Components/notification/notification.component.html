@@ -1,11 +1,18 @@
 <div class="">
   <div class="d-flex">
-    <div>
+    <div class="image-container d-flex">
       <img
         (click)="redirect(notification.fromUserId)"
         class="clickable photo me-4"
         src="{{ notification.imgUrl }}"
       />
+      <span *ngIf=" notification.fromUserName != undefined &&
+    (presenceService.onlineUsers$ | async)?.includes(
+      notification.fromUserName 
+    )" class="circle is-online"
+    >
+      <i class="fa fa-circle"></i
+    ></span>
     </div>
     <div>
       <div class="smalltext text-muted">

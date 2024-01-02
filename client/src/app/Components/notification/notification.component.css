@@ -24,3 +24,15 @@ span.clickable:hover{
     font-size: 0.8rem;
   }
 }
+.image-container {
+  position: relative;
+}
+.circle {
+  position: absolute;
+  left: 35px;
+  top: 35px;
+}
+
+.is-online {
+  color: rgb(1, 189, 42) !important;
+}

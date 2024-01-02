@@ -35,3 +35,16 @@ max-height: 450px;
 .clickable:hover{
   cursor: pointer;
 }
+.image-container {
+  position: relative;
+}
+.circle {
+  position: absolute;
+  left: 45px;
+  top: 35px;
+  color: gray;
+}
+
+.is-online {
+  color: rgb(1, 189, 42) !important;
+}

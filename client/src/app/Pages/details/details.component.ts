@@ -5,6 +5,7 @@ import { User } from 'src/app/_models/User';
 import { FollowService } from 'src/app/_services/follow.service';
 import { LocalstorageService } from 'src/app/_services/localstorage.service';
 import { PostService } from 'src/app/_services/post.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -25,7 +26,8 @@ export class DetailsComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private postService: PostService,
-    private followService: FollowService
+    private followService: FollowService,
+    public presenceService: PresenceService
   ) {}
 
   ngOnInit() {
@@ -85,13 +87,11 @@ export class DetailsComponent implements OnInit {
         },
       });
   }
-  changeCounter(event:any){
-    if(event == false){
-      this.followersCount -=1
-    }else{
-      this.followersCount +=1
+  changeCounter(event: any) {
+    if (event == false) {
+      this.followersCount -= 1;
+    } else {
+      this.followersCount += 1;
     }
-
   }
-  
 }

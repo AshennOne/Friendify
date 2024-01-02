@@ -1,18 +1,32 @@
-.img-animation{
- 
-  object-fit: cover; 
+.img-animation {
+  object-fit: cover;
 }
 .card {
-  
-  position: relative!important;
+  position: relative !important;
 }
-h5:hover{
+h5:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 .card img {
-  width: 100%!important;
-  height: 100%!important;
-  object-fit: cover!important;
-  cursor:pointer
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  cursor: pointer;
+}
+@keyframes fa-blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+.is-online {
+  animation: fa-blink 1.5s linear infinite;
+  color: rgb(1, 189, 42)!important;
+}
+.circle {
+  color: gray;
 }

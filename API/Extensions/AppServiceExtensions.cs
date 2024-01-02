@@ -2,6 +2,7 @@ using API.Data;
 using API.Data.Repositories;
 using API.Helpers;
 using API.Interfaces;
+using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
@@ -24,6 +25,7 @@ namespace API.Extensions
                 .AllowAnyHeader();
            });
             });
+            services.AddSingleton<PresenceTracker>();
             services.AddSignalR();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton<IConfiguration>(configuration);

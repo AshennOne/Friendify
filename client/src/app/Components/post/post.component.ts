@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import { AuthService } from 'src/app/_services/auth.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-post',
@@ -25,7 +26,7 @@ export class PostComponent implements OnInit, OnChanges {
   isLiked = false;
   belongToUser = false;
   isReposted = false;
-  constructor(private authService: AuthService,private router:Router) {
+  constructor(private authService: AuthService,private router:Router,public presenceService:PresenceService) {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.user = user;
