@@ -18,7 +18,7 @@ export class AppComponent {
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (event.url === '/' || event.url === '/forgetpassword' || event.url === '/confirmemail') { 
+        if (event.url === '/' || event.url === '/forgetpassword' || event.url === '/confirmemail'|| event.url === '/register') { 
           this.hideNavbar = true;
         } else {
           this.hideNavbar = false;
