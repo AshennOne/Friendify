@@ -94,4 +94,9 @@ export class DetailsComponent implements OnInit {
       this.followersCount += 1;
     }
   }
+  redirectMessages(){
+    if(this.user.id){
+      this.router.navigateByUrl('messages/'+ this.user.id)
+    }
+  }
 }

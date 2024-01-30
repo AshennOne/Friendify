@@ -16,7 +16,11 @@
               [currentUserId]="currentUserId"
               [user]="user"
             ></app-follow>
-            <button [disabled]="isCurrentUser" class="btn btn-light">
+            <button
+              (click)="redirectMessages()"
+              [disabled]="isCurrentUser"
+              class="btn btn-light"
+            >
               <i class="fa fa-envelope mx-1"></i>
             </button>
           </div>
