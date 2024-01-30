@@ -2,23 +2,42 @@
   <div
     class="col-10 offset-1 col-md-8 offset-md-2 col-lg-4 offset-lg-4 form-group d-flex"
   >
- 
     <input
-    [(ngModel)]="searchstring"
-      type="search"
+      [(ngModel)]="searchstring"
+      type="text"
       class="form-control border-gray me-1"
       placeholder="search posts"
     />
-    <button [disabled]="searchstring.length<1" (click)="search()" class="btn btn-secondary border-gray">
+    <button
+      [disabled]="searchstring.length < 1"
+      (click)="search()"
+      class="btn btn-secondary border-gray"
+    >
       <i class="fa fa-search"></i>
     </button>
   </div>
   <div class="col-md-8 col-10 mt-4 offset-1 offset-md-2">
-    <app-new-post  (newPost)="addPostToList($event)"></app-new-post>
+    <app-new-post (newPost)="addPostToList($event)"></app-new-post>
     <div class="d-flex">
-      <div class="mt-3"><strong>We found {{posts.length}} {{posts.length ==1 ? 'post':'posts'}}</strong><strong *ngIf="submittedSearchString.length>0"> with '{{submittedSearchString}}'</strong></div> <button *ngIf="submittedSearchString.length>0" (click)="reset()" class="border-secondary btn d-flex mt-2  ms-2">Clear phrase <mat-icon class="ms-2" fontIcon="close"></mat-icon></button>
+      <div class="mt-3">
+        <strong
+          >We found {{ posts.length }}
+          {{ posts.length == 1 ? "post" : "posts" }}</strong
+        ><strong *ngIf="submittedSearchString.length > 0">
+          with '{{ submittedSearchString }}'</strong
+        >
+      </div>
+      <button
+        *ngIf="submittedSearchString.length > 0"
+        (click)="reset()"
+        class="border-secondary btn d-flex mt-2 ms-2"
+      >
+        Clear phrase <mat-icon class="ms-2" fontIcon="close"></mat-icon>
+      </button>
     </div>
-   
-    <div *ngFor="let post of posts"><app-post (onRepostChange)="getAllPosts()" [post]="post"></app-post></div>
+
+    <div *ngFor="let post of posts">
+      <app-post (onRepostChange)="getAllPosts()" [post]="post"></app-post>
+    </div>
   </div>
 </div>

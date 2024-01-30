@@ -30,6 +30,7 @@ export class EditPhotoComponent implements OnInit {
   @Output() reload = new EventEmitter<boolean>();
   modalRef?: BsModalRef;
   selectedImageFile?: File;
+  @Input() isCurrentUser = false
   constructor(
     public modalService: BsModalService,
     private storage: Storage,
