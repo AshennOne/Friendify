@@ -20,7 +20,8 @@ namespace API.Controllers
 
         }
         [HttpGet("{postId}")]
-        public ActionResult<IEnumerable<CommentResponseDto>> GetCommentsForPost(int postId)
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CommentResponseDto>))]
+        public IActionResult GetCommentsForPost(int postId)
         {
             var comments = _unitOfWork.CommentRepository.GetCommentsForPost(postId);
             return Ok(comments);
