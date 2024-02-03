@@ -166,3 +166,4 @@ C:\Users\Dawid\Desktop\Friendify\API.tests\obj\Debug\net7.0\refint\API.tests.dll
 C:\Users\Dawid\Desktop\Friendify\API.tests\obj\Debug\net7.0\API.tests.pdb
 C:\Users\Dawid\Desktop\Friendify\API.tests\obj\Debug\net7.0\API.tests.genruntimeconfig.cache
 C:\Users\Dawid\Desktop\Friendify\API.tests\obj\Debug\net7.0\ref\API.tests.dll
+C:\Users\Dawid\Desktop\Friendify\API.tests\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.InMemory.dll

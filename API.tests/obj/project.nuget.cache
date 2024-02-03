@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "B7u1KoUnvnUtgBEWb5I04gJmlSpa3sf4YUyvcrcZwEWzEsyR/axgTvgDiKQpmW0vbbse/SBts0YcXA//gG9KFQ==",
+  "dgSpecHash": "YIBDOTdujywPe9YC9W2+pRaV7o9LNcZLJQfebiohWRjpML19rMqj4gBwkdwfNRWXgiMkYX56SkeFS3qbeRfvtQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Dawid\\Desktop\\Friendify\\API.tests\\API.tests.csproj",
   "expectedPackageFiles": [
@@ -24,9 +24,10 @@
     "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.data.sqlclient\\5.0.2\\microsoft.data.sqlclient.5.0.2.nupkg.sha512",
     "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\5.0.1\\microsoft.data.sqlclient.sni.runtime.5.0.1.nupkg.sha512",
-    "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.10\\microsoft.entityframeworkcore.7.0.10.nupkg.sha512",
-    "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.10\\microsoft.entityframeworkcore.abstractions.7.0.10.nupkg.sha512",
-    "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.10\\microsoft.entityframeworkcore.analyzers.7.0.10.nupkg.sha512",
+    "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.15\\microsoft.entityframeworkcore.7.0.15.nupkg.sha512",
+    "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.15\\microsoft.entityframeworkcore.abstractions.7.0.15.nupkg.sha512",
+    "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.15\\microsoft.entityframeworkcore.analyzers.7.0.15.nupkg.sha512",
+    "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\7.0.15\\microsoft.entityframeworkcore.inmemory.7.0.15.nupkg.sha512",
     "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.10\\microsoft.entityframeworkcore.relational.7.0.10.nupkg.sha512",
     "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\7.0.10\\microsoft.entityframeworkcore.sqlserver.7.0.10.nupkg.sha512",
     "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
