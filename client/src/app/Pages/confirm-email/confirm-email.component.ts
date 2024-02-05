@@ -55,6 +55,7 @@ export class ConfirmEmailComponent implements OnInit {
         if (user.emailConfirmed) {
           this.toastr.success('Succesfully confirmed');
           localStorage.setItem('token', user.token + '');
+          localStorage.setItem('Username', user.id + '');
           this.presenceService.createHubConnection();
           this.router.navigateByUrl('main');
           localStorage.removeItem('email');

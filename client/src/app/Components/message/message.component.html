@@ -19,17 +19,22 @@
     <h6>
       <strong>{{ viewedUser.firstName }} {{ viewedUser.lastName }}</strong>
     </h6>
-    <p [class.fw-bold]="!message.read && message.sender?.id == viewedUser.id">
-      {{
-        message.sender?.id == currentUser?.id
-          ? "you:"
-          : message.sender?.firstName + ":"
-      }}
-      {{ cropedContent }}
-    </p>
+    <div [class.fw-bold]="!message.read && message.sender?.id == viewedUser.id">
+      <div class="d-flex justify-content-between">
+        {{
+          message.sender?.id == currentUser?.id
+            ? "you:"
+            : message.sender?.firstName + ":"
+        }}
+        {{ cropedContent }}<span *ngIf="message.read && message.senderId == currentUser?.id" class="text-end text-md"><i class="fa fa-eye"></i> seen</span>
+        <span *ngIf="message.read ==false && message.senderId == currentUser?.id" class="text-end text-md"><i class="fa fa-check"></i> delivered</span>
+      </div>
+
+      <div class="text-end text-muted text-sm">{{ message.sendDate + "Z" | timeago }}</div>
+    </div>
   </div>
 </div>
-<div *ngIf="!isHeadline" class="d-flex cursor-pointer" >
+<div *ngIf="!isHeadline" class="d-flex cursor-pointer">
   <div
     *ngIf="message?.sender?.id !== currentUser?.id"
     class="image-container col-1"
@@ -49,9 +54,11 @@
   </div>
   <div
     [class.text-end]="message.sender?.id === currentUser?.id"
-    class="mx-4 mt-4 col-9"
+    class="mx-4 mt-4 col-9 hovered"
   >
+    <span class="date text-muted text-sm" *ngIf="message.sender?.id === currentUser?.id">{{message.sendDate +'Z' | date:'shortTime'}}</span>
     <span class="message-theme">{{ message.content }}</span>
+    <span class=" date ms-2 text-muted text-sm" *ngIf="message.sender?.id !== currentUser?.id">{{message.sendDate +'Z'| date:'shortTime'}}</span>
   </div>
   <div
     *ngIf="message?.sender?.id === currentUser?.id"

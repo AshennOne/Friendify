@@ -30,7 +30,11 @@ export class MessagesComponent implements OnInit {
     this.messageService.getMessageHeadlines().subscribe({
       next: (messages) => {
         this.lastMessages = messages;
-        this.unreadCount = messages.filter((m) => m.read == false).length;
+        var currentUserName = localStorage.getItem('Username');
+        console.log(currentUserName);
+        this.unreadCount = messages.filter(
+          (m) => m.read == false && m.receiver?.userName == currentUserName
+        ).length;
         this.connectorService.unreadMessages.emit(this.unreadCount);
       },
     });

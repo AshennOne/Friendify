@@ -3,16 +3,36 @@
     class="mt-5 d-flex justify-content-center col-8 offset-2 col-sm-6 offset-sm-3 col-md-4 offset-md-4 btn-group"
   >
     <input
-      type="search"
-      class="form-control text-center"
+      type="text"
+      class="form-control text-center me-1"
       placeholder="search for people you can know"
+      [(ngModel)]="searchstring"
     />
-    <button class="btn btn-light"><i class="fa fa-search"></i></button>
+    <button
+      [disabled]="searchstring.length <= 0"
+      (click)="search()"
+      class="btn btn-light"
+    >
+      <i class="fa fa-search"></i>
+    </button>
   </div>
-  <h1 class="mt-4 text-center">users found: {{ users.length }}</h1>
+
+  <span>
+    <h1 class="mt-4 text-center">users found: {{ users.length }}</h1></span
+  >
+  <div class="d-flex justify-content-center">
+    <button
+      *ngIf="searchstring.length > 0 && wasSearched"
+      (click)="reset()"
+      class="btn"
+    >
+      Clear phrase <mat-icon class="ms-2" fontIcon="close"></mat-icon>
+    </button>
+  </div>
+
   <div class="mt-5 col-10 offset-1">
     <div class="row">
-      <div class="col-lg-3 col-md-4 col-6"  *ngFor="let user of users">
+      <div class="col-lg-3 col-md-4 col-6" *ngFor="let user of users">
         <app-user [user]="user"></app-user>
       </div>
     </div>

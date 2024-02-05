@@ -25,7 +25,8 @@ export class MainComponent implements OnInit {
     })
     this.messagesService.getMessageHeadlines().subscribe({
       next:(messages)=>{
-        var unread = messages.filter(m => m.read == false)
+        var currentUsername = localStorage.getItem("Username")
+        var unread = messages.filter(m => m.read == false && m.receiver?.userName == currentUsername)
         this.connectorService.unreadMessages.emit(unread.length)
       }
     })

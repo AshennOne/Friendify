@@ -70,5 +70,21 @@ namespace API.Controllers
             var users = await _userManager.Users.Include(u => u.Followed).Include(u => u.Followers).ToListAsync();
             return Ok(_mapper.Map<IEnumerable<UserClientDto>>(users));
         }
+        [HttpGet("search/{searchstring}")]
+        public async Task<ActionResult<IEnumerable<UserClientDto>>> SearchForUsers(string searchstring)
+        {
+            if (searchstring.Contains(" "))
+            {
+                var pieces = searchstring.Split(" ");
+                var users = await _userManager.Users.Where(u => u.FirstName.ToLower().Contains(pieces[0].ToLower()) || u.LastName.ToLower().Contains(pieces[1].ToLower()) || u.UserName.ToLower().Contains(pieces[0].ToLower()) || u.UserName.ToLower().Contains(pieces[1].ToLower())).ToListAsync();
+                return Ok(_mapper.Map<IEnumerable<UserClientDto>>(users));
+            }
+            else
+            {
+                var users = await _userManager.Users.Where(u => u.FirstName.ToLower().Contains(searchstring.ToLower()) || u.LastName.ToLower().Contains(searchstring.ToLower()) || u.UserName.ToLower().Contains(searchstring.ToLower())).ToListAsync();
+                return Ok(_mapper.Map<IEnumerable<UserClientDto>>(users));
+            }
+
+        }
     }
 }

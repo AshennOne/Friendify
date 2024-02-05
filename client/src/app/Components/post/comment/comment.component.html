@@ -25,7 +25,7 @@
       <label class="text-muted d-flex mt-2"
         >{{ textContent.length }}/150</label
       >
-      <button (click)="addComment()" class="btn btn-success ms-auto mt-2"><i class="fa fa-plus"></i></button>
+      <button [disabled]="textContent.length <=0" (click)="addComment()" class="btn btn-success ms-auto mt-2"><i class="fa fa-plus"></i></button>
     </div>
    
     <div *ngFor="let comment of comments">

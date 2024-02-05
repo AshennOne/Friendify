@@ -20,13 +20,12 @@ namespace API.Data.Repositories
         {
             var userId = user.Id;
 
-            var recentMessages = await _dbContext.Messages.Include(m => m.Receiver).Include(m => m.Sender)
+            var recentMessages = _dbContext.Messages.Include(m => m.Receiver).Include(m => m.Sender)
                 .Where(m => m.SenderId == userId || m.ReceiverId == userId)
                 .GroupBy(m => m.SenderId == userId ? m.ReceiverId : m.SenderId)
-                .Select(g => g.OrderByDescending(m => m.SendDate).First())
-                .ToListAsync();
-            
-            return _mapper.Map<IEnumerable<MessageDto>>(recentMessages);
+                .Select(g => g.OrderByDescending(m => m.SendDate).First()).AsEnumerable();
+            IEnumerable<Message> messages = recentMessages.OrderByDescending(m => m.SendDate).ToList();
+            return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserId, string viewedUserId)

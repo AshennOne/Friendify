@@ -27,3 +27,15 @@
 .is-online {
   color: rgb(1, 189, 42) !important;
 }
+.text-sm {
+  font-size: 0.8rem;
+}
+.text-md {
+  font-size: 0.9rem;
+}
+/*.hovered .date{
+  opacity: 0;
+}
+.hovered:hover .date{
+  opacity: 1;
+}*/

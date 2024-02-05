@@ -46,6 +46,7 @@ export class HomeComponent {
         next: (user) => {
           if (!user) this.toastr.error('user not found');
           localStorage.setItem('token', user.token + '');
+          localStorage.setItem('Username',user.userName+"")
           this.presenceService.createHubConnection()
           this.toastr.success('Succesfully logged in');
           this.router.navigateByUrl('main');

@@ -22,4 +22,7 @@ export class UserService {
   getUsers(){
     return this.http.get<User[]>(this.apiUrl+"user/all")
   }
+  searchForUsers(searchstring:string){
+    return this.http.get<User[]>(this.apiUrl+"user/search/"+ searchstring);
+  }
 }
