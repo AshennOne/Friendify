@@ -1,10 +1,10 @@
 
-  <button class="btn btn-warning d-flex ms-auto me-auto " *ngIf="selectedImageFile && !isCropped" (click)="emitImage()">Crop</button>
+  
   <div *ngIf="selectedImageFile || isForUser" id="post-review" class="ms-auto d-flex justify-content-end mt-2">
-       
-    <img [class.preview]="!isForUser" [src]="croppedImagePreview"  [class.rounded]="isForUser" id="post-preview-image">
+    <img *ngIf="isForUser"  [src]="croppedImagePreview=='' ? currentImageUrl : croppedImagePreview"  class="rounded" id="post-preview-image">  
+    <img *ngIf="!isForUser" class="preview" [src]="croppedImagePreview" id="post-preview-image">
   </div>
-
+  <button class="btn btn-warning d-flex ms-auto me-auto " *ngIf="selectedImageFile && !isCropped" (click)="emitImage()">Crop</button>
 <div >
   <image-cropper
   [imageChangedEvent]="imageChangedEvent"

@@ -19,7 +19,7 @@
       </div>
       <div class="modal-body">
         <div class="d-flex justify-content-center">
-          <app-photo-upload (imageSelected)="changeImage($event)" [isForUser]="true"></app-photo-upload>
+          <app-photo-upload (imageSelected)="changeImage($event)" [currentImageUrl]="imgUrl || ' '" [isForUser]="true"></app-photo-upload>
         </div>
         <div class="col-6 offset-3 d-flex btn-group">
           <button class="btn btn-warning"  (click)="hideModal()">Cancel</button>

@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'messages/:id', component: MessageThreadComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'users', component: UsersComponent },
+  { path: '**', component: HomeComponent },
 ];
 
 @NgModule({

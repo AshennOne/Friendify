@@ -1,5 +1,10 @@
 <div class="d-flex">
-  <p *ngIf="!isBeingEdited">{{ bio || "no bio set yet" }}</p>
+  <div *ngIf="!isCurrentUser" class=" mx-auto mx-lg-0">
+    <div class="ms-3 ms-lg-0 mb-2" *ngIf="!isBeingEdited">{{ bio || "no bio set yet" }}</div>
+  </div>
+  <div *ngIf="isCurrentUser" class=" ms-auto ms-lg-0">
+    <div class="ms-3 ms-lg-0 mb-2" *ngIf="!isBeingEdited">{{ bio || "no bio set yet" }}</div>
+  </div>
   <textarea
     class="form-control resize-none mb-2"
     *ngIf="isBeingEdited"

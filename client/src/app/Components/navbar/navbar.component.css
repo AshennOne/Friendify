@@ -8,7 +8,8 @@
   cursor: pointer;
 }
 .dropdownList {
-  transform: translateX(-20px) !important;
+  transform: translateX(10px) !important;
+  transform: translateY(10px) !important;
 }
 .photo{
   width: 40px;

@@ -45,7 +45,7 @@
         <div class="text-muted text-center text-lg-start">
           &#64;{{ user.userName }}
         </div>
-        <div class="mt-3 text-center text-lg-start">
+        <div class="mt-2 text-center text-lg-start">
           <app-bio [bio]="user.bio" [isCurrentUser]="isCurrentUser"></app-bio>
 
           <div class="d-flex justify-content-between">
@@ -64,9 +64,12 @@
     </div>
 
     <div class="row">
-      <div *ngFor="let post of posts">
-        <app-post [post]="post"></app-post>
+      <div class="my-4" *ngIf="posts.length> 0">
+        <div *ngFor="let post of posts">
+          <app-post [post]="post"></app-post>
+        </div>
       </div>
+      
       <div class="my-5 d-flex align-items-center justify-content-center" *ngIf="posts.length == 0">
         <h4 class="mt-5">This user doesn't have any posts yet</h4>
       </div>
