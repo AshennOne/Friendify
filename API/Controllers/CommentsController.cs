@@ -7,11 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Manages operations related to comments on posts, such as creating, getting, updating and deleting comments.
+    /// </summary>
     public class CommentsController : BaseApiController
     {
+        /// <summary>
+        /// Provides access to the unit of work for interacting with the database.
+        /// </summary>
         private readonly IUnitOfWork _unitOfWork;
-
+        /// <summary>
+        /// Manages user-related operations such as finding correct user.
+        /// </summary>
         private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentsController"/> class.
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="userManager"></param>
         public CommentsController(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
             _unitOfWork = unitOfWork;
@@ -19,6 +32,11 @@ namespace API.Controllers
 
 
         }
+        /// <summary>
+        /// Retrieves comments associated with a specific post.
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns>Status code of operation</returns>
         [HttpGet("{postId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<CommentResponseDto>))]
         public IActionResult GetCommentsForPost(int postId)
@@ -27,6 +45,11 @@ namespace API.Controllers
             return Ok(comments);
 
         }
+        /// <summary>
+        /// Adds a new comment to a post.
+        /// </summary>
+        /// <param name="commentDto"></param>
+        /// <returns>Status code of operation</returns>
         [HttpPost]
         public async Task<ActionResult> AddComment([FromBody] CommentDto commentDto)
         {
@@ -52,6 +75,12 @@ namespace API.Controllers
 
             return BadRequest("Adding comment failed");
         }
+        /// <summary>
+        /// Edits an existing comment.
+        /// </summary>
+        /// <param name="commentDto"></param>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> EditComment([FromBody] CommentDto commentDto, [FromRoute] int id)
         {
@@ -63,6 +92,11 @@ namespace API.Controllers
                 return Ok("Success");
             return BadRequest("Editing comment failed");
         }
+        /// <summary>
+        /// Deletes a comment.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteComment(int id)
         {
@@ -79,6 +113,10 @@ namespace API.Controllers
 
             return BadRequest("Deleting comment failed");
         }
+        /// <summary>
+        /// Retrieves the current user.
+        /// </summary>
+        /// <returns>Current user data</returns>
         private async Task<User> GetUser()
         {
             var username = User.GetUsernameFromToken();

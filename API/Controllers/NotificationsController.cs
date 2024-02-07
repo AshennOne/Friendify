@@ -6,16 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Manages operations related to notifications, including creating notifications and marking them as read.
+    /// </summary>
     public class NotificationsController : BaseApiController
     {
-        private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Provides access to the unit of work for interacting with the database.
+        /// </summary>
         private readonly IUnitOfWork _unitOfWork;
+        /// <summary>
+        /// Manages user-related operations such as finding correct user.
+        /// </summary>
+        private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationsController"/> class.
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="userManager"></param>
         public NotificationsController(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
 
         }
+        /// <summary>
+        /// Retrieves notifications for the current user.
+        /// </summary>
+        /// <returns>Status code of operation with list of notifications for user</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Notification>>> GetNotificationsForUser()
         {
@@ -24,6 +42,11 @@ namespace API.Controllers
             var notifications = await _unitOfWork.NotificationRepository.GetNotifications(user);
             return Ok(notifications);
         }
+        /// <summary>
+        /// Marks a notification as read.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation with last read notification</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<Notification>> ReadNotification(int id)
         {

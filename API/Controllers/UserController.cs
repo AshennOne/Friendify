@@ -10,11 +10,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Manages user-related operations such as user verification, retrieval, editing, and search.
+    /// </summary>
     public class UserController : BaseApiController
     {
+        /// <summary>
+        /// Manages user-related operations such as finding correct user.
+        /// </summary>
         private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Service for generating tokens.
+        /// </summary>
         private readonly ITokenService _tokenService;
+        /// <summary>
+        /// Maps between different object types, facilitating data transformation.
+        /// </summary>
         private readonly IMapper _mapper;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="tokenService"></param>
+        /// <param name="mapper"></param>
         public UserController(UserManager<User> userManager, ITokenService tokenService, IMapper mapper)
         {
             _mapper = mapper;
@@ -22,6 +40,11 @@ namespace API.Controllers
             _userManager = userManager;
 
         }
+        /// <summary>
+        /// Checks if a user with the specified email is verified.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>Status code of operation with authorized user credentials</returns>
         [AllowAnonymous]
         [HttpGet("{email}")]
         public async Task<ActionResult<AuthorizedUserDto>> CheckIsVerified(string email)
@@ -41,6 +64,11 @@ namespace API.Controllers
                 });
             }
         }
+        /// <summary>
+        /// Retrieves a user by their ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation with retrieved user object</returns>
         [HttpGet("id/{id}")]
         public async Task<ActionResult<UserClientDto>> GetUserById(string id)
         {
@@ -48,6 +76,11 @@ namespace API.Controllers
             if (user == null) return NotFound();
             return Ok(_mapper.Map<UserClientDto>(user));
         }
+        /// <summary>
+        ///  Edits user information based on the provided DTO.
+        /// </summary>
+        /// <param name="editUserDto"></param>
+        /// <returns>Status code of operation with edited user object</returns>
         [HttpPut]
         public async Task<ActionResult<UserClientDto>> EditUser([FromBody] EditUserDto editUserDto)
         {
@@ -64,12 +97,21 @@ namespace API.Controllers
             await _userManager.UpdateAsync(user);
             return _mapper.Map<UserClientDto>(user);
         }
+        /// <summary>
+        /// Retrieves all users.
+        /// </summary>
+        /// <returns>Status code of operation with list of all users</returns>
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<UserClientDto>>> GetAllUsers()
         {
             var users = await _userManager.Users.Include(u => u.Followed).Include(u => u.Followers).ToListAsync();
             return Ok(_mapper.Map<IEnumerable<UserClientDto>>(users));
         }
+        /// <summary>
+        /// Searches for users based on the provided search string.
+        /// </summary>
+        /// <param name="searchstring"></param>
+        /// <returns>Status code of operation with list of users that was found</returns>
         [HttpGet("search/{searchstring}")]
         public async Task<ActionResult<IEnumerable<UserClientDto>>> SearchForUsers(string searchstring)
         {

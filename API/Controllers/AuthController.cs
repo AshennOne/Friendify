@@ -12,14 +12,40 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// This class is responsible for whole authentication logic - registration process, log in, reset password and email verification
+    /// </summary>
     [AllowAnonymous]
     public class AuthController : BaseApiController
     {
+        /// <summary>
+        /// Manages user-related operations such as registration, login, and generating tokens
+        /// </summary>
         private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Generates and manages jwt authentication tokens for user.
+        /// </summary>
         private readonly ITokenService _tokenService;
+        /// <summary>
+        /// Sends email to user for account-related actions.
+        /// </summary>
         private readonly IEmailSender _emailSender;
+        /// <summary>
+        /// Maps between different object types, facilitating data transformation.
+        /// </summary>
         private readonly IMapper _mapper;
+        /// <summary>
+        /// Provides access to the unit of work for interacting with the database.
+        /// </summary>
         private readonly IUnitOfWork _unitOfWork;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthController"/> class.
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="tokenService"></param>
+        /// <param name="emailSender"></param>
+        /// <param name="mapper"></param>
+        /// <param name="unitOfWork"></param>
         public AuthController(UserManager<User> userManager, ITokenService tokenService, IEmailSender emailSender, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -28,7 +54,11 @@ namespace API.Controllers
             _tokenService = tokenService;
             _userManager = userManager;
         }
-
+        /// <summary>
+        ///Handles user login by verifying credentials and generating an authentication token.
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns>Status code of operation with authorized user credentials</returns>
         [HttpPost("login")]
         public async Task<ActionResult<AuthorizedUserDto>> Login([FromBody] LoginDto loginDto)
         {
@@ -64,7 +94,11 @@ namespace API.Controllers
             }
 
         }
-
+        /// <summary>
+        /// Manages user registration process, ensuring uniqueness of email and username.
+        /// </summary>
+        /// <param name="registerDto"></param>
+        /// <returns>Status code of operation</returns>
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] RegisterDto registerDto)
         {
@@ -93,6 +127,13 @@ namespace API.Controllers
                 return Ok("Succesfully registered, check your mailbox");
             }
         }
+        /// <summary>
+        /// Handles the process of resetting user passwords by validating email confirmation URL and updating password.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="code"></param>
+        /// <param name="newPassword"></param>
+        /// <returns>Status code of operation</returns>
         [HttpGet("forgetpassword")]
         public async Task<ActionResult> ForgetPassword([FromQuery] string userId, [FromQuery] string code, [FromQuery] string newPassword)
         {
@@ -103,7 +144,12 @@ namespace API.Controllers
             if (result.Succeeded) return Ok("Success! You can go back to page");
             return BadRequest("Please try again later");
         }
-
+        /// <summary>
+        /// Manages email confirmation process by validating confirmation URL.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="code"></param>
+        /// <returns>Status code of operation</returns>
         [HttpGet("confirmemail")]
         public async Task<ActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string code)
         {
@@ -116,7 +162,13 @@ namespace API.Controllers
             return BadRequest("Please try again later");
 
         }
-
+        /// <summary>
+        /// Initiates the process of sending verification emails for either email confirmation or password reset.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="isPassword"></param>
+        /// <param name="password"></param>
+        /// <returns>Status code of operation</returns>
 
         [HttpPost("sendEmail")]
         public async Task<ActionResult> GetNewVerifyEmail([FromQuery] string email, [FromQuery] bool isPassword, [FromQuery] string password = " ")
@@ -127,6 +179,10 @@ namespace API.Controllers
             HandleEmail(user, isPassword, password);
             return Ok("Email has been sent, check your inbox. If you don't see verification Email, check your spam");
         }
+        /// <summary>
+        ///  Retrieves the current user details.
+        /// </summary>
+        /// <returns>Status code of operation with current user data</returns>
         [HttpGet("{currentUser}")]
         public async Task<ActionResult<UserClientDto>> GetCurrentUser()
         {
@@ -147,6 +203,12 @@ namespace API.Controllers
 
             });
         }
+        /// <summary>
+        /// Private method to manage the sending of email notifications for password reset or email confirmation.
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <param name="isPassword"></param>
+        /// <param name="password"></param>
         private async void HandleEmail(User newUser, bool isPassword, string password)
         {
 
@@ -172,6 +234,11 @@ namespace API.Controllers
 
 
         }
+        /// <summary>
+        /// Private method to validate the format of an email address using regular expressions.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>Boolean value that is true when email has valid format</returns>
         private bool IsEmailValid(string email)
         {
 

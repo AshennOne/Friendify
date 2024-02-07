@@ -8,16 +8,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Manages operations related to following users, including getting followers, followed users, following and unfollowing users.
+    /// </summary>
     public class FollowController : BaseApiController
     {
-        private readonly UserManager<User> _userManager;
+
+        /// <summary>
+        /// Provides access to the unit of work for interacting with the database.
+        /// </summary>
         private readonly IUnitOfWork _unitOfWork;
+        /// <summary>
+        /// Manages user-related operations such as finding correct user.
+        /// </summary>
+        private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FollowController"/> class.
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="unitOfWork"></param>
         public FollowController(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
 
         }
+        /// <summary>
+        /// Retrieves followers for a specified user ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation with list of followers</returns>
         [HttpGet("followers/{id}")]
         public async Task<ActionResult<IEnumerable<FollowDto>>> GetFollowersForUser(string id)
         {
@@ -26,6 +46,11 @@ namespace API.Controllers
             var follows = _unitOfWork.FollowRepository.GetFollowersForUser(id);
             return Ok(follows);
         }
+        /// <summary>
+        /// Retrieves users followed by a specified user ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation with list of followed users</returns>
         [HttpGet("followed/{id}")]
         public async Task<ActionResult<IEnumerable<FollowDto>>> GetFollowedByUser(string id)
         {
@@ -34,6 +59,11 @@ namespace API.Controllers
             var follows = _unitOfWork.FollowRepository.GetFollowedByUser(id);
             return Ok(follows);
         }
+        /// <summary>
+        /// Follows a user.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation with new follow object</returns>
         [HttpPost("{id}")]
         public async Task<ActionResult<FollowDto>> Follow(string id)
         {
@@ -52,6 +82,11 @@ namespace API.Controllers
 
             else return BadRequest("Following failed");
         }
+        /// <summary>
+        /// Unfollows a user.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> Unfollow(string id)
         {
@@ -65,6 +100,10 @@ namespace API.Controllers
 
             return NoContent();
         }
+        /// <summary>
+        /// Retrieves the current user.
+        /// </summary>
+        /// <returns>Current user data</returns>
         private async Task<User> getUser()
         {
             var username = User.GetUsernameFromToken();

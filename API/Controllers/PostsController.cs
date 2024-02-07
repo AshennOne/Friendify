@@ -8,21 +8,44 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Manages operations related to posts, including searching, getting, creation, editing, and deletion.
+    /// </summary>
     public class PostsController : BaseApiController
     {
-        private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Provides access to the unit of work for interacting with the database.
+        /// </summary>
         private readonly IUnitOfWork _unitOfWork;
+        /// <summary>
+        /// Manages user-related operations such as finding correct user.
+        /// </summary>
+        private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostsController"/> class.
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="userManager"></param>
         public PostsController(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
 
         }
+        /// <summary>
+        /// Searches posts based on the provided search string.
+        /// </summary>
+        /// <param name="searchstring"></param>
+        /// <returns>Status code of operation with list of posts that contain provided search string</returns>
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<PostDto>>> SearchPosts([FromQuery] string searchstring)
         {
             return Ok(await _unitOfWork.PostRepository.SearchPosts(searchstring));
         }
+        /// <summary>
+        /// Retrieves all posts except those belonging to the current user.
+        /// </summary>
+        /// <returns>Status code of operation with list of posts except those belonging to the current user</returns>
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetAllPostsExceptUser()
         {
@@ -32,6 +55,10 @@ namespace API.Controllers
             var posts = _unitOfWork.PostRepository.GetAllPosts();
             return Ok(posts);
         }
+        /// <summary>
+        /// Retrieves posts authored by the current user.
+        /// </summary>
+        /// <returns>Status code of operation with list of posts that are authored by the current user</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsForUser()
         {
@@ -42,6 +69,11 @@ namespace API.Controllers
             var posts = _unitOfWork.PostRepository.GetPostsForUser(username);
             return Ok(posts);
         }
+        /// <summary>
+        /// Retrieves posts authored by the user with the specified ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation with list of posts authored by the user with the specified ID.</returns>
         [HttpGet("user/{id}")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsForUserId(string id)
         {
@@ -50,6 +82,11 @@ namespace API.Controllers
             var posts = _unitOfWork.PostRepository.GetPostsForUser(user.UserName);
             return Ok(posts);
         }
+        /// <summary>
+        /// Retrieves a post by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation with post object retrieved by its ID</returns>
         [HttpGet("{id}")]
          public async Task<ActionResult<PostDto>> GetPostsForById(int id)
          {
@@ -57,6 +94,11 @@ namespace API.Controllers
            if(post == null) return BadRequest("Post doesn't exists");
            return Ok(_unitOfWork.PostRepository.ConvertToDto(post));
          }
+        /// <summary>
+        /// Adds a new post.
+        /// </summary>
+        /// <param name="post"></param>
+        /// <returns>Status code of operation with created post object</returns>
         [HttpPost]
         public async Task<ActionResult<Post>> AddPost(Post post)
         {
@@ -92,6 +134,11 @@ namespace API.Controllers
                 return BadRequest("Failed to add post");
             }
         }
+        /// <summary>
+        /// Deletes a post by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePost(int id)
         {
@@ -111,6 +158,12 @@ namespace API.Controllers
                 return BadRequest("Failed to delete post");
             }
         }
+        /// <summary>
+        /// Edits a post with the specified ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="post"></param>
+        /// <returns>Status code of operation</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> EditPost(int id, [FromBody] Post post)
         {

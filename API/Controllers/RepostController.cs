@@ -7,16 +7,35 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Manages operations related to reposting and unreposting posts.
+    /// </summary>
     public class RepostController : BaseApiController
     {
-        private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Provides access to the unit of work for interacting with the database.
+        /// </summary>
         private readonly IUnitOfWork _unitOfWork;
+        /// <summary>
+        /// Manages user-related operations such as finding correct user.
+        /// </summary>
+        private readonly UserManager<User> _userManager;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RepostController"/> class.
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="userManager"></param>
         public RepostController(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
 
         }
+        /// <summary>
+        /// Reposts a post with the specified ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation with reposted post (our, non-original)</returns>
         [HttpPost("{id}")]
         public async Task<ActionResult<Post>> Repost(int id)
         {
@@ -51,6 +70,11 @@ namespace API.Controllers
                 return BadRequest("Failed to repost");
             }
         }
+        /// <summary>
+        /// Unreposts a previously reposted post with the specified ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code of operation</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> Unrepost(int id)
         {
@@ -71,6 +95,10 @@ namespace API.Controllers
                 return BadRequest("Failed to delete");
             }
         }
+        /// <summary>
+        /// Retrieves all posts reposted by the current user.
+        /// </summary>
+        /// <returns>Status code of operation with list of posts</returns>
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetAllRepostedPostsByUser()
         {
