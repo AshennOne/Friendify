@@ -27,3 +27,11 @@ body {
 .is-online {
   color: rgb(1, 189, 42) !important;
 }
+.clickable{
+  cursor: pointer;
+ 
+}
+
+.clickable:hover{
+  text-decoration: underline;
+}

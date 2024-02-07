@@ -39,7 +39,7 @@
     *ngIf="message?.sender?.id !== currentUser?.id"
     class="image-container col-1"
   >
-    <img class="photo mb-3" src="{{ message.sender?.imgUrl || '' }}" />
+    <img class="photo mb-3" src="{{ message.sender?.imgUrl || '' }}"  (click)="redirectToProfile()"/>
     <span
       *ngIf="
         message.sender?.userName != undefined &&

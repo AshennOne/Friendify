@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Message } from 'src/app/_models/Message';
 import { User } from 'src/app/_models/User';
 import { ConnectorService } from 'src/app/_services/connector.service';
@@ -22,7 +22,8 @@ export class MessageThreadComponent implements OnInit {
     private messageService: MessageService,
     private userService: UserService,
     private connectorService:ConnectorService,
-    public presenceService:PresenceService
+    public presenceService:PresenceService,
+    private router:Router
   ) {
     
   }
@@ -69,5 +70,8 @@ export class MessageThreadComponent implements OnInit {
       messageAreaElement.scrollTop = messageAreaElement.scrollHeight;
     }
     
+  }
+  redirect(){
+    this.router.navigateByUrl('user/'+this.viewedUser.id)
   }
 }

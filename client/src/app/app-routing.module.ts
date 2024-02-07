@@ -10,19 +10,21 @@ import { MessagesComponent } from './Pages/messages/messages.component';
 import { NotificationsComponent } from './Pages/notifications/notifications.component';
 import { UsersComponent } from './Pages/users/users.component';
 import { MessageThreadComponent } from './Pages/message-thread/message-thread.component';
+import { AuthGuard } from './_guards/auth.guard';
+import { AntiAuthGuard } from './_guards/anti-auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'confirmemail', component: ConfirmEmailComponent },
-  { path: 'forgetpassword', component: ForgetPasswordComponent },
-  {path: 'user/:id', component:DetailsComponent},
-  { path: 'main', component: MainComponent },
-  { path: 'messages', component: MessagesComponent },
-  { path: 'messages/:id', component: MessageThreadComponent },
-  { path: 'notifications', component: NotificationsComponent },
-  { path: 'users', component: UsersComponent },
-  { path: '**', component: HomeComponent },
+  { path: '', component: HomeComponent, canActivate: [AntiAuthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [AntiAuthGuard] },
+  { path: 'confirmemail', component: ConfirmEmailComponent, canActivate: [AntiAuthGuard] },
+  { path: 'forgetpassword', component: ForgetPasswordComponent, canActivate: [AntiAuthGuard] },
+  { path: 'user/:id', component: DetailsComponent, canActivate: [AuthGuard] },
+  { path: 'main', component: MainComponent, canActivate: [AuthGuard] },
+  { path: 'messages', component: MessagesComponent, canActivate: [AuthGuard] },
+  { path: 'messages/:id', component: MessageThreadComponent, canActivate: [AuthGuard] },
+  { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+  { path: '**', component: HomeComponent, canActivate: [AntiAuthGuard] },
 ];
 
 @NgModule({

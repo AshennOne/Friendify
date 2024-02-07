@@ -29,6 +29,9 @@ export class MessageComponent implements OnInit, OnChanges {
   redirect() {
     this.router.navigateByUrl('messages/' + this.viewedUser?.id);
   }
+  redirectToProfile(){
+    this.router.navigateByUrl('user/'+this.viewedUser.id)
+  }
   ngOnInit(): void {
     this.cropedContent = this.message?.content?.substring(0, 40) + '';
     if (this.message?.content && this.message?.content?.length > 40)
