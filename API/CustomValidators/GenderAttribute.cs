@@ -7,10 +7,18 @@ namespace API.CustomValidators
 {
     using System;
 using System.ComponentModel.DataAnnotations;
-
-public class GenderAttribute : ValidationAttribute
+    /// <summary>
+    /// This class defines a custom validation attribute for validating gender values.
+    /// </summary>
+    public class GenderAttribute : ValidationAttribute
 {
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        /// <summary>
+        /// Validates the specified gender value.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="validationContext"></param>
+        /// <returns>ValidationResult.Success if the gender value is valid (either "female" or "male"). Otherwise, returns a ValidationResult with the specified error message or a default message.</returns>
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         if (value == null || !(value is string gender))
         {
