@@ -4,14 +4,30 @@ using MimeKit;
 
 namespace API.Helpers
 {
+    /// <summary>
+    /// Helper class for sending emails.
+    /// </summary>
     public class EmailSender : IEmailSender
     {
+        /// <summary>
+        /// Represents the configuration settings required for sending emails.
+        /// </summary>
         private readonly IConfiguration _configuration;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmailSender"/> class with the specified configuration.
+        /// </summary>
+        /// <param name="configuration"></param>
         public EmailSender(IConfiguration configuration)
         {
             _configuration = configuration;
 
         }
+        /// <summary>
+        /// Sends an email with the provided body, email address, and subject.
+        /// </summary>
+        /// <param name="body">The content of the email.</param>
+        /// <param name="email">The recipient's email address.</param>
+        /// <param name="subject">The subject of the email.</param>
         public void SendEmail(string body, string email,string subject)
         {
             var emailMessage = new MimeMessage();

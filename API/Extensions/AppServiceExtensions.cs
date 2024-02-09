@@ -7,8 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
 {
+    /// <summary>
+    /// Provides extension methods for configuring and loading services into the application.
+    /// </summary>
     public static class AppServiceExtensions
     {
+        /// <summary>
+        /// This method loads various services into the ASP.NET Core application's service container.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns>The modified service collection.</returns>
         public static IServiceCollection LoadServices(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.AddControllers();

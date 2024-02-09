@@ -4,9 +4,14 @@ using AutoMapper;
 
 namespace API.Helpers
 {
+    /// <summary>
+    /// Contains AutoMapper profiles for mapping entities to DTOs and vice versa.
+    /// </summary>
     public class AutoMapperProfiles : Profile
     {
-
+        /// <summary>
+        /// Initializes AutoMapper mapping configurations.
+        /// </summary>
         public AutoMapperProfiles()
         {
             CreateMap<Post, PostDto>()

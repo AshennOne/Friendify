@@ -6,14 +6,29 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Helpers
 {
-    public class TokenService:ITokenService
+    /// <summary>
+    /// Service for generating JWT tokens.
+    /// </summary>
+    public class TokenService: ITokenService
     {
+        /// <summary>
+        /// Configuration instance for retrieving JWT key.
+        /// </summary>
         private readonly IConfiguration _configuration;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TokenService"/> class with the specified configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration instance.</param>
         public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
 
         }
+        /// <summary>
+        /// Generates a JWT token for the specified username.
+        /// </summary>
+        /// <param name="username">The username for which the token is generated.</param>
+        /// <returns>The generated JWT token.</returns>
         public string GetToken(string username)
         {
 

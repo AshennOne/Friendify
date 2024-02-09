@@ -7,8 +7,17 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Extensions
 {
+    /// <summary>
+    /// Provides extension methods for configuring and loading authentication-related services into the application.
+    /// </summary>
     public static class AuthServiceExtensions
     {
+        /// <summary>
+        /// Configures authentication services in the application.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns>The modified service collection.</returns>
         public static IServiceCollection LoadAuth(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
@@ -41,7 +50,6 @@ namespace API.Extensions
                     }
                 };
             });
-           
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
