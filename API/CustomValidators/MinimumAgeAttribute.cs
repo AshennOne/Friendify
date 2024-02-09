@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 namespace API.CustomValidators
 {
     /// <summary>
-    /// 
+    /// This class defines a custom validation attribute for ensuring that a person's age meets a minimum threshold.
     /// </summary>
     public class MinimumAgeAttribute : ValidationAttribute
     {
         /// <summary>
-        /// This class defines a custom validation attribute for ensuring that a person's age meets a minimum threshold.
+        /// This property specifies a minimum age that is allowed to have an account
         /// </summary>
         private readonly int _minimumAge;
         /// <summary>

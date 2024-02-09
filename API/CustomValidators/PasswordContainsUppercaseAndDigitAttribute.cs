@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace API.CustomValidators
-{/// <summary>
-/// This class defines a custom validation attribute for validating whether a password contains at least one uppercase letter and at least one digit.
-/// </summary>
+{
+    /// <summary>
+    /// This class defines a custom validation attribute for validating whether a password contains at least one uppercase letter and at least one digit.
+    /// </summary>
     public class PasswordContainsUppercaseAndDigitAttribute : ValidationAttribute
     {
         /// <summary>

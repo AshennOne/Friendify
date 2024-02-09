@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations;
 namespace API.CustomValidators
 {
-    using System;
-using System.ComponentModel.DataAnnotations;
+   
     /// <summary>
     /// This class defines a custom validation attribute for validating gender values.
     /// </summary>
