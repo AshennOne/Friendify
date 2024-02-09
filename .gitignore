@@ -3,3 +3,5 @@ client/src/environments/environment.prod.ts
 client/ssl/certificate.pem
 client/ssl/privatekey.pem
 client/ssl/ssl.pfx
+.vs/
+.vscode/
