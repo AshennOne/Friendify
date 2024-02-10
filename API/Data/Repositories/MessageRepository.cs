@@ -35,7 +35,7 @@ namespace API.Data.Repositories
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Returns a collection of MessageDto objects representing the last messages exchanged by the user.</returns>
-        public async Task<IEnumerable<MessageDto>> GetLastMessages(User user)
+        public IEnumerable<MessageDto> GetLastMessages(User user)
         {
             var userId = user.Id;
 

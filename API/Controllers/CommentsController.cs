@@ -35,8 +35,9 @@ namespace API.Controllers
         /// <summary>
         /// Retrieves comments associated with a specific post.
         /// </summary>
-        /// <param name="postId"></param>
+        /// <param name="postId">id of post that you want to get comments for</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If comments has been retrieved from database</response>
         [HttpGet("{postId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<CommentResponseDto>))]
         public IActionResult GetCommentsForPost(int postId)
@@ -48,8 +49,11 @@ namespace API.Controllers
         /// <summary>
         /// Adds a new comment to a post.
         /// </summary>
-        /// <param name="commentDto"></param>
+        /// <param name="commentDto">instance of data transfer object that contains new comment properties</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If comment has been added to database</response>
+        /// <response code="404">If current user doesn't exists</response>
+        /// <response code="400">If unexpected error occured while adding new comment</response>
         [HttpPost]
         public async Task<ActionResult> AddComment([FromBody] CommentDto commentDto)
         {
@@ -78,9 +82,12 @@ namespace API.Controllers
         /// <summary>
         /// Edits an existing comment.
         /// </summary>
-        /// <param name="commentDto"></param>
-        /// <param name="id"></param>
+        /// <param name="commentDto">instance of data transfer object that contains edited comment</param>
+        /// <param name="id">id of comment that you want to edit</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If comment has been edited successfuly</response>
+        /// <response code="400">If unexpected error occured while editing comment</response>
+        /// <response code="404">If current user doesn't exists</response>
         [HttpPut("{id}")]
         public async Task<ActionResult> EditComment([FromBody] CommentDto commentDto, [FromRoute] int id)
         {
@@ -95,8 +102,11 @@ namespace API.Controllers
         /// <summary>
         /// Deletes a comment.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of comment that you want to remove</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If comment has been removed successfuly</response>
+        /// <response code="400">If unexpected error occured while deleting comment</response>
+        /// <response code="404">If current user doesn't exists</response>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteComment(int id)
         {
@@ -107,7 +117,7 @@ namespace API.Controllers
             await _unitOfWork.CommentRepository.DeleteComment(id, user.Id);
             if (await _unitOfWork.SaveChangesAsync())
             {
-                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Comment,comment.PostId);
+                await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Comment, comment.PostId);
                 return Ok("Success");
             }
 

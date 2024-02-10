@@ -1,9 +1,12 @@
+using System.Reflection;
 using API.Data;
 using API.Data.Repositories;
 using API.Helpers;
 using API.Interfaces;
 using API.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 namespace API.Extensions
 {
@@ -23,7 +26,7 @@ namespace API.Extensions
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IUnitOfWork,UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
@@ -36,16 +39,49 @@ namespace API.Extensions
             });
             services.AddSingleton<PresenceTracker>();
             services.AddSignalR();
+            services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Friendify API",
+        Version = "v1"
+    });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please insert JWT with Bearer into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+   {
+     new OpenApiSecurityScheme
+     {
+       Reference = new OpenApiReference
+       {
+         Type = ReferenceType.SecurityScheme,
+         Id = "Bearer"
+       }
+      },
+      new string[] { }
+    }
+  });
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton<IConfiguration>(configuration);
-            services.AddScoped<IPostLikeRepository,PostLikeRepository>();
+            services.AddScoped<IPostLikeRepository, PostLikeRepository>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IPostRepository, PostRepository>();
-             services.AddScoped<INotificationRepository, NotificationRepository>();
-            services.AddScoped<ICommentRepository,CommentRepository>();
-            services.AddScoped<IFollowRepository,FollowRepository>();
-            services.AddScoped<IMessageRepository,MessageRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IFollowRepository, FollowRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             return services;

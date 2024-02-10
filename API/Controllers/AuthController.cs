@@ -57,8 +57,11 @@ namespace API.Controllers
         /// <summary>
         ///Handles user login by verifying credentials and generating an authentication token.
         /// </summary>
-        /// <param name="loginDto"></param>
+        /// <param name="loginDto">instance of data transfer object that contains log in credentials</param>
         /// <returns>Status code of operation with authorized user credentials</returns>
+        /// <response code="200">Returns authorized user credentials</response>
+        /// <response code="404">If user doesn't exists</response>
+        /// <response code="400">If user exists, but credentials are invalid</response>
         [HttpPost("login")]
         public async Task<ActionResult<AuthorizedUserDto>> Login([FromBody] LoginDto loginDto)
         {
@@ -97,8 +100,10 @@ namespace API.Controllers
         /// <summary>
         /// Manages user registration process, ensuring uniqueness of email and username.
         /// </summary>
-        /// <param name="registerDto"></param>
+        /// <param name="registerDto">instance of data transfer object that contains registration credentials</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If user has been succesfully registered</response>
+        /// <response code="400">If user cannot be registered</response>
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] RegisterDto registerDto)
         {
@@ -130,10 +135,12 @@ namespace API.Controllers
         /// <summary>
         /// Handles the process of resetting user passwords by validating email confirmation URL and updating password.
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="code"></param>
-        /// <param name="newPassword"></param>
+        /// <param name="userId">id of user that wants to reset password</param>
+        /// <param name="code">generated password reset token (available only after clicking link retrieved on email)</param>
+        /// <param name="newPassword">new password for user</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If email with password reset token has been sent</response>
+        /// <response code="400">If sending email went wrong or email is not valid</response>
         [HttpGet("forgetpassword")]
         public async Task<ActionResult> ForgetPassword([FromQuery] string userId, [FromQuery] string code, [FromQuery] string newPassword)
         {
@@ -147,9 +154,11 @@ namespace API.Controllers
         /// <summary>
         /// Manages email confirmation process by validating confirmation URL.
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="code"></param>
+        /// <param name="userId">id of user that want to confirm email</param>
+        /// <param name="code">generated verification token (available only after clicking link retrieved on email)</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If email has been confirmed sucessfully</response>
+        /// <response code="400">If email cannot be confirmed or email url is invalid</response>
         [HttpGet("confirmemail")]
         public async Task<ActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string code)
         {
@@ -165,11 +174,11 @@ namespace API.Controllers
         /// <summary>
         /// Initiates the process of sending verification emails for either email confirmation or password reset.
         /// </summary>
-        /// <param name="email"></param>
-        /// <param name="isPassword"></param>
-        /// <param name="password"></param>
+        /// <param name="email">email address where email will be sent</param>
+        /// <param name="isPassword">true if it's password email, otherwise false</param>
+        /// <param name="password">user password</param>
         /// <returns>Status code of operation</returns>
-
+        /// <response code="200">If email has been sent</response>
         [HttpPost("sendEmail")]
         public async Task<ActionResult> GetNewVerifyEmail([FromQuery] string email, [FromQuery] bool isPassword, [FromQuery] string password = " ")
         {
@@ -183,12 +192,14 @@ namespace API.Controllers
         ///  Retrieves the current user details.
         /// </summary>
         /// <returns>Status code of operation with current user data</returns>
+        /// <response code="200">If current user has been retrieved from database</response>
+        /// <response code="404">If current user is not found</response>
         [HttpGet("{currentUser}")]
         public async Task<ActionResult<UserClientDto>> GetCurrentUser()
         {
             var UserName = User.GetUsernameFromToken();
             var user = await _userManager.Users.Include(u => u.Followed).Include(u => u.Followers).Include(u => u.Notifications).FirstOrDefaultAsync(u => u.UserName == UserName);
-            var Notifications =await _unitOfWork.NotificationRepository.GetNotifications(user);
+            var Notifications = await _unitOfWork.NotificationRepository.GetNotifications(user);
             if (user == null) return NotFound("User not found");
             return Ok(new UserClientDto
             {
@@ -206,9 +217,9 @@ namespace API.Controllers
         /// <summary>
         /// Private method to manage the sending of email notifications for password reset or email confirmation.
         /// </summary>
-        /// <param name="newUser"></param>
-        /// <param name="isPassword"></param>
-        /// <param name="password"></param>
+        /// <param name="newUser">instance of user that got email</param>
+        /// <param name="isPassword">true if it's password email, otherwise false</param>
+        /// <param name="password">new password for user</param>
         private async void HandleEmail(User newUser, bool isPassword, string password)
         {
 
@@ -237,7 +248,7 @@ namespace API.Controllers
         /// <summary>
         /// Private method to validate the format of an email address using regular expressions.
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="email">Email to check if is valid</param>
         /// <returns>Boolean value that is true when email has valid format</returns>
         private bool IsEmailValid(string email)
         {

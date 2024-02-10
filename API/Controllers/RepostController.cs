@@ -34,8 +34,10 @@ namespace API.Controllers
         /// <summary>
         /// Reposts a post with the specified ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of post that you want to repost</param>
         /// <returns>Status code of operation with reposted post (our, non-original)</returns>
+        /// <response code="200">If post has been reposted sucessfuly</response>
+        /// <response code="400">If reposting post went wrong (for example reposting own post)</response>
         [HttpPost("{id}")]
         public async Task<ActionResult<Post>> Repost(int id)
         {
@@ -73,8 +75,10 @@ namespace API.Controllers
         /// <summary>
         /// Unreposts a previously reposted post with the specified ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of original post that you want to unrepost</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If post has been unreposted sucessfuly</response>
+        /// <response code="400">If unreposting post went wrong (for example trying to unrepost unexisting post)</response>
         [HttpDelete("{id}")]
         public async Task<ActionResult> Unrepost(int id)
         {
@@ -84,7 +88,7 @@ namespace API.Controllers
             if (post == null) return BadRequest("post doesn't exists");
             if (user.Id == post.AuthorId) return BadRequest("Invalid request");
             if (post.RepostedFromId != 0) return BadRequest("This post is reposted");
-           var repost = await _unitOfWork.PostRepository.UnRepost(post, user);
+            var repost = await _unitOfWork.PostRepository.UnRepost(post, user);
             if (await _unitOfWork.SaveChangesAsync())
             {
                 await _unitOfWork.NotificationRepository.RemoveNotification(NotiType.Repost, repost.RepostedFromId);
@@ -99,6 +103,8 @@ namespace API.Controllers
         /// Retrieves all posts reposted by the current user.
         /// </summary>
         /// <returns>Status code of operation with list of posts</returns>
+        /// <response code="200">If posts has been retrieved sucessfuly</response>
+        /// <response code="401">If user has been not found</response>
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetAllRepostedPostsByUser()
         {

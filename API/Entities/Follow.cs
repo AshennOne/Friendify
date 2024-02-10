@@ -26,7 +26,6 @@ namespace API.Entities
         public User Followed { get; set; }
         /// <summary>
         /// Gets or sets the identifier of the user who is being followed.
-
         /// </summary>
         public string FollowedId { get; set; }
         /// <summary>

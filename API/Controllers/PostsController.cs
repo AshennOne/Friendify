@@ -35,8 +35,9 @@ namespace API.Controllers
         /// <summary>
         /// Searches posts based on the provided search string.
         /// </summary>
-        /// <param name="searchstring"></param>
+        /// <param name="searchstring">string input that you look for posts containing this string</param>
         /// <returns>Status code of operation with list of posts that contain provided search string</returns>
+        /// <response code="200">If searched posts have been found sucessfuly</response>
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<PostDto>>> SearchPosts([FromQuery] string searchstring)
         {
@@ -46,6 +47,8 @@ namespace API.Controllers
         /// Retrieves all posts except those belonging to the current user.
         /// </summary>
         /// <returns>Status code of operation with list of posts except those belonging to the current user</returns>
+        /// <response code="200">If all posts posts have been retrieved sucessfuly</response>
+        /// <response code="404">If user cannot be found</response>
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetAllPostsExceptUser()
         {
@@ -59,6 +62,8 @@ namespace API.Controllers
         /// Retrieves posts authored by the current user.
         /// </summary>
         /// <returns>Status code of operation with list of posts that are authored by the current user</returns>
+        /// <response code="200">If posts have been retrieved sucessfuly</response>
+        /// <response code="404">If user cannot be found</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsForUser()
         {
@@ -72,8 +77,10 @@ namespace API.Controllers
         /// <summary>
         /// Retrieves posts authored by the user with the specified ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of user whose posts you want to get</param>
         /// <returns>Status code of operation with list of posts authored by the user with the specified ID.</returns>
+        /// <response code="200">If posts have been retrieved sucessfuly</response>
+        /// <response code="404">If user cannot be found</response>
         [HttpGet("user/{id}")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsForUserId(string id)
         {
@@ -85,20 +92,24 @@ namespace API.Controllers
         /// <summary>
         /// Retrieves a post by its ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of post that you want to retrieve</param>
         /// <returns>Status code of operation with post object retrieved by its ID</returns>
+        /// <response code="200">If post has been retrieved sucessfuly</response>
         [HttpGet("{id}")]
-         public async Task<ActionResult<PostDto>> GetPostsForById(int id)
-         {
-           var post = await _unitOfWork.PostRepository.GetPostById(id);
-           if(post == null) return BadRequest("Post doesn't exists");
-           return Ok(_unitOfWork.PostRepository.ConvertToDto(post));
-         }
+        public async Task<ActionResult<PostDto>> GetPostsForById(int id)
+        {
+            var post = await _unitOfWork.PostRepository.GetPostById(id);
+            if (post == null) return BadRequest("Post doesn't exists");
+            return Ok(_unitOfWork.PostRepository.ConvertToDto(post));
+        }
         /// <summary>
         /// Adds a new post.
         /// </summary>
-        /// <param name="post"></param>
+        /// <param name="post">post object instance that you want to create</param>
         /// <returns>Status code of operation with created post object</returns>
+        /// <response code="200">If post has been added sucessfuly</response>
+        /// <response code="400">If adding new post went wrong</response>
+        /// <response code="404">If user cannot be found</response>
         [HttpPost]
         public async Task<ActionResult<Post>> AddPost(Post post)
         {
@@ -137,8 +148,10 @@ namespace API.Controllers
         /// <summary>
         /// Deletes a post by its ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">if of post that you want to delete</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If post has been removed sucessfuly</response>
+        /// <response code="400">If removing post went wrong</response>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePost(int id)
         {
@@ -161,9 +174,11 @@ namespace API.Controllers
         /// <summary>
         /// Edits a post with the specified ID.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="post"></param>
+        /// <param name="id">id of post that you want to edit</param>
+        /// <param name="post">edited post object instance</param>
         /// <returns>Status code of operation</returns>
+        /// <response code="200">If post has been edited sucessfuly</response>
+        /// <response code="400">If editing post went wrong</response>
         [HttpPut("{id}")]
         public async Task<ActionResult> EditPost(int id, [FromBody] Post post)
         {

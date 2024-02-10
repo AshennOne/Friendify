@@ -34,6 +34,7 @@ namespace API.Controllers
         /// Retrieves notifications for the current user.
         /// </summary>
         /// <returns>Status code of operation with list of notifications for user</returns>
+        /// <response code="200">If notifications has been retrieved sucessfuly</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Notification>>> GetNotificationsForUser()
         {
@@ -45,8 +46,9 @@ namespace API.Controllers
         /// <summary>
         /// Marks a notification as read.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of notification that you want to read</param>
         /// <returns>Status code of operation with last read notification</returns>
+        /// <response code="204">If notification has been read sucessfuly</response>
         [HttpPut("{id}")]
         public async Task<ActionResult<Notification>> ReadNotification(int id)
         {

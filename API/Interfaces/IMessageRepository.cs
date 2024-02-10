@@ -13,7 +13,7 @@ namespace API.Interfaces
         /// </summary>
         /// <param name="user">The user whose last messages are to be retrieved.</param>
         /// <returns>An asynchronous task returning an enumerable collection of last messages.</returns>
-        public Task<IEnumerable<MessageDto>> GetLastMessages(User user);
+        public IEnumerable<MessageDto> GetLastMessages(User user);
         /// <summary>
         /// Retrieves the message thread between two users.
         /// </summary>

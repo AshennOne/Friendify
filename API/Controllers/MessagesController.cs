@@ -35,18 +35,20 @@ namespace API.Controllers
         /// Retrieves the last message from every conversation with the current user.
         /// </summary>
         /// <returns>Status code of operation with list of last messages in every conversation</returns>
+        /// <response code="200">If messages has been retrieved sucessfuly</response>
         [HttpGet("last")]
         public async Task<ActionResult<IEnumerable<MessageDto>>> GetLastMessages()
         {
             var currentUser = await GetUserAsync();
-            var messages = await _unitOfWork.MessageRepository.GetLastMessages(currentUser);
+            var messages = _unitOfWork.MessageRepository.GetLastMessages(currentUser);
             return Ok(messages);
         }
         /// <summary>
         /// Retrieves the message thread between the current user and the user with the specified ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the user for whom you want to get messages from your thread</param>
         /// <returns>Status code of operation with list of messages in thread with specified user</returns>
+        /// <response code="200">If message thread has been retireved sucessfuly</response>
         [HttpGet("id/{id}")]
         public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string id)
         {
@@ -58,13 +60,15 @@ namespace API.Controllers
         /// <summary>
         /// Sends a message from the current user to the user with the specified ID.
         /// </summary>
-        /// <param name="createMessageDto"></param>
+        /// <param name="createMessageDto">Instance of data transfer object that contains message properties required to create new message</param>
         /// <returns>Status code of operation with new message object</returns>
+        /// <response code="200">If message has been sent sucessfuly</response>
+        /// <response code="400">If message cannot be send</response>
         [HttpPost]
         public async Task<ActionResult<MessageDto>> SendMessage([FromBody] CreateMessageDto createMessageDto)
         {
             var currentUser = await GetUserAsync();
-           var message = await _unitOfWork.MessageRepository.SendMessage(currentUser.Id, createMessageDto.UserId, createMessageDto.Content);
+            var message = await _unitOfWork.MessageRepository.SendMessage(currentUser.Id, createMessageDto.UserId, createMessageDto.Content);
             if (await _unitOfWork.SaveChangesAsync()) return Ok(message);
             return BadRequest("Error while sending");
         }

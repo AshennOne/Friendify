@@ -33,6 +33,8 @@ public class PostLikesController : BaseApiController
     /// Retrieves the posts liked by the current user.
     /// </summary>
     /// <returns>Status code of operation with list of liked posts</returns>
+    /// <response code="200">If liked posts had been retrieved sucessfuly</response>
+    /// <response code="404">If user cannot be found</response>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Post>>> GetLikedPostsForUser()
     {
@@ -44,8 +46,11 @@ public class PostLikesController : BaseApiController
     /// <summary>
     /// Adds a like to the specified post.
     /// </summary>
-    /// <param name="postId"></param>
+    /// <param name="postId">id of post that you want to like</param>
     /// <returns>Status code of operation</returns>
+    /// <response code="200">If post has been liked sucessfuly</response>
+    /// <response code="400">If liking post went wrong (for example liking own post)</response>
+    /// <response code="404">If user cannot be found</response>
     [HttpPost("{postId}")]
     public async Task<ActionResult> AddLike(int postId)
     {
@@ -68,8 +73,11 @@ public class PostLikesController : BaseApiController
     /// <summary>
     /// Removes a like from the specified post.
     /// </summary>
-    /// <param name="postId"></param>
+    /// <param name="postId">id of post that you want to unlike</param>
     /// <returns>Status code of operation</returns>
+    /// <response code="200">If post like has been removed sucessfuly</response>
+    /// <response code="400">If unliking post went wrong (for example unliking own post)</response>
+    /// <response code="404">If user cannot be found</response>
     [HttpDelete("{postId}")]
     public async Task<ActionResult> RemoveLike(int postId)
     {

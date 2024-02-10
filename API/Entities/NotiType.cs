@@ -5,9 +5,21 @@ namespace API.Entities
     /// </summary>
     public enum NotiType
     {
+        /// <summary>
+        /// Type of notification about post like
+        /// </summary>
         PostLike,
+        /// <summary>
+        /// Type of notification about follow
+        /// </summary>
         Follow,
+        /// <summary>
+        /// Type of notification about comment
+        /// </summary>
         Comment,
+        /// <summary>
+        /// Type of notification about repost
+        /// </summary>
         Repost
     }
 }

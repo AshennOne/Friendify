@@ -43,8 +43,10 @@ namespace API.Controllers
         /// <summary>
         /// Checks if a user with the specified email is verified.
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="email">email of user that we want to verify</param>
         /// <returns>Status code of operation with authorized user credentials</returns>
+        /// <response code="200">If email has been verified sucessfuly</response>
+        /// <response code="404">If user has been not found</response>
         [AllowAnonymous]
         [HttpGet("{email}")]
         public async Task<ActionResult<AuthorizedUserDto>> CheckIsVerified(string email)
@@ -67,8 +69,10 @@ namespace API.Controllers
         /// <summary>
         /// Retrieves a user by their ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of user that we want to retrieve</param>
         /// <returns>Status code of operation with retrieved user object</returns>
+        /// <response code="200">If user has been retrieved sucessfuly</response>
+        /// <response code="404">If user has been not found</response>
         [HttpGet("id/{id}")]
         public async Task<ActionResult<UserClientDto>> GetUserById(string id)
         {
@@ -79,8 +83,9 @@ namespace API.Controllers
         /// <summary>
         ///  Edits user information based on the provided DTO.
         /// </summary>
-        /// <param name="editUserDto"></param>
+        /// <param name="editUserDto">data transfer object that contains edited properties of user</param>
         /// <returns>Status code of operation with edited user object</returns>
+        /// <response code="200">If user has been edited sucessfuly</response>
         [HttpPut]
         public async Task<ActionResult<UserClientDto>> EditUser([FromBody] EditUserDto editUserDto)
         {
@@ -95,12 +100,13 @@ namespace API.Controllers
                 user.ImgUrl = editUserDto.ImgUrl;
             }
             await _userManager.UpdateAsync(user);
-            return _mapper.Map<UserClientDto>(user);
+            return Ok(_mapper.Map<UserClientDto>(user));
         }
         /// <summary>
         /// Retrieves all users.
         /// </summary>
         /// <returns>Status code of operation with list of all users</returns>
+        /// <response code="200">If users have been retrieved sucessfuly</response>
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<UserClientDto>>> GetAllUsers()
         {
@@ -110,8 +116,9 @@ namespace API.Controllers
         /// <summary>
         /// Searches for users based on the provided search string.
         /// </summary>
-        /// <param name="searchstring"></param>
+        /// <param name="searchstring">string that contains searched name, last name or username of user</param>
         /// <returns>Status code of operation with list of users that was found</returns>
+        /// <response code="200">If user have been found sucessfuly</response>
         [HttpGet("search/{searchstring}")]
         public async Task<ActionResult<IEnumerable<UserClientDto>>> SearchForUsers(string searchstring)
         {

@@ -14,11 +14,11 @@ namespace API.Middlewares
         /// <returns>The configured application builder.</returns>
         public static WebApplication LoadBaseMiddlewares(this WebApplication app)
         {
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //if (app.Environment.IsDevelopment())
+            //{
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            //}
             app.MapHub<PresenceHub>("hubs/presence");
             
             app.UseHttpsRedirection();
