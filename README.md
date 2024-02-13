@@ -1,8 +1,8 @@
 # Friendify
 
 > Simple movie review app for real movie fans\
-> Live demo [_currently not available_]()
-> API documentation [_currently not available_]()
+> Live demo [_currently not available_]()\
+> API documentation [_currently not available_]()\
 > API UI via swagger [_currently not available_]()
 
 ## Table of Contents
