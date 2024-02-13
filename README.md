@@ -81,38 +81,8 @@ The project is in progress, some minor changes left to fulfill my expectations.
 ## Setup and install
 
 **Docker instalation**
-[Installation is not possible at the moment, code below this message is here only because of personal purposes to my own refference]
 
 1. Make sure you have docker dektop installed
-2. Pull the Docker postgreSQL image
-
-```
-docker pull postgres
-```
-
-3. Run the docker container
-
-```
-docker run --name postgres -e POSTGRES_PASSWORD=postgrespw -d -p 5432:5432 postgres
-```
-
-4. Pull Docker image project
-
-```
-docker pull ashennone/friendify:latest
-```
-
-5. Run docker image
-
-```
-docker run --rm -it -p 8080:80 ashennone/friendify
-when it ends enter in your browser:
-http://localhost:8080/
-```
-
-6. Admin account login and password (only works for development version)
-
-```
-login: David3
-password: Passw0rd!
-```
+2. Download latest release from github
+3. Run Docker dektop
+4. Run file rundocker.bat
