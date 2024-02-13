@@ -1,26 +1,50 @@
 <div *ngIf="post.author" class="row my-3">
   <hr />
-  <div class="col-2 col-lg-1 me-auto justify-content-center image-container" [class.col-lg-1]="!isFromNoti">
-    <img (click)="redirect(post.author.id||'')" class="photo clickable" src="{{ post.author.imgUrl }}" />
-    <span *ngIf=" post.author.userName != undefined &&
-    (presenceService.onlineUsers$ | async)?.includes(
-      post.author.userName
-    )" class="circle is-online"
+  <div
+    class="col-2 col-lg-1 me-auto justify-content-center image-container"
+    [class.col-lg-1]="!isFromNoti"
+  >
+    <img
+      (click)="redirect(post.author.id || '')"
+      class="photo clickable"
+      src="{{ post.author.imgUrl || 'assets/user.png' }}"
+    />
+    <span
+      *ngIf="
+        post.author.userName != undefined &&
+        (presenceService.onlineUsers$ | async)?.includes(post.author.userName)
+      "
+      class="circle is-online"
     >
       <i class="fa fa-circle"></i
     ></span>
   </div>
-  <div class="col-10 " [class.col-lg-11]="!isFromNoti">
-    
-    <span class="smalltext my-0 py-0 d-flex align-items-top"
+  <div class="col-10" [class.col-lg-11]="!isFromNoti">
+    <span class="smalltext my-0 py-0 d-flex align-items-top">
+      <span (click)="redirect(post.author.id || '')" class="clickable"
+        ><strong>{{ post.author.firstName }} {{ post.author.lastName }}</strong
+        ><strong class="text-muted ms-1"
+          >&#64;{{ post.author.userName }}</strong
+        ></span
       >
-      
-      <span (click)="redirect(post.author.id||'')" class="clickable"><strong 
-        >{{ post.author.firstName }} {{ post.author.lastName }}</strong
-      ><strong class=" text-muted ms-1">&#64;{{ post.author.userName }}</strong></span>
-      <span class="ms-3 text-muted">{{post.created + 'Z'| timeago}}</span>
+      <span class="ms-3 text-muted">{{ post.created + "Z" | timeago }}</span>
+      <span *ngIf="belongToUser" class="ms-auto"
+        ><button class="btn btn-sm btn-danger" (click)="deletePost()">
+          <i class="fa fa-trash"></i></button
+      ></span>
     </span>
-    <span (click)="redirect(post.originalAuthor?.id||'')" class="clickable smalltext" *ngIf="post.repostedFromId !== 0">(Reposted post <i class="fa fa-retweet"></i> from <span class="container-smallpic"> <img class="smallpic" src="{{post.originalAuthor?.imgUrl}}"></span>  &#64;{{post.originalAuthor?.userName}})</span>
+    <span
+      (click)="redirect(post.originalAuthor?.id || '')"
+      class="clickable smalltext"
+      *ngIf="post.repostedFromId !== 0"
+      >(Reposted post <i class="fa fa-retweet"></i> from
+      <span class="container-smallpic">
+        <img
+          class="smallpic"
+          src="{{ post.originalAuthor?.imgUrl || 'assets/user.png' }}"
+      /></span>
+      &#64;{{ post.originalAuthor?.userName }})</span
+    >
     <div class="midtext">
       <p>{{ post.textContent }}</p>
     </div>
@@ -28,10 +52,30 @@
       <img src="{{ post.imgUrl }}" class="photo2" />
     </div>
     <div class="d-flex mt-2">
-      <div class="col-4"><app-like [belongToUser]="belongToUser" [post]="post" [count]="post.likesCount || 0" [isLiked]="isLiked"></app-like></div>
-      <div class="col-4"><app-comment [authorId]="user.id|| ''" [post]="post" [count]="post.commentsCount || 0"></app-comment></div>
-      <div class="col-4"><app-retweet (onRepostChange)="loadPosts()" [isReposted]="isReposted" [post]="post" [count]="post.repostCount||0" [belongToUser]="belongToUser"></app-retweet></div>
-      
+      <div class="col-4">
+        <app-like
+          [belongToUser]="post.authorId == user.id"
+          [post]="post"
+          [count]="post.likesCount || 0"
+          [isLiked]="isLiked"
+        ></app-like>
+      </div>
+      <div class="col-4">
+        <app-comment
+          [authorId]="user.id || ''"
+          [post]="post"
+          [count]="post.commentsCount || 0"
+        ></app-comment>
+      </div>
+      <div class="col-4">
+        <app-retweet
+          (onRepostChange)="loadPosts()"
+          [isReposted]="isReposted"
+          [post]="post"
+          [count]="post.repostCount || 0"
+          [belongToUser]="post.authorId == user.id"
+        ></app-retweet>
+      </div>
     </div>
   </div>
 </div>

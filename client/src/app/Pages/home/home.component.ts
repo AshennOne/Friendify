@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -23,7 +23,7 @@ export class HomeComponent {
     private authService: AuthService,
     private router: Router,
     private toastr: ToastrService,
-    private presenceService:PresenceService
+    private presenceService: PresenceService
   ) {}
 
   createForm() {
@@ -46,15 +46,14 @@ export class HomeComponent {
         next: (user) => {
           if (!user) this.toastr.error('user not found');
           localStorage.setItem('token', user.token + '');
-          localStorage.setItem('Username',user.userName+"")
-          this.presenceService.createHubConnection()
+          localStorage.setItem('Username', user.userName + '');
+          this.presenceService.createHubConnection();
           this.toastr.success('Succesfully logged in');
           this.router.navigateByUrl('main');
-          
-         
         },
         error: (err) => {
           if (err.error === 'Email needs to be confirmed') {
+            
             this.router.navigateByUrl('confirmemail');
           } else {
             this.toastr.error(err.error);
@@ -73,7 +72,7 @@ export class HomeComponent {
       return { passwordWithoutDigit: true };
     }
   }
- 
+
   private getUserFromForm() {
     if (this.loginForm.valid) {
       return {

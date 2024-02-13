@@ -1,8 +1,8 @@
 <div class="d-flex">
   <div class="">
-    <img class="photo me-2" src="{{ user.imgUrl }}" />
+    <img class="photo me-2" src="{{ user.imgUrl || 'assets/user.png' }}" />
   </div>
-  
+
   <textarea
     (click)="openModal(template)"
     maxlength="0"
@@ -14,11 +14,12 @@
 
 <ng-template #template>
   <mat-card>
-    <mat-card-header class="me-auto d-block text-center justify-content-start mb-2">
+    <mat-card-header
+      class="me-auto d-block text-center justify-content-start mb-2"
+    >
       <h4>Create Post</h4>
     </mat-card-header>
 
-    
     <textarea
       (ngModelChange)="checkCharCount()"
       [(ngModel)]="textContent"
@@ -32,11 +33,25 @@
         >{{ textContent.length }}/500</label
       >
     </div>
-    <app-photo-upload (isInCroppingState)="checkIsCropping($event)" (imageSelected)="loadPhoto($event)"></app-photo-upload>
+    <app-photo-upload
+      (isInCroppingState)="checkIsCropping($event)"
+      (imageSelected)="loadPhoto($event)"
+    ></app-photo-upload>
     <div class="row">
       <div class="d-flex">
-        <button class="ms-auto me-1 btn btn-secondary mt-1" (click)="hideModal()">Cancel</button>
-        <button [disabled]="textContent.length<1" class="btn btn-success mt-1" (click)="onSubmit()">Done</button>
+        <button
+          class="ms-auto me-1 btn btn-secondary mt-1"
+          (click)="hideModal()"
+        >
+          Cancel
+        </button>
+        <button
+          [disabled]="textContent.length < 1"
+          class="btn btn-success mt-1"
+          (click)="onSubmit()"
+        >
+          Done
+        </button>
       </div>
     </div>
   </mat-card>

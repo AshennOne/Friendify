@@ -12,22 +12,26 @@ export class PostService {
   getAllPosts() {
     return this.http.get<Post[]>(this.baseUrl + 'posts/all');
   }
-  searchPosts(searchstring:string){
-    return this.http.get<Post[]>(this.baseUrl+"posts/search?searchstring="+searchstring);
+  searchPosts(searchstring: string) {
+    return this.http.get<Post[]>(
+      this.baseUrl + 'posts/search?searchstring=' + searchstring
+    );
   }
   getPostsForCurrentUser() {
     return this.http.get<Post[]>(this.baseUrl + 'posts');
   }
-  addPost(post:Post){
-    return this.http.post<Post>(this.baseUrl+'posts',post);
+  addPost(post: Post) {
+    return this.http.post<Post>(this.baseUrl + 'posts', post);
   }
-  deletePost(id:number){
-    return this.http.delete(this.baseUrl+'posts/'+id);
+  deletePost(id: number) {
+    return this.http.delete(this.baseUrl + 'posts/' + id, {
+      responseType: 'text',
+    });
   }
-  getPostsForUserId(id:string){
-    return this.http.get<Post[]>(this.baseUrl+"posts/user/"+id);
+  getPostsForUserId(id: string) {
+    return this.http.get<Post[]>(this.baseUrl + 'posts/user/' + id);
   }
-  getPostById(id:number){
-    return this.http.get<Post>(this.baseUrl +"posts/"+id);
+  getPostById(id: number) {
+    return this.http.get<Post>(this.baseUrl + 'posts/' + id);
   }
 }

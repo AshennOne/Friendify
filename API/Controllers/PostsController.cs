@@ -157,9 +157,9 @@ namespace API.Controllers
         {
             var username = User.GetUsernameFromToken();
             var user = await _userManager.Users.Include(p => p.Posts).FirstOrDefaultAsync(u => u.UserName == username);
-            var userpost = user.Posts.FirstOrDefault(p => p.Id == id);
-            if (userpost == null) return BadRequest("Unable to delete");
-            if (userpost.RepostedFromId != 0) return BadRequest("You can't delete post this way, you have to unrepost");
+            var post =await _unitOfWork.PostRepository.GetPostById(id);
+            if (post == null || post.AuthorId != user.Id) return BadRequest("Unable to delete");
+            if (post.RepostedFromId != 0) return BadRequest("You can't delete post this way, you have to unrepost");
 
             await _unitOfWork.PostRepository.DeletePost(id);
             if (await _unitOfWork.SaveChangesAsync())

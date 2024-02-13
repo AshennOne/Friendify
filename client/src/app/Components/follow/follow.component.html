@@ -1,6 +1,6 @@
 <button
             (click)="toggleFollow()"
-            [disabled]="isCurrentUser"
+            [disabled]="user.id == currentUserId"
               class="btn  ps-lg-3 pe-lg-4 ps-md-2 pe-md-2 ps-4 pe-4 py-2" [class.btn-light]="!isFromUsersPage" [class.btn-info]="isFromUsersPage" [class.non-rounded]="isFromUsersPage" [class.me-1]="!isFromUsersPage" [class.btn-sm]="!isFromUsersPage"
             >
               <i *ngIf="isFollowedByCurrent" class="fa fa-heart mx-1" style="color: #ff0000;"></i>

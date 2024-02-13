@@ -20,12 +20,15 @@ namespace API.Middlewares
             app.UseSwaggerUI();
             //}
             app.MapHub<PresenceHub>("hubs/presence");
-            
+
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.MapControllers();
+            app.MapFallbackToController("Index", "Fallback");
             return app;
         }
     }

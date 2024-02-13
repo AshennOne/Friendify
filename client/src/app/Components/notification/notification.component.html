@@ -4,7 +4,7 @@
       <img
         (click)="redirect(notification.fromUserId)"
         class="clickable photo me-4"
-        src="{{ notification.imgUrl }}"
+        src="{{ notification.imgUrl || 'assets/user.png' }}"
       />
       <span *ngIf=" notification.fromUserName != undefined &&
     (presenceService.onlineUsers$ | async)?.includes(

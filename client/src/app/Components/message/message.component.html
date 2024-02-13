@@ -1,6 +1,6 @@
 <div *ngIf="isHeadline" class="d-flex cursor-pointer" (click)="redirect()">
   <div class="image-container col-1">
-    <img class="photo me-2" src="{{ viewedUser.imgUrl }}" />
+    <img class="photo me-2" src="{{ viewedUser.imgUrl || 'assets/user.png'}}" />
     <span
       *ngIf="
         viewedUser.userName != undefined &&
@@ -39,7 +39,7 @@
     *ngIf="message?.sender?.id !== currentUser?.id"
     class="image-container col-1"
   >
-    <img class="photo mb-3" src="{{ message.sender?.imgUrl || '' }}"  (click)="redirectToProfile()"/>
+    <img class="photo mb-3" src="{{ message.sender?.imgUrl || 'assets/user.png' }}"  (click)="redirectToProfile()"/>
     <span
       *ngIf="
         message.sender?.userName != undefined &&
@@ -64,7 +64,7 @@
     *ngIf="message?.sender?.id === currentUser?.id"
     class="col-1 image-container"
   >
-    <img class="photo mb-3" src="{{ message.sender?.imgUrl || '' }}" /><span
+    <img class="photo mb-3" src="{{ message.sender?.imgUrl || 'assets/user.png' }}" /><span
       *ngIf="
         message.sender?.userName != undefined &&
         (presenceService.onlineUsers$ | async)?.includes(

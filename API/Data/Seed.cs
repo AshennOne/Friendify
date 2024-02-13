@@ -22,6 +22,7 @@ namespace API.Data
 
         foreach (var user in usersToSeed)
         {
+          user.DateOfBirth = DateTime.SpecifyKind(user.DateOfBirth, DateTimeKind.Utc);
           await userManager.CreateAsync(user, "Passw0rd!");
           
         }

@@ -2,7 +2,7 @@
   <div class="col-lg-6 offset-lg-3 col-12 col-md-8 offset-md-2 mt-4">
     <div class="d-flex align-items-center justify-content-center mb-3">
       <div class="image-container">
-        <img (click)="redirect()" class="photo me-2" src="{{ viewedUser.imgUrl || '' }}" />
+        <img (click)="redirect()" class="photo me-2" src="{{ viewedUser.imgUrl || 'assets/user.png' }}" />
         <span *ngIf="viewedUser.userName != undefined &&
         (presenceService.onlineUsers$ | async)?.includes(
           viewedUser.userName

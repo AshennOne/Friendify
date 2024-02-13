@@ -13,7 +13,7 @@ import { NotificationService } from 'src/app/_services/notification.service';
 })
 export class NavbarComponent implements OnInit {
   userName = '';
-  imgUrl = '';
+  imgUrl = 'assets/user.png';
   id = '';
   notificationsCount = 0;
   messagesCount = 0;
@@ -29,19 +29,19 @@ export class NavbarComponent implements OnInit {
       },
     });
     this.connectorService.imgUrl.subscribe({
-      next: (imgurl:string) => {
-        if(this.imgUrl){
+      next: (imgurl: string) => {
+        if (this.imgUrl != '' && this.imgUrl != undefined) {
           this.imgUrl = imgurl;
+        } else {
+          this.imgUrl = 'assets/user.png';
         }
-        
       },
     });
     this.connectorService.unreadMessages.subscribe({
-      next:(count:number)=>{
-        this.messagesCount = count
-      }
-    })
-    
+      next: (count: number) => {
+        this.messagesCount = count;
+      },
+    });
   }
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class NavbarComponent implements OnInit {
       next: (user) => {
         this.id = user.id || '';
         this.userName = user.userName + '';
-        this.imgUrl = user.imgUrl + '';
+        if (user.imgUrl) this.imgUrl = user.imgUrl;
       },
     });
   }

@@ -1,6 +1,6 @@
 <div class="card mb-4 mx-lg-3 mx-1">
   <img
-    src="{{ user.imgUrl }}"
+    src="{{ user.imgUrl || 'assets/user.png'}}"
     class="card-img-top img-animation"
     alt="user image"
   />
@@ -22,13 +22,14 @@
     <hr />
     <p class="card-text mt-2">{{ user.bio || "no bio set yet" }}</p>
     <div class="btn-group d-flex">
-      <button (click)="redirectUser()" class="btn btn-info">
+      <button   (click)="redirectUser()" class="btn btn-info">
         <i class="fa fa-user"></i>
       </button>
-      <button (click)="redirectMessages()" class="btn btn-info">
+      <button [disabled]="currentUserId == user.id" (click)="redirectMessages()" class="btn btn-info">
         <i class="fa fa-envelope"></i>
       </button>
       <app-follow
+        
         [isCurrentUser]="isCurrentUser"
         [currentUserId]="currentUserId"
         [user]="user"

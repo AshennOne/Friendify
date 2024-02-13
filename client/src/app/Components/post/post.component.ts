@@ -8,9 +8,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import { AuthService } from 'src/app/_services/auth.service';
+import { PostService } from 'src/app/_services/post.service';
 import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
@@ -26,11 +28,16 @@ export class PostComponent implements OnInit, OnChanges {
   isLiked = false;
   belongToUser = false;
   isReposted = false;
-  constructor(private authService: AuthService,private router:Router,public presenceService:PresenceService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    public presenceService: PresenceService,
+    private postService: PostService,
+    private toastr: ToastrService
+  ) {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.user = user;
-       
       },
     });
   }
@@ -38,17 +45,20 @@ export class PostComponent implements OnInit, OnChanges {
     if (changes['post'] && this.post && this.user.id) {
       this.checkIsLiked();
       this.checkIsReposted();
-      if (this.post.author?.id == this.user.id || this.post.originalAuthorId == this.user.id) {
+      if (
+        this.post.author?.id == this.user.id ||
+        this.post.originalAuthorId == this.user.id
+      ) {
         this.belongToUser = true;
       }
     }
   }
   checkIsReposted() {
-    this.user.reposted?.forEach((element)=>{
-      if(this.post && element.id === this.post.id){
-        this.isReposted = true
+    this.user.reposted?.forEach((element) => {
+      if (this.post && element.id === this.post.id) {
+        this.isReposted = true;
       }
-    })
+    });
   }
   checkIsLiked() {
     this.user.liked?.forEach((element) => {
@@ -58,14 +68,20 @@ export class PostComponent implements OnInit, OnChanges {
       }
     });
   }
-  ngOnInit(): void {
-   
+  deletePost() {
+    this.postService.deletePost(this.post.id || 0).subscribe({
+      next: () => {
+        this.toastr.success('Succesfully deleted!');
+        this.post = {} as Post
+      },
+    });
   }
-  loadPosts(){
-    this.onRepostChange.emit(this.post)
+  ngOnInit(): void {}
+  loadPosts() {
+    this.onRepostChange.emit(this.post);
   }
-  redirect(id:string){
-    if(id == '' || !id) return;
-    this.router.navigateByUrl("user/"+id)
+  redirect(id: string) {
+    if (id == '' || !id) return;
+    this.router.navigateByUrl('user/' + id);
   }
 }

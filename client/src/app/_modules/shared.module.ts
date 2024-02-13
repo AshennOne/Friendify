@@ -10,13 +10,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ToastrModule } from 'ngx-toastr';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getStorage, provideStorage } from '@angular/fire/storage';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment.prod';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
 import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
@@ -32,18 +28,14 @@ import { NgxLoadingModule } from 'ngx-loading';
     MatIconModule,
     MatDialogModule,
     MatButtonModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     BsDatepickerModule.forRoot(),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
     MatCardModule,
     BsDropdownModule.forRoot(),
     TimeagoModule.forRoot(),
     MatDividerModule,
     MatBadgeModule,
     NgxLoadingModule.forRoot({}),
-    ImageCropperModule
+    ImageCropperModule,
   ],
   exports: [
     ToastrModule,
@@ -58,7 +50,7 @@ import { NgxLoadingModule } from 'ngx-loading';
     MatDividerModule,
     MatBadgeModule,
     NgxLoadingModule,
-    ImageCropperModule
+    ImageCropperModule,
   ],
 })
 export class SharedModule {}

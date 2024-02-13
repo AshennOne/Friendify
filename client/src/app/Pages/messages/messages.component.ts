@@ -31,7 +31,6 @@ export class MessagesComponent implements OnInit {
       next: (messages) => {
         this.lastMessages = messages;
         var currentUserName = localStorage.getItem('Username');
-        console.log(currentUserName);
         this.unreadCount = messages.filter(
           (m) => m.read == false && m.receiver?.userName == currentUserName
         ).length;

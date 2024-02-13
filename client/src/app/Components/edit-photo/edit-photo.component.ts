@@ -6,18 +6,13 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import {
-  Storage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from '@angular/fire/storage';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_models/User';
 import { ConnectorService } from 'src/app/_services/connector.service';
 import { LocalstorageService } from 'src/app/_services/localstorage.service';
 import { PresenceService } from 'src/app/_services/presence.service';
+import { UploadService } from 'src/app/_services/upload.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -30,15 +25,14 @@ export class EditPhotoComponent implements OnInit {
   @Output() reload = new EventEmitter<boolean>();
   modalRef?: BsModalRef;
   selectedImageFile?: File;
-  @Input() isCurrentUser = false
+  @Input() isCurrentUser = false;
   constructor(
     public modalService: BsModalService,
-    private storage: Storage,
+    private uploadService: UploadService,
     private userService: UserService,
     private toastr: ToastrService,
     private connectorService: ConnectorService,
-    private localStorageService: LocalstorageService,
-   
+    private localStorageService: LocalstorageService
   ) {}
 
   ngOnInit(): void {}
@@ -67,24 +61,12 @@ export class EditPhotoComponent implements OnInit {
   onSubmit() {
     if (!this.selectedImageFile) return;
     else {
-      var storageRef = ref(
-        this.storage,
-        'folder/' + this.selectedImageFile.name
-      );
-      var uploadTask = uploadBytesResumable(storageRef, this.selectedImageFile);
-      uploadTask.on(
-        'state_changed',
-        () => {},
-        (error) => {
-          console.log(error);
+      this.uploadService.uploadImage(this.selectedImageFile).subscribe({
+        next: (imgUrl) => {
+          this.imgUrl = imgUrl.imageUrl;
+          this.editPhoto();
         },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-            this.imgUrl = downloadUrl;
-            this.editPhoto();
-          });
-        }
-      );
+      });
     }
   }
 }

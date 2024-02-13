@@ -1,10 +1,10 @@
 <div *ngIf="isCurrentUser" (click)="openModal(template)" class="pos-relative d-flex justify-content-center justify-content-lg-end me-lg-4">
-  <img class="photo me-2 image-overlay" src="{{ imgUrl }}" />
+  <img class="photo me-2 image-overlay" src="{{ imgUrl || 'assets/user.png' }}" />
   <i class="position-abs fa fa-pencil"></i>
   
 </div>
 <div *ngIf="!isCurrentUser" class=" d-flex justify-content-center justify-content-lg-end me-lg-4">
-  <img class="photo me-2 image-overlay" src="{{ imgUrl }}" />
+  <img class="photo me-2 image-overlay" src="{{ imgUrl || 'assets/user.png'}}" />
 </div>
 <ng-template #template>
  
@@ -19,7 +19,7 @@
       </div>
       <div class="modal-body">
         <div class="d-flex justify-content-center">
-          <app-photo-upload (imageSelected)="changeImage($event)" [currentImageUrl]="imgUrl || ' '" [isForUser]="true"></app-photo-upload>
+          <app-photo-upload (imageSelected)="changeImage($event)" [currentImageUrl]="imgUrl || 'assets/user.png'" [isForUser]="true"></app-photo-upload>
         </div>
         <div class="col-6 offset-3 d-flex btn-group">
           <button class="btn btn-warning"  (click)="hideModal()">Cancel</button>

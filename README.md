@@ -26,6 +26,7 @@ This project was made by me, without any tutorials and guides. It's the biggest 
 -  Backend (API): ASP .NET - version 7.0
 -  Containers: Docker desktop - version 4.20
 -  Database: PostgreSQL
+-  Unit test framework: XUnit
 -  Styles: Bootstrap 5 + Bootswatch theme
 -  Image Cloud: Firebase
 -  Frontent Libs: Angular Material, Ngx Bootstrap
