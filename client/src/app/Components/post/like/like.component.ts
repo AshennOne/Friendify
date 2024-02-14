@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import { LikeService } from 'src/app/_services/like.service';
@@ -11,33 +12,40 @@ import { LocalstorageService } from 'src/app/_services/localstorage.service';
 })
 export class LikeComponent implements OnInit {
   @Input() isLiked = false;
-  @Input() count = 0
-  @Input() post = {} as Post
+  @Input() count = 0;
+  @Input() post = {} as Post;
   @Input() belongToUser = false;
-  constructor(private likeService: LikeService,private localStorageService:LocalstorageService) {
-    
-  }
+  constructor(
+    private likeService: LikeService,
+    private localStorageService: LocalstorageService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {}
-  ToggleLike(){
-    if(!this.post.id) return;
-    if(!this.isLiked){
+  ToggleLike() {
+    if (!this.post.id) return;
+    if (!this.isLiked) {
       this.likeService.AddLike(this.post.id).subscribe({
-        next:()=>{
+        next: () => {
           this.isLiked = true;
-          this.count +=1;
-          this.localStorageService.addPostToLiked(this.post)
-        }
-      })
-    }else{
-      
+          this.count += 1;
+          this.localStorageService.addPostToLiked(this.post);
+        },
+        error: (err) => {
+          this.toastr.error("You can't like your own post!");
+        },
+      });
+    } else {
       this.likeService.RemoveLike(this.post.id).subscribe({
-        next:()=>{
+        next: () => {
           this.isLiked = false;
-          this.count -=1;
-          this.localStorageService.removePostFromLiked(this.post)
-        }
-      })
+          this.count -= 1;
+          this.localStorageService.removePostFromLiked(this.post);
+        },
+        error: (err) => {
+          this.toastr.error("You can't like your own post!");
+        },
+      });
     }
   }
 }

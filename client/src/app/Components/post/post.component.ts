@@ -43,14 +43,17 @@ export class PostComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['post'] && this.post && this.user.id) {
-      this.checkIsLiked();
-      this.checkIsReposted();
-      if (
-        this.post.author?.id == this.user.id ||
-        this.post.originalAuthorId == this.user.id
-      ) {
-        this.belongToUser = true;
-      }
+      this.checkIsUser();
+    }
+  }
+  checkIsUser() {
+    this.checkIsLiked();
+    this.checkIsReposted();
+    if (
+      this.post.author?.id == this.user.id ||
+      this.post.originalAuthorId == this.user.id
+    ) {
+      this.belongToUser = true;
     }
   }
   checkIsReposted() {
@@ -72,11 +75,16 @@ export class PostComponent implements OnInit, OnChanges {
     this.postService.deletePost(this.post.id || 0).subscribe({
       next: () => {
         this.toastr.success('Succesfully deleted!');
-        this.post = {} as Post
+        this.post = {} as Post;
+      },
+      error: (err) => {
+        this.toastr.error('Cannot delete post');
       },
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.checkIsUser();
+  }
   loadPosts() {
     this.onRepostChange.emit(this.post);
   }

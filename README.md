@@ -1,9 +1,9 @@
 # Friendify
 
 > Simple social media app for meeting new friends\
-> Live demo [_here_](https://friendify-1gjn.onrender.com)\
+> Live demo [_here_](https://friendify-xcrl.onrender.com)\
 > API documentation [_currently not available_]()\
-> API UI via swagger [_here_](https://friendify-1gjn.onrender.com/swagger/index.html)
+> API UI via swagger [_here_](https://friendify-xcrl.onrender.com/swagger/index.html)
 
 ## Table of Contents
 

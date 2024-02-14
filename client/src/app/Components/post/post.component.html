@@ -28,7 +28,7 @@
         ></span
       >
       <span class="ms-3 text-muted">{{ post.created + "Z" | timeago }}</span>
-      <span *ngIf="belongToUser" class="ms-auto"
+      <span *ngIf="post.authorId == user.id && post.repostedFromId == 0" class="ms-auto"
         ><button class="btn btn-sm btn-danger" (click)="deletePost()">
           <i class="fa fa-trash"></i></button
       ></span>
