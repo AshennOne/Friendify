@@ -2,7 +2,7 @@
 
 > Simple social media app for meeting new friends\
 > Live demo [_here_](https://friendify-xcrl.onrender.com)\
-> API documentation [_currently not available_]()\
+> API documentation [_here_](https://friendify-api-documentation.onrender.com/index.html)\
 > API UI via swagger [_here_](https://friendify-xcrl.onrender.com/swagger/index.html)
 
 ## Table of Contents
