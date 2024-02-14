@@ -1,6 +1,5 @@
 # Friendify
-
-> Simple social media app for meeting new friends\
+Simple social media app for meeting new friends\
 > Live demo (loading may take some time) [_here_](https://friendify-xcrl.onrender.com)\
 > API documentation [_here_](https://friendify-api-documentation.onrender.com/index.html)\
 > API UI via swagger (loading may take some time) [_here_](https://friendify-xcrl.onrender.com/swagger/index.html)
