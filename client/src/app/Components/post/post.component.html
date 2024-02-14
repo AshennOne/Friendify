@@ -28,7 +28,7 @@
         ></span
       >
       <span class="ms-3 text-muted">{{ post.created + "Z" | timeago }}</span>
-      <span *ngIf="post.authorId == user.id && post.repostedFromId == 0" class="ms-auto"
+      <span *ngIf="belongToUser && post.repostedFromId == 0" class="ms-auto"
         ><button class="btn btn-sm btn-danger" (click)="deletePost()">
           <i class="fa fa-trash"></i></button
       ></span>
@@ -54,7 +54,7 @@
     <div class="d-flex mt-2">
       <div class="col-4">
         <app-like
-          [belongToUser]="post.authorId == user.id"
+          [belongToUser]="belongToUser"
           [post]="post"
           [count]="post.likesCount || 0"
           [isLiked]="isLiked"
@@ -73,7 +73,7 @@
           [isReposted]="isReposted"
           [post]="post"
           [count]="post.repostCount || 0"
-          [belongToUser]="post.authorId == user.id"
+          [belongToUser]="belongToUser"
         ></app-retweet>
       </div>
     </div>

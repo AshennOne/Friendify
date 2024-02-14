@@ -61,7 +61,12 @@ This project was made by me, without any tutorials and guides. It's the biggest 
 
 ## Screenshots
 
-Not available yet
+![Main Page](https://res.cloudinary.com/dwy4hhhjr/image/upload/w_900,h_495/v1707938494/screen1_djjirv.png)
+![Creating New Post](https://res.cloudinary.com/dwy4hhhjr/image/upload/w_900,h_495/v1707938494/screen3_if27o2.png)
+![Notifications Page](https://res.cloudinary.com/dwy4hhhjr/image/upload/w_900,h_495/v1707938493/screen4_elfpek.png)
+![Last Conversations](https://res.cloudinary.com/dwy4hhhjr/image/upload/w_900,h_495/v1707938493/screen5_ep8nyc.png)
+![Messages](https://res.cloudinary.com/dwy4hhhjr/image/upload/w_900,h_495/v1707938494/screen6_q2btyl.png)
+![Profile](https://res.cloudinary.com/dwy4hhhjr/image/upload/w_900,h_495/v1707938493/screen7_czh0s8.png)
 
 ## Project Status
 
