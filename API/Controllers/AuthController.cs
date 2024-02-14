@@ -238,8 +238,6 @@ namespace API.Controllers
                 var callback = Request.Scheme + "://" + Request.Host + Url.Action("confirmEmail", "Auth", new { userId = newUser.Id, code = code });
                 var body = email_body.Replace("#URL#", System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callback));
                 _emailSender.SendEmail(body, newUser.Email, "Confirm your email");
-
-
             }
 
 
