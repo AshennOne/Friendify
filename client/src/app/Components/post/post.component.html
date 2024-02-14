@@ -54,11 +54,7 @@
     <div class="d-flex mt-2">
       <div class="col-4">
         <app-like
-          [belongToUser]="
-            post.authorId == user.id ||
-            post.authorId == undefined ||
-            user.id == undefined
-          "
+          [belongToUser]="post.authorId == user.id"
           [post]="post"
           [count]="post.likesCount || 0"
           [isLiked]="isLiked"
@@ -77,11 +73,7 @@
           [isReposted]="isReposted"
           [post]="post"
           [count]="post.repostCount || 0"
-          [belongToUser]="
-            post.authorId == user.id ||
-            post.authorId == undefined ||
-            user.id == undefined
-          "
+          [belongToUser]="post.authorId == user.id"
         ></app-retweet>
       </div>
     </div>

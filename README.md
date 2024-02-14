@@ -1,9 +1,9 @@
 # Friendify
 
-> Simple movie review app for real movie fans\
-> Live demo [_currently not available_]()\
+> Simple social media app for meeting new friends\
+> Live demo [_here_](https://friendify-1gjn.onrender.com)\
 > API documentation [_currently not available_]()\
-> API UI via swagger [_currently not available_]()
+> API UI via swagger [_here_](https://friendify-1gjn.onrender.com/swagger/index.html)
 
 ## Table of Contents
 
@@ -27,6 +27,7 @@ This project was made by me, without any tutorials and guides. It's the biggest 
 -  Containers: Docker desktop - version 4.20
 -  Database: PostgreSQL
 -  Unit test framework: XUnit
+-  Email sending - google SMTP
 -  Styles: Bootstrap 5 + Bootswatch theme
 -  Image Cloud: Firebase
 -  Frontent Libs: Angular Material, Ngx Bootstrap
@@ -40,7 +41,7 @@ This project was made by me, without any tutorials and guides. It's the biggest 
 ## Features
 
 -  Login and register form with validation (API and client side)
--  Required email verification
+-  Required email verification with SMTP
 -  Password reset
 -  Jwt Token with claims
 -  CRUD operations for posts
@@ -64,7 +65,7 @@ Not available yet
 
 ## Project Status
 
-The project is in progress, some minor changes left to fulfill my expectations.
+The project is done, but minor changes and implementing new features is possible in the future
 
 ## To do / Improvement Ideas
 
