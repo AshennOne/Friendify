@@ -81,7 +81,7 @@ The project is done, but minor changes and implementing new features is possible
 
 ## Acknowledgements
 
--  I'm not an author of photos included in project, but they're open source
+-  I'm not an author of photos that are visible on my webpage, but they're open source
 
 ## Setup and install
 
