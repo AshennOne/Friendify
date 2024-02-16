@@ -28,7 +28,7 @@ This project was made by me, without any tutorials and guides. It's the biggest 
 -  Unit test framework: XUnit
 -  Email sending - google SMTP
 -  Styles: Bootstrap 5 + Bootswatch theme
--  Image Cloud: Firebase
+-  Image Cloud: Cloudinary
 -  Frontent Libs: Angular Material, Ngx Bootstrap
 -  ORM (Object-Relational Mapping): Entity framework 7.0
 -  API Testing: Postman
